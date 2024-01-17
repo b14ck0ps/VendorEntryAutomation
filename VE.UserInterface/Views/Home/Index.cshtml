@@ -1,0 +1,17 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+
+<main>
+    @{
+        var spData = ViewBag.List;
+        var TestUser2 = ViewBag.TestUser2;
+    }
+
+    <span>@ViewBag.TestUser</span> - <span>@ViewBag.TestDept</span>
+    <hr />
+    <p>Name: @TestUser2.Title</p>
+    <p>Email: @TestUser2.Email</p>
+    <p>ID: @TestUser2.UserId</p>
+    <p>Username: @TestUser2.UserName</p>
+</main>
