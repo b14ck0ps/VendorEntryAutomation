@@ -9,7 +9,8 @@ namespace VE.DataAccessLayer
 {
     public class DbConnection : ISqlDataAccess
     {
-        public string ConnectionString { get; } = @"Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=BergerVEA;Integrated Security=True;TrustServerCertificate=False;";
+        public string ConnectionString { get; } = @"Data Source=SPDV2;Initial Catalog=BergerPaintsProcurementPortal2;Integrated Security=True;TrustServerCertificate=True;";
+
 
         public async Task<IEnumerable<T>> LoadData<T, U>(string sqlQuery, U parameters)
         {

@@ -11,13 +11,13 @@ namespace VE.DataAccessLayer.Repository
 
         public async Task<IEnumerable<TestTable>> GetAll()
         {
-            const string sqlQuery = "SELECT * FROM TestTable";
+            const string sqlQuery = "SELECT * FROM [VE].TestTable";
             return await LoadData<TestTable, dynamic>(sqlQuery, new {});
         }
 
         public async Task<int> Insert(TestTable data)
         {
-            const string sqlQuery = "INSERT INTO TestTable (Name, PendingWith) VALUES (@Name, @PendingWith)";
+            const string sqlQuery = "INSERT INTO [VE].TestTable (Name, PendingWith) VALUES (@Name, @PendingWith)";
             return await SaveData(sqlQuery, data);
         }
     }
