@@ -1,4 +1,6 @@
-﻿using System.Threading.Tasks;
+﻿using Microsoft.SharePoint.Client;
+using System.Linq;
+using System.Threading.Tasks;
 using System.Web.Mvc;
 using VE.BusinessLogicLayer.DB;
 using VE.BusinessLogicLayer.SharePoint;
@@ -8,35 +10,61 @@ namespace VE.UserInterface.Controllers
 {
     public class HomeController : Controller
     {
-        public async Task<ActionResult> Index()
+        public ActionResult Index()
         {
-            var list = SharePointService.Instance.GetAllItemsFromList("Approver Info");
-            var TestUser2 = SharePointService.Instance.AuthUserInformation("bergerbd\\azran");
-
-
-            var TestUser = SharePointService.Instance.GetUserByEmail("BergerEmployeeInformation",TestUser2.Email);
-
-
-            ViewBag.List = list;
+            var TestUser2 = SharePointService.Instance.AuthUserInformation(User.Identity.Name);
+            var TestUser = SharePointService.Instance.GetUserByEmail("BergerEmployeeInformation", TestUser2.Email);
             ViewBag.TestUser = TestUser.Username;
             ViewBag.TestDept = TestUser.DeptID;
-
-            var TestTableData = new TestTable
-            {
-                Name = TestUser2.Title,
-                PendingWith = TestUser2.UserName
-            };
-
-            var testTableService = new TestTableService();
-    
-            var result = await testTableService.Insert(TestTableData);
-
-            ViewBag.TestTable = result > 0 ? "Success" : "Failed";
 
 
             ViewBag.TestUser2 = TestUser2;
             return View();
         }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> SubmitForm(string Name)
+        {
+            var AuthUser = SharePointService.Instance.AuthUserInformation(User.Identity.Name);
+            var AuthUserInfo = SharePointService.Instance.GetUserByEmail("BergerEmployeeInformation", AuthUser.Email);
+            var ApproverInfo = SharePointService.Instance.GetAllItemsFromList("Approver Info");
+
+            var matchingDeptInfo = ApproverInfo
+                .Cast<dynamic>()
+                .FirstOrDefault(approver => approver["DeptID"] == AuthUserInfo.DeptID);
+
+
+            var location = matchingDeptInfo["Location"];
+            var department = matchingDeptInfo["Department"];
+            var hod = ((FieldUserValue)matchingDeptInfo["HOD"]).Email;
+
+            var testTableData = new TestTable
+            {
+                Name = Name,
+                PendingWith = hod
+            };
+
+            var testTableService = new TestTableService();
+            var result = await testTableService.Insert(testTableData);
+
+            if (result > 0)
+            {
+                ViewBag.SubmitResult = "Form submitted successfully";
+            }
+            else
+            {
+                ViewBag.SubmitResult = "Failed to submit form";
+            }
+
+
+            var TestUser2 = SharePointService.Instance.AuthUserInformation(User.Identity.Name);
+            var TestUser = SharePointService.Instance.GetUserByEmail("BergerEmployeeInformation", TestUser2.Email);
+            ViewBag.TestUser = TestUser.Username;
+            ViewBag.TestDept = TestUser.DeptID;
+
+            return View("Index");
+        }
+
 
         public ActionResult About()
         {
