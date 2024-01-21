@@ -34,8 +34,17 @@ namespace VE.BusinessLogicLayer.SharePoint
             if (items.Count <= 0) return null;
             var userInfo = new UserInfo
             {
-                Username = items[0]["EmployeeName"]?.ToString(),
-                DeptID = items[0]["DeptID"]?.ToString(),
+                EmployeeId = items[0]["EmployeeId"]?.ToString(),
+                EmployeeName = items[0]["EmployeeName"]?.ToString(),
+                Mobile = items[0]["Mobile"]?.ToString(),
+                JobGrade = items[0]["EmployeeGrade"]?.ToString(),
+                Designation = items[0]["Designation"]?.ToString(),
+                DeptId = items[0]["DeptID"]?.ToString(),
+                DeptName = items[0]["Department"]?.ToString(),
+                Location = items[0]["OfficeLocation"]?.ToString(),
+                Email = ((FieldUserValue)items[0]["Email"]).Email,
+                OptManagerName = items[0]["OptManagerName"]?.ToString(),
+                OptManagerEmail= ((FieldUserValue)items[0]["OptManagerEmail"]).Email
             };
 
             return userInfo;

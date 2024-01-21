@@ -12,11 +12,13 @@ namespace VE.UserInterface.Controllers
     {
         public ActionResult Index()
         {
-            var TestUser2 = SharePointService.Instance.AuthUserInformation(User.Identity.Name);
-            var TestUser = SharePointService.Instance.GetUserByEmail("BergerEmployeeInformation", TestUser2.Email);
-            ViewBag.TestUser = TestUser.Username;
-            ViewBag.TestDept = TestUser.DeptID;
-            ViewBag.TestUser2 = TestUser2;
+            var LoginUser = SharePointService.Instance.AuthUserInformation(User.Identity.Name);
+            var Employee = SharePointService.Instance.GetUserByEmail("BergerEmployeeInformation", LoginUser.Email);
+            
+            ViewBag.EmployeeData = Employee;
+
+
+            //ViewBag.LoginUser = LoginUser;
             return View();
         }
         [HttpPost]
@@ -29,7 +31,7 @@ namespace VE.UserInterface.Controllers
 
             var matchingDeptInfo = ApproverInfo
                 .Cast<dynamic>()
-                .FirstOrDefault(approver => approver["DeptID"] == AuthUserInfo.DeptID);
+                .FirstOrDefault(approver => approver["DeptId"] == AuthUserInfo.DeptId);
 
 
             var location = matchingDeptInfo["Location"];
@@ -55,10 +57,10 @@ namespace VE.UserInterface.Controllers
             }
 
 
-            var TestUser2 = SharePointService.Instance.AuthUserInformation(User.Identity.Name);
-            var TestUser = SharePointService.Instance.GetUserByEmail("BergerEmployeeInformation", TestUser2.Email);
-            ViewBag.TestUser = TestUser.Username;
-            ViewBag.TestDept = TestUser.DeptID;
+            var LoginUser = SharePointService.Instance.AuthUserInformation(User.Identity.Name);
+            var Employee = SharePointService.Instance.GetUserByEmail("BergerEmployeeInformation", LoginUser.Email);
+            ViewBag.Employee = Employee.EmployeeName;
+            ViewBag.TestDept = Employee.DeptId;
 
             return View("Index");
         }
