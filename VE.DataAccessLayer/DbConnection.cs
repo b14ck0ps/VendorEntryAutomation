@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
 using System.Threading.Tasks;
@@ -9,8 +10,7 @@ namespace VE.DataAccessLayer
 {
     public class DbConnection : ISqlDataAccess
     {
-        public string ConnectionString { get; } = @"Data Source=SPDV2;Initial Catalog=BergerPaintsProcurementPortal2;Integrated Security=True;TrustServerCertificate=True;";
-
+public string ConnectionString { get; } = ConfigurationManager.ConnectionStrings["Default"].ConnectionString;
 
         public async Task<IEnumerable<T>> LoadData<T, U>(string sqlQuery, U parameters)
         {
