@@ -16,8 +16,6 @@ namespace VE.UserInterface.Controllers
             var TestUser = SharePointService.Instance.GetUserByEmail("BergerEmployeeInformation", TestUser2.Email);
             ViewBag.TestUser = TestUser.Username;
             ViewBag.TestDept = TestUser.DeptID;
-
-
             ViewBag.TestUser2 = TestUser2;
             return View();
         }
