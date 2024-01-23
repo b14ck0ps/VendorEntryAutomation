@@ -1,10 +1,13 @@
 ﻿using Microsoft.SharePoint.Client;
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using VE.BusinessLogicLayer.DB;
+using VE.BusinessLogicLayer.Services;
 using VE.BusinessLogicLayer.SharePoint;
 using VE.DataTransferObject.DbTable;
+using VE.DataTransferObject.Entities;
 
 namespace VE.UserInterface.Controllers
 {
@@ -23,7 +26,8 @@ namespace VE.UserInterface.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> SubmitForm(string Name)
+        public async Task<ActionResult> SubmitForm(string Name, string Email, string ProductMaterial, 
+            string SupOtherReq, string Description, string SupGenralReq, string SupType, int ExistingSupCount, string ExistingSupProblem,string SupAddReason)
         {
             var AuthUser = SharePointService.Instance.AuthUserInformation(User.Identity.Name);
             var AuthUserInfo = SharePointService.Instance.GetUserByEmail("BergerEmployeeInformation", AuthUser.Email);
@@ -31,21 +35,48 @@ namespace VE.UserInterface.Controllers
 
             var matchingDeptInfo = ApproverInfo
                 .Cast<dynamic>()
-                .FirstOrDefault(approver => approver["DeptId"] == AuthUserInfo.DeptId);
+                .FirstOrDefault(approver => approver["DeptID"] == AuthUserInfo.DeptId);
 
 
             var location = matchingDeptInfo["Location"];
             var department = matchingDeptInfo["Department"];
             var hod = ((FieldUserValue)matchingDeptInfo["HOD"]).Email;
 
-            var testTableData = new TestTable
+
+            var vendorEnlistmentData = new VendorEnlistment
+            {
+                Name = Name,
+                VendorCode = Name,
+                Email = Email,
+                ProductMaterial = ProductMaterial,
+                Description = Description,
+                SupGenralReq = SupGenralReq,
+                SupOtherReq = SupOtherReq,
+                SupType = SupType,
+                ExistingSupCount = ExistingSupCount,
+                ExistingSupProblem = ExistingSupProblem,
+                SupAddReason = SupAddReason,
+                Status = "Submitted",
+                CreatedBy = Email,
+                CreatedDate = DateTime.Now,
+                UpdatedBy = Email,
+                UpdatedDate = DateTime.Now,
+                PendingWith = hod
+            };
+
+            var vendorEnlistmentService = new VendorEnlistmentService();
+            var result = await vendorEnlistmentService.Insert(vendorEnlistmentData);
+
+            /*var testTableData = new TestTable
             {
                 Name = Name,
                 PendingWith = hod
             };
 
             var testTableService = new TestTableService();
-            var result = await testTableService.Insert(testTableData);
+            var result = await testTableService.Insert(testTableData);*/
+
+
 
             if (result > 0)
             {
@@ -57,10 +88,10 @@ namespace VE.UserInterface.Controllers
             }
 
 
-            var LoginUser = SharePointService.Instance.AuthUserInformation(User.Identity.Name);
+          /*  var LoginUser = SharePointService.Instance.AuthUserInformation(User.Identity.Name);
             var Employee = SharePointService.Instance.GetUserByEmail("BergerEmployeeInformation", LoginUser.Email);
             ViewBag.Employee = Employee.EmployeeName;
-            ViewBag.TestDept = Employee.DeptId;
+            ViewBag.TestDept = Employee.DeptId;*/
 
             return View("Index");
         }

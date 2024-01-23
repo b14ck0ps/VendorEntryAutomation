@@ -20,5 +20,6 @@ namespace VE.DataTransferObject.Entities
         public string SupAddReason { get; set; }
         public string Status { get; set; }
         public string PendingWith { get; set; }
+        public string VendorCode { get; set; }
     }
 }

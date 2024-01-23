@@ -31,14 +31,66 @@
             <div class="col-md-4">Grade: @EmployeeData.JobGrade</div>
         </div>
 
-       @* <form method="post" action="@Url.Action("SubmitForm", "Home")">
+        <form method="post" action="@Url.Action("SubmitForm", "Home")">
             @Html.AntiForgeryToken()
 
-            <label for="Name">Name:</label>
-            <input type="text" id="Name" name="Name" required />
+
+            <div class="row">
+                <div class="col-md-4">
+                    <label for="Name">Name:</label>
+                    <input type="text" id="Name" name="Name" required />
+                </div>
+                <div class="col-md-4">
+                    <label for="Email">Email:</label>
+                    <input type="text" id="Email" name="Email" required />
+                </div>
+                <div class="col-md-4">
+                    <label for="ProductMaterial">ProductMaterial:</label>
+                    <input type="text" id="ProductMaterial" name="ProductMaterial" required />
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-4">
+                    <label for="Description">Description:</label>
+                    <input type="text" id="Description" name="Description" required />
+                </div>
+                <div class="col-md-4">
+                    <label for="SupGenralReq">Supplier General Request:</label>
+                    <input type="text" id="SupGenralReq" name="SupGenralReq" required />
+                </div>
+                <div class="col-md-4">
+                    <label for="SupOtherReq">Supplier Other Request:</label>
+                    <input type="text" id="SupOtherReq" name="SupOtherReq" required />
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-4">
+                    <label for="SupType">Supplier Type:</label>
+                    <input type="text" id="SupType" name="SupType" required />
+                </div>
+                <div class="col-md-4">
+                    <label for="ExistingSupCount">Existing Supplier Count:</label>
+                    <input type="text" id="ExistingSupCount" name="ExistingSupCount" required />
+                </div>
+                <div class="col-md-4">
+                    <label for="ExistingSupProblem">Existing Supplier Problem:</label>
+                    <input type="text" id="ExistingSupProblem" name="ExistingSupProblem" required />
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-4">
+                    <label for="SupAddReason">Supplier Add Reason:</label>
+                    <input type="text" id="SupAddReason" name="SupAddReason" required />
+                </div>
+            </div>
+
+
 
             <button type="submit">Submit</button>
-        </form>*@
+        </form>
     }
     @if (ViewBag.SubmitResult != null)
     {
