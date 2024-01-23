@@ -42,6 +42,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DbTable\TestTable.cs" />
+    <Compile Include="Entities\BaseEntity.cs" />
+    <Compile Include="Entities\VendorEnlistment.cs" />
+    <Compile Include="Entities\VendorEnlistmentLog.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SharePoint\SpAuthUserInformation.cs" />
     <Compile Include="SharePoint\UserInfo.cs" />

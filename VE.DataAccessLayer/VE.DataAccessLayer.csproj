@@ -165,6 +165,7 @@
     <Compile Include="Repository\SharePointAuthenticationRepository.cs" />
     <Compile Include="Repository\SharePointRepository.cs" />
     <Compile Include="Repository\TestTableRepository.cs" />
+    <Compile Include="Repository\VendorEnlistmentRepository.cs" />
     <Compile Include="SpConnection.cs" />
   </ItemGroup>
   <ItemGroup>
