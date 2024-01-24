@@ -9,91 +9,112 @@
 
     @if (EmployeeData != null)
     {
-        @*  <span>@ViewBag.TestUser</span> <span>@ViewBag.TestDept</span>*@
+        <div class="container">
+            <div class="row">
+                <h5 class=" ">Requestor Information</h5>
+                <hr class=" ">
+            </div>
 
-        <div class="row"> Requestor Information</div>
-        <hr />
+            <div class="row mb-1" style="font-size: 12px;">
+                <div class="col-md-4">Employee Name: <b> @EmployeeData.EmployeeName </b></div>
+                <div class="col-md-4">Employee ID: <b>@EmployeeData.EmployeeId</b></div>
+                <div class="col-md-4">Position: <b>@EmployeeData.Designation</b></div>
+            </div>
+            ,
+            <div class="row mb-1" style="font-size: 12px;">
+                <div class="col-md-4">Department: <b>@EmployeeData.DeptName</b></div>
+                <div class="col-md-4">Location: <b>@EmployeeData.Location</b></div>
+                <div class="col-md-4">Mobile: <b>@EmployeeData.Mobile</b></div>
+            </div>
 
-        <div class="row">
-            <div class="col-md-4">Employee Name: @EmployeeData.EmployeeName</div>
-            <div class="col-md-4">Employee ID: @EmployeeData.EmployeeId</div>
-            <div class="col-md-4">Position: @EmployeeData.Designation</div>
+            <div class="row mb-1" style="font-size: 12px;">
+                <div class="col-md-4">Email: <b>@EmployeeData.Email</b></div>
+                <div class="col-md-4">Grade: <b>@EmployeeData.JobGrade</b></div>
+            </div>
+
+            <hr class="">
+
+            <div class="row">
+                <h5 class="">Requestor Form</h5>
+                <hr class="">
+            </div>
+
+            <form method="post" action="@Url.Action("SubmitForm", "Home")" class="mt-1">
+                @Html.AntiForgeryToken()
+
+                <div class="row mb-1" style="font-size: 12px;">
+                    <div class="col-md-4">
+                        <label for="VendorName" class="form-label">Vendor Name:</label>
+                        <input type="text" id="VendorName" name="VendorName" class="form-control" style="padding: 0px" required />
+                    </div>
+                    <div class="col-md-4">
+                        <label for="VendorEmail" class="form-label">Vendor Email:</label>
+                        <input type="text" id="VendorEmail" name="VendorEmail" class="form-control" style="padding: 0px" required />
+                    </div>
+                    
+                </div>
+
+                 <div class="row mb-1" style="font-size: 12px;">
+                    <div class="col-md-4">
+                        <label for="ServiceDescription" class="form-label" >Service Description:</label>
+                        <input type="text" id="ServiceDescription" name="ServiceDescription" class="form-control"  style="padding: 0px" required />
+                    </div>
+                    <div class="col-md-4">
+                        <label for="RequirementGeneral" class="form-label">Supplier General Request:</label>
+                        <input type="text" id="RequirementGeneral" name="RequirementGeneral" class="form-control"  style="padding: 0px" required />
+                    </div>
+                    <div class="col-md-4">
+                        <label for="RequirementOther"  class="form-label">Supplier Other Request:</label>
+                        <input type="text" id="RequirementOther" name="RequirementOther" class="form-control"  style="padding: 0px" required />
+                    </div>
+                </div>
+
+                <div class="row mb-1" style="font-size: 12px;">
+                    <div class="col-md-4">
+                        <label for="TypeOfSupplierId" class="form-label">Supplier Type:</label>
+                        <select id="TypeOfSupplierId" name="TypeOfSupplierId" class="form-control" style="padding: 0px" required>
+                            <option value="0">---Select---</option>
+                            <option value="1">Local</option>
+                            <option value="2">International</option>
+                        </select>
+                    </div>
+
+                    <div class="col-md-4">
+                        <label for="ExisitngSupplierCount" class="form-label">Existing Supplier Count:</label>
+                        <input type="text" id="ExisitngSupplierCount" name="ExisitngSupplierCount" class="form-control" style="padding: 0px" required />
+                    </div>
+                    <div class="col-md-4">
+                        <label for="ExisitngSupplierProblem" class="form-label">Existing Supplier Problem:</label>
+                        <input type="text" id="ExisitngSupplierProblem" name="ExisitngSupplierProblem" class="form-control" style="padding: 0px" required />
+                    </div>
+                </div>
+                <div class="row mb-1" style="font-size: 12px;">
+                    <div class="col-md-4">
+                        <label for="NewSupplierAdditionReason" class="form-label">Supplier Add Reason:</label>
+                        <input type="text" id="NewSupplierAdditionReason" name="NewSupplierAdditionReason" class="form-control" style="padding: 0px" required />
+                    </div>
+                </div>
+
+                <div class="row mb-1" style="font-size: 12px;">
+                    <div class="col-md-4">
+                        <label for="Comment" class="form-label">Comment:</label>
+                        <input type="text" id="Comment" name="Comment" class="form-control no-padding" required />
+                    </div>
+                </div>
+
+                <div class="row mt-4">
+                    <div class="col-md-4">
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </div>
+                </div>
+            </form>
         </div>
-
-        <div class="row">
-            <div class="col-md-4">Department: @EmployeeData.DeptName</div>
-            <div class="col-md-4">Location: @EmployeeData.Location</div>
-            <div class="col-md-4">Mobile: @EmployeeData.Mobile</div>
-        </div>
-
-        <div class="row">
-            <div class="col-md-4">Email: @EmployeeData.Email</div>
-            <div class="col-md-4">Grade: @EmployeeData.JobGrade</div>
-        </div>
-
-        <form method="post" action="@Url.Action("SubmitForm", "Home")">
-            @Html.AntiForgeryToken()
-
-
-            <div class="row">
-                <div class="col-md-4">
-                    <label for="Name">Name:</label>
-                    <input type="text" id="Name" name="Name" required />
-                </div>
-                <div class="col-md-4">
-                    <label for="Email">Email:</label>
-                    <input type="text" id="Email" name="Email" required />
-                </div>
-                <div class="col-md-4">
-                    <label for="ProductMaterial">ProductMaterial:</label>
-                    <input type="text" id="ProductMaterial" name="ProductMaterial" required />
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="col-md-4">
-                    <label for="Description">Description:</label>
-                    <input type="text" id="Description" name="Description" required />
-                </div>
-                <div class="col-md-4">
-                    <label for="SupGenralReq">Supplier General Request:</label>
-                    <input type="text" id="SupGenralReq" name="SupGenralReq" required />
-                </div>
-                <div class="col-md-4">
-                    <label for="SupOtherReq">Supplier Other Request:</label>
-                    <input type="text" id="SupOtherReq" name="SupOtherReq" required />
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="col-md-4">
-                    <label for="SupType">Supplier Type:</label>
-                    <input type="text" id="SupType" name="SupType" required />
-                </div>
-                <div class="col-md-4">
-                    <label for="ExistingSupCount">Existing Supplier Count:</label>
-                    <input type="text" id="ExistingSupCount" name="ExistingSupCount" required />
-                </div>
-                <div class="col-md-4">
-                    <label for="ExistingSupProblem">Existing Supplier Problem:</label>
-                    <input type="text" id="ExistingSupProblem" name="ExistingSupProblem" required />
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="col-md-4">
-                    <label for="SupAddReason">Supplier Add Reason:</label>
-                    <input type="text" id="SupAddReason" name="SupAddReason" required />
-                </div>
-            </div>
-
-
-
-            <button type="submit">Submit</button>
-        </form>
     }
+
     @if (ViewBag.SubmitResult != null)
     {
-        <p>@ViewBag.SubmitResult</p>
+        <div class="container mt-4">
+            <p class="alert alert-success">@ViewBag.SubmitResult</p>
+        </div>
     }
 </main>

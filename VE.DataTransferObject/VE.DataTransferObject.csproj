@@ -42,6 +42,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DbTable\TestTable.cs" />
+    <Compile Include="Entities\AppProspectiveVendors.cs" />
+    <Compile Include="Entities\AppVendorEnlistmentLogs.cs" />
     <Compile Include="Entities\BaseEntity.cs" />
     <Compile Include="Entities\VendorEnlistment.cs" />
     <Compile Include="Entities\VendorEnlistmentLog.cs" />
