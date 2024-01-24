@@ -162,9 +162,12 @@
     <Compile Include="Interface\ISqlDataAccess.cs" />
     <Compile Include="Interface\IRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repository\AppProspectiveVendorsRepository.cs" />
+    <Compile Include="Repository\AppVendorEnlistmentLogsRepository.cs" />
     <Compile Include="Repository\SharePointAuthenticationRepository.cs" />
     <Compile Include="Repository\SharePointRepository.cs" />
     <Compile Include="Repository\TestTableRepository.cs" />
+    <Compile Include="Repository\VendorEnlistmentLogRepository.cs" />
     <Compile Include="Repository\VendorEnlistmentRepository.cs" />
     <Compile Include="SpConnection.cs" />
   </ItemGroup>

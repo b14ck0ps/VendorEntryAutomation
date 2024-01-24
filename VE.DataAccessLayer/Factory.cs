@@ -11,6 +11,10 @@ namespace VE.DataAccessLayer
         public static ISharePointAuthenticationRepository GetSharePointAuthenticationRepository() => new SharePointAuthenticationRepository();
         public static IRepository<TestTable> GetTestTableRepository() => new TestTableRepository();
 
+        public static IRepository<AppProspectiveVendors> GetAppProspectiveVendorsRepository() => new AppProspectiveVendorsRepository();
+        public static IRepository<AppVendorEnlistmentLogs> GetAppVendorEnlistmentLogsRepository() => new AppVendorEnlistmentLogsRepository();
+
         public static IRepository<VendorEnlistment> GetVendorEnlistmentRepository() => new VendorEnlistmentRepository();
+        public static IRepository<VendorEnlistmentLog> GetVendorEnlistmentLogRepository() => new VendorEnlistmentLogRepository();
     }
 }

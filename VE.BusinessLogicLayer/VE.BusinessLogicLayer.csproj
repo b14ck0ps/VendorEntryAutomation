@@ -49,6 +49,9 @@
   <ItemGroup>
     <Compile Include="DB\TestTableService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\AppProspectiveVendorsService.cs" />
+    <Compile Include="Services\AppVendorEnlistmentLogsService.cs" />
+    <Compile Include="Services\VendorEnlistmentLogService.cs" />
     <Compile Include="Services\VendorEnlistmentService.cs" />
     <Compile Include="SharePoint\SharePointService.cs" />
   </ItemGroup>

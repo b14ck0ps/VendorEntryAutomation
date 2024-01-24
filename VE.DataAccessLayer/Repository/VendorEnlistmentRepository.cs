@@ -27,6 +27,7 @@ namespace VE.DataAccessLayer.Repository
            ,@SupType,@ExistingSupCount,@ExistingSupProblem,@SupAddReason
            ,@Status,@PendingWith,@CreatedBy,@CreatedDate,@UpdatedBy,@UpdatedDate,@VendorCode)";
 
+
             return await SaveData(sqlQuery, data);
         }
     }
