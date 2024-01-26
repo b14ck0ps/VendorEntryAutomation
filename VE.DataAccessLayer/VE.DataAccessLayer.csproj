@@ -162,6 +162,7 @@
     <Compile Include="Interface\ISqlDataAccess.cs" />
     <Compile Include="Interface\IRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repository\AppProspectiveVendorMaterialsRepository.cs" />
     <Compile Include="Repository\AppProspectiveVendorsRepository.cs" />
     <Compile Include="Repository\AppVendorEnlistmentLogsRepository.cs" />
     <Compile Include="Repository\SharePointAuthenticationRepository.cs" />

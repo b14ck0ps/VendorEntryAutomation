@@ -1,5 +1,6 @@
 ﻿using Microsoft.SharePoint.Client;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
@@ -19,7 +20,7 @@ namespace VE.UserInterface.Controllers
             var LoginUser = SharePointService.Instance.AuthUserInformation(User.Identity.Name);
             var Employee = SharePointService.Instance.GetUserByEmail("BergerEmployeeInformation", LoginUser.Email);
             var MaterialMaster = SharePointService.Instance.GetAllItemsFromList("MaterialMaster");
-            
+
             ViewBag.MaterialMaster = MaterialMaster;
             ViewBag.EmployeeData = Employee;
 
@@ -97,7 +98,7 @@ namespace VE.UserInterface.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> SubmitForm(AppProspectiveVendors formData, string comment)
+        public async Task<ActionResult> SubmitForm(AppProspectiveVendors formData, string comment, List<string> selectedMaterialCodes)
         {
             var AuthUser = SharePointService.Instance.AuthUserInformation(User.Identity.Name);
             var AuthUserInfo = SharePointService.Instance.GetUserByEmail("BergerEmployeeInformation", AuthUser.Email);
@@ -160,6 +161,23 @@ namespace VE.UserInterface.Controllers
                     LastModifierId = employeeData.Email,
                     LastModificationTime = DateTime.Now
                 };
+                var resultMaterial = 0;
+                foreach (var materialCode in selectedMaterialCodes)
+                {
+                    var appProspectiveVendorMaterial = new AppProspectiveVendorMaterials
+                    {
+                        ProspectiveVendorId = 1,
+                        MaterialCode = materialCode,
+                        CreationTime = DateTime.Now,
+                        CreatorId = employeeData.Email,
+                        LastModificationTime = DateTime.Now,
+                        LastModifierId = employeeData.Email,
+                        VendorCode = randomVendorCode,
+                    };
+                    var appProspectiveVendorMaterialsService = new AppProspectiveVendorMaterialsService();
+                    resultMaterial = await appProspectiveVendorMaterialsService.Insert(appProspectiveVendorMaterial);
+                }
+
 
                 var appVendorEnlistmentLogsService = new AppVendorEnlistmentLogsService();
                 var resultLog = await appVendorEnlistmentLogsService.Insert(appVendorEnlistmentLogsData);

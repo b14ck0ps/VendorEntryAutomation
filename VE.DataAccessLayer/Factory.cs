@@ -13,6 +13,7 @@ namespace VE.DataAccessLayer
 
         public static IRepository<AppProspectiveVendors> GetAppProspectiveVendorsRepository() => new AppProspectiveVendorsRepository();
         public static IRepository<AppVendorEnlistmentLogs> GetAppVendorEnlistmentLogsRepository() => new AppVendorEnlistmentLogsRepository();
+        public static IRepository<AppProspectiveVendorMaterials> GetAppProspectiveVendorMaterialsRepository() => new AppProspectiveVendorMaterialsRepository();
 
         public static IRepository<VendorEnlistment> GetVendorEnlistmentRepository() => new VendorEnlistmentRepository();
         public static IRepository<VendorEnlistmentLog> GetVendorEnlistmentLogRepository() => new VendorEnlistmentLogRepository();
