@@ -8,7 +8,7 @@ namespace VE.BusinessLogicLayer.Services
 {
     public class AppVendorEnlistmentLogsService
     {
-        private readonly IRepository<AppVendorEnlistmentLogs> _appVendorEnlistmentLogsRepository;
+        private readonly IAppVendorEnlistmentLogsRepository _appVendorEnlistmentLogsRepository;
 
         public AppVendorEnlistmentLogsService()
         {
@@ -23,6 +23,11 @@ namespace VE.BusinessLogicLayer.Services
         public async Task<int> Insert(AppVendorEnlistmentLogs data)
         {
             return await _appVendorEnlistmentLogsRepository.Insert(data);
+        }
+
+        public async Task<IEnumerable<AppVendorEnlistmentLogs>> GetByCode(string code)
+        {
+            return await _appVendorEnlistmentLogsRepository.GetByCode(code);
         }
     }
 }

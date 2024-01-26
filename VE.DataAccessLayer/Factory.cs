@@ -27,7 +27,7 @@ namespace VE.DataAccessLayer
             return new AppProspectiveVendorsRepository();
         }
 
-        public static IRepository<AppVendorEnlistmentLogs> GetAppVendorEnlistmentLogsRepository()
+        public static IAppVendorEnlistmentLogsRepository GetAppVendorEnlistmentLogsRepository()
         {
             return new AppVendorEnlistmentLogsRepository();
         }

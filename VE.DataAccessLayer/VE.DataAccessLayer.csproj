@@ -146,6 +146,7 @@
     <Compile Include="Factory.cs" />
     <Compile Include="Interface\IAppProspectiveVendorMaterialsRepository.cs" />
     <Compile Include="Interface\IAppProspectiveVendorRepository.cs" />
+    <Compile Include="Interface\IAppVendorEnlistmentLogsRepository.cs" />
     <Compile Include="Interface\ISharePointAuthenticationRepository.cs" />
     <Compile Include="Interface\ISharePointRepository.cs" />
     <Compile Include="Interface\ISqlDataAccess.cs" />
