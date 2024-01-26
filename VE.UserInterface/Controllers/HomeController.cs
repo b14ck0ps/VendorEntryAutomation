@@ -32,17 +32,22 @@ namespace VE.UserInterface.Controllers
         {
             if (string.IsNullOrEmpty(id))
                 return RedirectToAction("Index");
+
             var appProspectiveVendor = await new AppProspectiveVendorsService().GetByCode(id);
             var appProspectiveVendorMaterials = await new AppProspectiveVendorMaterialsService().GetByCode(id);
             var appVendorEnlistmentLogs = await new AppVendorEnlistmentLogsService().GetByCode(id);
             var loginUser = SharePointService.Instance.AuthUserInformation(User.Identity.Name);
             var employee = SharePointService.Instance.GetUserByEmail("BergerEmployeeInformation", loginUser.Email);
 
+            var actionEnabled = appProspectiveVendor.PendingWithUserId == loginUser.Email;
+
             ViewBag.AppVendorEnlistmentLogs = appVendorEnlistmentLogs;
             ViewBag.AppProspectiveVendor = appProspectiveVendor;
             ViewBag.AppProspectiveVendorMaterials = appProspectiveVendorMaterials;
             ViewBag.LoginUser = loginUser;
             ViewBag.EmployeeData = employee;
+            ViewBag.ActionEnabled = actionEnabled;
+
 
             return View();
         }
@@ -142,7 +147,7 @@ namespace VE.UserInterface.Controllers
                 ViewBag.SubmitResult = "Failed to submit form";
             }
 
-            return RedirectToAction("Details",new { id = randomVendorCode });
+            return RedirectToAction("Details", new { id = randomVendorCode });
         }
 
         [HttpPost]
