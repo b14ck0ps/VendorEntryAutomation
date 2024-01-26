@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using VE.BusinessLogicLayer.Services;
+using VE.BusinessLogicLayer.SharePoint;
 using VE.DataTransferObject.Entities;
 using VE.DataTransferObject.Enums;
 
@@ -33,14 +34,32 @@ namespace VE.UserInterface.Controllers
         {
             var appProspectiveVendorService = new AppProspectiveVendorsService();
 
-            var vendorCode = formCollection["AppProspectiveVendorCode"];
+            var appProspectiveVendorCode = formCollection["AppProspectiveVendorCode"];
             var submitValue = formCollection["submitBtn"];
+            var comment = formCollection["Comment"];
 
-            if (!Enum.TryParse(submitValue, out ApproverAction action)) return RedirectToAction("Details", new { id = vendorCode });
+            if (!Enum.TryParse(submitValue, out ApproverAction action)) return RedirectToAction("Details", new { id = appProspectiveVendorCode });
 
             if (action == ApproverAction.Approved)
             {
-                await appProspectiveVendorService.UpdateStatus(Status.HodApproved, vendorCode);
+                const Status status = Status.DeptHeadApproved; // TODO: Check the user role and set the status accordingly
+
+                await appProspectiveVendorService.UpdateStatus(status, appProspectiveVendorCode);
+                var employeeData = SharePointService.Instance.AuthUserInformation(User.Identity.Name);
+                var appVendorEnlistmentLogsData = new AppVendorEnlistmentLogs
+                {
+                    ProspectiveVendorId = 1,
+                    Code = appProspectiveVendorCode,
+                    Status = (int)status,
+                    Comment = comment,
+                    Action = ApproverAction.Submitted.ToString(),
+                    ActionById = employeeData.Email,
+                    CreatorId = employeeData.Email,
+                    CreationTime = DateTime.Now,
+                    LastModifierId = employeeData.Email,
+                    LastModificationTime = DateTime.Now
+                };
+                await new AppVendorEnlistmentLogsService().Insert(appVendorEnlistmentLogsData);
             }
 
             return RedirectToAction("Index");
