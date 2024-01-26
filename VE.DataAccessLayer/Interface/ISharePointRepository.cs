@@ -7,5 +7,6 @@ namespace VE.DataAccessLayer.Interface
     {
         List<ListItem> GetAllItemsFromList(string listName);
         List<ListItem> GetItemsByQuery(string listName, string camlQuery);
+        void InsertItem(string listName, Dictionary<string, object> fieldValues);
     }
 }

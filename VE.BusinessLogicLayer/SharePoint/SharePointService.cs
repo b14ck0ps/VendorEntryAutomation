@@ -63,5 +63,10 @@ namespace VE.BusinessLogicLayer.SharePoint
                 UserName = windowsUsername
             };
         }
+
+        public void InsertItem(string listName, Dictionary<string, object> fieldValues)
+        {
+            _sharePointRepository.InsertItem(listName, fieldValues);
+        }
     }
 }

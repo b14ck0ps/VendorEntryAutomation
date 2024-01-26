@@ -173,6 +173,21 @@ namespace VE.UserInterface.Controllers
                         LastModificationTime = DateTime.Now
                     };
                     await new AppVendorEnlistmentLogsService().Insert(appVendorEnlistmentLogsData);
+
+                    var pendingApprovalList = new Dictionary<string, object>
+                    {
+                        {"Title", appProspectiveVendorCode},
+                        {"ProcessName", "Vendor Enlistment"},
+                        {"RequestedByName", employeeData.Title},
+                        {"Status", "Pending"},
+                        {"EmployeeID", employeeData.UserId.ToString()},
+                        {"RequestedByEmail", employeeData.Email},
+                        {"PendingWith", employeeData.UserId},
+                        {"RequestLink", "http://localhost:44300/Home/Details/" + appProspectiveVendorCode}
+                    };
+
+                    SharePointService.Instance.InsertItem("PendingApproval", pendingApprovalList);
+
                     break;
                 case ApproverAction.ChangeRequest:
                     break;
