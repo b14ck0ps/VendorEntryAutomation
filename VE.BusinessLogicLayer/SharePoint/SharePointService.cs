@@ -44,7 +44,8 @@ namespace VE.BusinessLogicLayer.SharePoint
                 Location = items[0]["OfficeLocation"]?.ToString(),
                 Email = ((FieldUserValue)items[0]["Email"]).Email,
                 OptManagerName = items[0]["OptManagerName"]?.ToString(),
-                OptManagerEmail= ((FieldUserValue)items[0]["OptManagerEmail"]).Email
+                OptManagerEmail= ((FieldUserValue)items[0]["OptManagerEmail"]).Email,
+                BusAreaName = items[0]["BusAreaName"]?.ToString(),
             };
 
             return userInfo;

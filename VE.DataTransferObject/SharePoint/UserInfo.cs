@@ -13,7 +13,6 @@
         public string Email { get; set; }
         public string OptManagerName { get; set; }
         public string OptManagerEmail { get; set; }
-       
-
+        public string BusAreaName { get; set; }
     }
 }
