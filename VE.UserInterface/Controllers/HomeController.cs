@@ -8,6 +8,7 @@ using VE.BusinessLogicLayer.Services;
 using VE.BusinessLogicLayer.SharePoint;
 using VE.DataTransferObject.Entities;
 using VE.DataTransferObject.Enums;
+using FormCollection = System.Web.Mvc.FormCollection;
 
 namespace VE.UserInterface.Controllers
 {
@@ -25,74 +26,20 @@ namespace VE.UserInterface.Controllers
             return View();
         }
 
-        /*[HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> SubmitForm(VendorEnlistment formData, string comment)
+        public async Task<ActionResult> Details(string id)
         {
-            var AuthUser = SharePointService.Instance.AuthUserInformation(User.Identity.Name);
-            var AuthUserInfo = SharePointService.Instance.GetUserByEmail("BergerEmployeeInformation", AuthUser.Email);
-            var ApproverInfo = SharePointService.Instance.GetAllItemsFromList("Approver Info");
-            var employeeData = SharePointService.Instance.AuthUserInformation(User.Identity.Name);
-            var matchingDeptInfo = ApproverInfo
-                .Cast<dynamic>()
-                .FirstOrDefault(approver => approver["DeptID"] == AuthUserInfo.DeptId);
+            if (string.IsNullOrEmpty(id))
+                return RedirectToAction("Index");
 
-            var location = matchingDeptInfo["Location"];
-            var department = matchingDeptInfo["Department"];
-            var hod = ((FieldUserValue)matchingDeptInfo["HOD"]).Email;
+            var appProspectiveVendor = await new AppProspectiveVendorsService().GetByCode(id);
+            var appProspectiveVendorMaterials = await new AppProspectiveVendorMaterialsService().GetByCode(id);
+            var appVendorEnlistmentLogs = await new AppVendorEnlistmentLogsService().GetByCode(id);
 
-            // Generate a random vendor code
-            string randomVendorCode = "VE-" + CodeGenerator.GenerateRandomCode();
-
-
-            var vendorEnlistmentData = new VendorEnlistment
-            {
-                Name = formData.Name,
-                VendorCode = randomVendorCode,
-                Email = formData.Email,
-                ProductMaterial = formData.ProductMaterial,
-                Description = formData.Description,
-                SupGenralReq = formData.SupGenralReq,
-                SupOtherReq = formData.SupOtherReq,
-                SupType = formData.SupType,
-                ExistingSupCount = formData.ExistingSupCount,
-                ExistingSupProblem = formData.ExistingSupProblem,
-                SupAddReason = formData.SupAddReason,
-                Status = "Submitted",
-                CreatedBy = employeeData.Email,
-                CreatedDate = DateTime.Now,
-                UpdatedBy = employeeData.Email,
-                UpdatedDate = DateTime.Now,
-                PendingWith = hod
-            };
-
-            var vendorEnlistmentService = new VendorEnlistmentService();
-            var result = await vendorEnlistmentService.Insert(vendorEnlistmentData);
-            if (result > 0)
-            {
-                var vendorEnlistmentLogData = new VendorEnlistmentLog
-                {
-                    VendorCode = randomVendorCode,
-                    Status = "Submitted",
-                    Comment = comment,
-                    ActionBy = formData.Email,
-                    CreatedBy = employeeData.Email,
-                    CreatedDate = DateTime.Now,
-                    UpdatedBy = employeeData.Email,
-                    UpdatedDate = DateTime.Now
-                };
-
-                var vendorEnlistmentLogService = new VendorEnlistmentLogService();
-                var resultLog = await vendorEnlistmentLogService.Insert(vendorEnlistmentLogData);
-                ViewBag.SubmitResult = "Form submitted successfully";
-            }
-            else
-            {
-                ViewBag.SubmitResult = "Failed to submit form";
-            }
-            return View("Index");
-        }*/
-
+            ViewBag.AppVendorEnlistmentLogs = appVendorEnlistmentLogs;
+            ViewBag.AppProspectiveVendor = appProspectiveVendor;
+            ViewBag.AppProspectiveVendorMaterials = appProspectiveVendorMaterials;
+            return View();
+        }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -191,19 +138,51 @@ namespace VE.UserInterface.Controllers
             return View("Index");
         }
 
-
-        public ActionResult About()
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> SubmitAction(FormCollection formCollection)
         {
-            ViewBag.Message = "Your application description page.";
+            var appProspectiveVendorService = new AppProspectiveVendorsService();
 
-            return View();
-        }
+            var appProspectiveVendorCode = formCollection["AppProspectiveVendorCode"];
+            var submitValue = formCollection["submitBtn"];
+            var comment = formCollection["Comment"];
 
-        public ActionResult Contact()
-        {
-            ViewBag.Message = "Your contact page.";
+            if (!Enum.TryParse(submitValue, out ApproverAction action))
+                return RedirectToAction("Index", new { id = appProspectiveVendorCode });
 
-            return View();
+            switch (action)
+            {
+                case ApproverAction.Submitted:
+                    break;
+                case ApproverAction.Approved:
+                    const Status status = Status.VDTeamApproved; // TODO: Check the user role and set the status accordingly
+                    await appProspectiveVendorService.UpdateStatus(status, appProspectiveVendorCode);
+                    var employeeData = SharePointService.Instance.AuthUserInformation(User.Identity.Name);
+                    var appVendorEnlistmentLogsData = new AppVendorEnlistmentLogs
+                    {
+                        ProspectiveVendorId = 1,
+                        Code = appProspectiveVendorCode,
+                        Status = (int)status,
+                        Comment = comment,
+                        Action = action.ToString(),
+                        ActionById = employeeData.Email,
+                        CreatorId = employeeData.Email,
+                        CreationTime = DateTime.Now,
+                        LastModifierId = employeeData.Email,
+                        LastModificationTime = DateTime.Now
+                    };
+                    await new AppVendorEnlistmentLogsService().Insert(appVendorEnlistmentLogsData);
+                    break;
+                case ApproverAction.ChangeRequest:
+                    break;
+                case ApproverAction.Rejected:
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+
+            return RedirectToAction("Details", new { id = appProspectiveVendorCode });
         }
     }
 }

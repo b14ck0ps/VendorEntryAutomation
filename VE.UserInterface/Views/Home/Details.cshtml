@@ -4,7 +4,7 @@
     Vendor Automation | @ViewBag.AppProspectiveVendor.Code
 </h4>
 
-<form method="post" action="@Url.Action("SubmitAction", "VendorAutomation")" class="mt-1">
+<form method="post" action="@Url.Action("SubmitAction", "Home")" class="mt-1">
     @Html.AntiForgeryToken()
     <section class="card card-header mb-2 mt-3">
         <div class="row mb-1" style="font-size: 17px;">
@@ -128,4 +128,3 @@
         </tbody>
     </table>
 </section>
-
