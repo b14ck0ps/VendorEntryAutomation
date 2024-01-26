@@ -32,6 +32,7 @@
                 <div class="col-md-4">Grade: <b>@EmployeeData.JobGrade</b></div>
             </div>
 
+
             <hr class="">
 
             <div class="row">
@@ -51,7 +52,18 @@
                         <label for="VendorEmail" class="form-label">Vendor Email:</label>
                         <input type="text" id="VendorEmail" name="VendorEmail" class="form-control" style="padding: 0px" required />
                     </div>
-
+                    <div class="col-md-4">
+                        <label for="SelectedMaterialCodes" class="form-label">Select Materials:</label>
+                        <select id="SelectedMaterialCodes" name="SelectedMaterialCodes" multiple="multiple" class="form-control" style="width: 100%; padding: 6px;">
+                            @{
+                                var materialMaster = ViewBag.MaterialMaster;
+                                foreach (var item in materialMaster)
+                                {
+                                    <option value="@item["MaterialCode"]">@item["MaterialName"]</option>
+                                }
+                            }
+                        </select>
+                    </div>
                 </div>
 
                 <div class="row mb-1" style="font-size: 12px;">

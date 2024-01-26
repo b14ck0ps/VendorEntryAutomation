@@ -18,10 +18,11 @@ namespace VE.UserInterface.Controllers
         {
             var LoginUser = SharePointService.Instance.AuthUserInformation(User.Identity.Name);
             var Employee = SharePointService.Instance.GetUserByEmail("BergerEmployeeInformation", LoginUser.Email);
+            var MaterialMaster = SharePointService.Instance.GetAllItemsFromList("MaterialMaster");
+            
+            ViewBag.MaterialMaster = MaterialMaster;
             ViewBag.EmployeeData = Employee;
 
-
-            //ViewBag.LoginUser = LoginUser;
             return View();
         }
 
