@@ -97,7 +97,7 @@ namespace VE.UserInterface.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> SubmitForm(AppProspectiveVendors formData, string comment,
-            List<string> selectedMaterialCodes)
+            List<string> SelectedMaterials)
         {
             var AuthUser = SharePointService.Instance.AuthUserInformation(User.Identity.Name);
             var AuthUserInfo = SharePointService.Instance.GetUserByEmail("BergerEmployeeInformation", AuthUser.Email);
@@ -161,12 +161,15 @@ namespace VE.UserInterface.Controllers
                     LastModificationTime = DateTime.Now
                 };
                 var resultMaterial = 0;
-                foreach (var materialCode in selectedMaterialCodes)
+                foreach (var material in  SelectedMaterials)
                 {
+                    var materialCode = material.Split('|')[0];
+                    var materialName = material.Split('|')[1];
                     var appProspectiveVendorMaterial = new AppProspectiveVendorMaterials
                     {
                         ProspectiveVendorId = 1,
                         MaterialCode = materialCode,
+                        MaterialName = materialName,
                         CreationTime = DateTime.Now,
                         CreatorId = employeeData.Email,
                         LastModificationTime = DateTime.Now,

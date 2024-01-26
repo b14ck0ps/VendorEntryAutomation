@@ -8,7 +8,7 @@ namespace VE.BusinessLogicLayer.Services
 {
     public class AppProspectiveVendorMaterialsService
     {
-        private readonly IRepository<AppProspectiveVendorMaterials> _appProspectiveVendorMaterialsRepository;
+        private readonly IAppProspectiveVendorMaterialsRepository _appProspectiveVendorMaterialsRepository;
 
         public AppProspectiveVendorMaterialsService()
         {
@@ -23,6 +23,11 @@ namespace VE.BusinessLogicLayer.Services
         public async Task<int> Insert(AppProspectiveVendorMaterials data)
         {
             return await _appProspectiveVendorMaterialsRepository.Insert(data);
+        }
+
+        public async Task<IEnumerable<AppProspectiveVendorMaterials>> GetByCode(string code)
+        {
+            return await _appProspectiveVendorMaterialsRepository.GetByCode(code);
         }
     }
 }

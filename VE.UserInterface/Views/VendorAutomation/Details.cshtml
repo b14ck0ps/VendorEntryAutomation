@@ -1,4 +1,5 @@
-﻿<form method="post" action="@Url.Action("SubmitForm", "Home")" class="mt-1">
+﻿@using VE.DataTransferObject.Entities
+<form method="post" action="@Url.Action("SubmitForm", "Home")" class="mt-1">
     @Html.AntiForgeryToken()
 
     <div class="row mb-1" style="font-size: 12px;">
@@ -12,15 +13,16 @@
         </div>
         <div class="col-md-4">
             <label for="SelectedMaterialCodes" class="form-label">Select Materials:</label>
-            @*<span id="SelectedMaterialCodes" class="form-text">
-                    @{
-                        var materialMaster = ViewBag.MaterialMaster;
-                        foreach (var item in materialMaster)
-                        {
-                            <span>@item["MaterialName"], </span>
-                        }
+            <span id="SelectedMaterialCodes" class="form-text">
+                @{
+                    var appProspectiveVendorMaterials = ViewBag.AppProspectiveVendorMaterials;
+
+                    foreach (var item in appProspectiveVendorMaterials)
+                    {
+                        <span>@item.MaterialName, </span>
                     }
-                </span>*@
+                }
+            </span>
         </div>
     </div>
 

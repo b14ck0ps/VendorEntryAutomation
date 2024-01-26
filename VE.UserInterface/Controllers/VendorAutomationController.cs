@@ -14,8 +14,9 @@ namespace VE.UserInterface.Controllers
         // GET: VendorAutomation/id/{dynamic}
         public async Task<ActionResult> Details(string id)
         {
-            var appProspectiveVendor = await new AppProspectiveVendorsService().GetByCode(id);
+            var appProspectiveVendor = await new AppProspectiveVendorsService().GetByCode(id); var appProspectiveVendorMaterials = await new AppProspectiveVendorMaterialsService().GetByCode(id);
             ViewBag.AppProspectiveVendor = appProspectiveVendor;
+            ViewBag.AppProspectiveVendorMaterials = appProspectiveVendorMaterials;
             return View();
         }
     }

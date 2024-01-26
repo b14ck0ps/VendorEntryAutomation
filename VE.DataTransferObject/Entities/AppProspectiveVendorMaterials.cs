@@ -7,6 +7,7 @@ namespace VE.DataTransferObject.Entities
         public int Id { get; set; }
         public int ProspectiveVendorId { get; set; }
         public string MaterialCode { get; set; }
+        public string MaterialName { get; set; }
         public string ExtraProperties { get; set; }
         public string ConcurrencyStamp { get; set; }
         public DateTime CreationTime { get; set; }
