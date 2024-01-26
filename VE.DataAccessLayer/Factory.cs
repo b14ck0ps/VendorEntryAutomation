@@ -22,7 +22,7 @@ namespace VE.DataAccessLayer
             return new TestTableRepository();
         }
 
-        public static IRepository<AppProspectiveVendors> GetAppProspectiveVendorsRepository()
+        public static IAppProspectiveVendorRepository GetAppProspectiveVendorsRepository()
         {
             return new AppProspectiveVendorsRepository();
         }

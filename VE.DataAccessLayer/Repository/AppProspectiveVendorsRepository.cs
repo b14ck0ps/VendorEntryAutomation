@@ -1,11 +1,12 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using VE.DataAccessLayer.Interface;
 using VE.DataTransferObject.Entities;
 
 namespace VE.DataAccessLayer.Repository
 {
-    public class AppProspectiveVendorsRepository : DbConnection, IRepository<AppProspectiveVendors>
+    public class AppProspectiveVendorsRepository : DbConnection,IAppProspectiveVendorRepository
     {
         public async Task<IEnumerable<AppProspectiveVendors>> GetAll()
         {
@@ -22,5 +23,11 @@ namespace VE.DataAccessLayer.Repository
 
             return await SaveData(sqlQuery, data);
         }
+        public async Task<AppProspectiveVendors> GetByCode(string code)
+        {
+            const string sqlQuery = "SELECT * FROM [VE].AppProspectiveVendors WHERE Code = @Code";
+            return (await LoadData<AppProspectiveVendors, dynamic>(sqlQuery, new { Code = code })).FirstOrDefault();
+        }
+
     }
 }
