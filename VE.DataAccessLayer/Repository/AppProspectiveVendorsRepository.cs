@@ -3,10 +3,11 @@ using System.Linq;
 using System.Threading.Tasks;
 using VE.DataAccessLayer.Interface;
 using VE.DataTransferObject.Entities;
+using VE.DataTransferObject.Enums;
 
 namespace VE.DataAccessLayer.Repository
 {
-    public class AppProspectiveVendorsRepository : DbConnection,IAppProspectiveVendorRepository
+    public class AppProspectiveVendorsRepository : DbConnection, IAppProspectiveVendorRepository
     {
         public async Task<IEnumerable<AppProspectiveVendors>> GetAll()
         {
@@ -29,5 +30,10 @@ namespace VE.DataAccessLayer.Repository
             return (await LoadData<AppProspectiveVendors, dynamic>(sqlQuery, new { Code = code })).FirstOrDefault();
         }
 
+        public async Task<int> UpdateStatus(string code, Status status)
+        {
+            const string sqlQuery = "UPDATE [VE].[AppProspectiveVendors] SET Status = @Status WHERE Code = @Code";
+            return await SaveData(sqlQuery, new { Code = code, Status = status });
+        }
     }
 }

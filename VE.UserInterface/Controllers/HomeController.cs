@@ -7,7 +7,7 @@ using Microsoft.SharePoint.Client;
 using VE.BusinessLogicLayer.Services;
 using VE.BusinessLogicLayer.SharePoint;
 using VE.DataTransferObject.Entities;
-using VE.UserInterface.Enum;
+using VE.DataTransferObject.Enums;
 
 namespace VE.UserInterface.Controllers
 {
@@ -128,7 +128,7 @@ namespace VE.UserInterface.Controllers
                 NewSupplierAdditionReason = formData.NewSupplierAdditionReason,
                 VendorName = formData.VendorName,
                 VendorEmail = formData.VendorEmail,
-                Status = (int)StatusEnum.Submitted,
+                Status = (int)Status.Submitted,
                 ExtraProperties = "",
                 ConcurrencyStamp = "",
                 CreatorId = employeeData.Email,
@@ -149,7 +149,7 @@ namespace VE.UserInterface.Controllers
                 {
                     ProspectiveVendorId = 1,
                     Code = randomVendorCode,
-                    Status = (int)StatusEnum.Submitted,
+                    Status = (int)Status.Submitted,
                     Comment = comment,
                     Action = "Submitted",
                     ActionById = employeeData.Email,
@@ -161,15 +161,13 @@ namespace VE.UserInterface.Controllers
                     LastModificationTime = DateTime.Now
                 };
                 var resultMaterial = 0;
-                foreach (var material in  SelectedMaterials)
+                foreach (var material in SelectedMaterials)
                 {
-                    var materialCode = material.Split('|')[0];
-                    var materialName = material.Split('|')[1];
                     var appProspectiveVendorMaterial = new AppProspectiveVendorMaterials
                     {
                         ProspectiveVendorId = 1,
-                        MaterialCode = materialCode,
-                        MaterialName = materialName,
+                        MaterialCode = material.Split('|')[0],
+                        MaterialName = material.Split('|')[1],
                         CreationTime = DateTime.Now,
                         CreatorId = employeeData.Email,
                         LastModificationTime = DateTime.Now,

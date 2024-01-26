@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using VE.DataAccessLayer;
 using VE.DataAccessLayer.Interface;
 using VE.DataTransferObject.Entities;
+using VE.DataTransferObject.Enums;
 
 namespace VE.BusinessLogicLayer.Services
 {
@@ -28,6 +29,11 @@ namespace VE.BusinessLogicLayer.Services
         public async Task<AppProspectiveVendors> GetByCode(string code)
         {
             return await _appProspectiveVendorsRepository.GetByCode(code);
+        }
+
+        public async Task<int> UpdateStatus(Status status, string code)
+        {
+            return await _appProspectiveVendorsRepository.UpdateStatus(code,status);
         }
     }
 }

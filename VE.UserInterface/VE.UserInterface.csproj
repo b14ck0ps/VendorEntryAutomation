@@ -112,7 +112,6 @@
     <Compile Include="Controllers\CodeGenerator.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\VendorAutomationController.cs" />
-    <Compile Include="Enum\StatusEnum.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
