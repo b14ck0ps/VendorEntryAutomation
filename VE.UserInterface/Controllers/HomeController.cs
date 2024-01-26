@@ -16,12 +16,13 @@ namespace VE.UserInterface.Controllers
     {
         public ActionResult Index()
         {
-            var LoginUser = SharePointService.Instance.AuthUserInformation(User.Identity.Name);
-            var Employee = SharePointService.Instance.GetUserByEmail("BergerEmployeeInformation", LoginUser.Email);
-            var MaterialMaster = SharePointService.Instance.GetAllItemsFromList("MaterialMaster");
+            var loginUser = SharePointService.Instance.AuthUserInformation(User.Identity.Name);
+            ViewBag.LoginUser = loginUser;
+            var employee = SharePointService.Instance.GetUserByEmail("BergerEmployeeInformation", loginUser.Email);
+            var materialMaster = SharePointService.Instance.GetAllItemsFromList("MaterialMaster");
 
-            ViewBag.MaterialMaster = MaterialMaster;
-            ViewBag.EmployeeData = Employee;
+            ViewBag.MaterialMaster = materialMaster;
+            ViewBag.EmployeeData = employee;
 
             return View();
         }
@@ -34,10 +35,12 @@ namespace VE.UserInterface.Controllers
             var appProspectiveVendor = await new AppProspectiveVendorsService().GetByCode(id);
             var appProspectiveVendorMaterials = await new AppProspectiveVendorMaterialsService().GetByCode(id);
             var appVendorEnlistmentLogs = await new AppVendorEnlistmentLogsService().GetByCode(id);
+            var loginUser = SharePointService.Instance.AuthUserInformation(User.Identity.Name);
 
             ViewBag.AppVendorEnlistmentLogs = appVendorEnlistmentLogs;
             ViewBag.AppProspectiveVendor = appProspectiveVendor;
             ViewBag.AppProspectiveVendorMaterials = appProspectiveVendorMaterials;
+            ViewBag.LoginUser = loginUser;
             return View();
         }
 
@@ -46,13 +49,14 @@ namespace VE.UserInterface.Controllers
         public async Task<ActionResult> SubmitForm(AppProspectiveVendors formData, string comment,
             List<string> SelectedMaterials)
         {
-            var AuthUser = SharePointService.Instance.AuthUserInformation(User.Identity.Name);
-            var AuthUserInfo = SharePointService.Instance.GetUserByEmail("BergerEmployeeInformation", AuthUser.Email);
-            var ApproverInfo = SharePointService.Instance.GetAllItemsFromList("Approver Info");
+            var loginUser = SharePointService.Instance.AuthUserInformation(User.Identity.Name);
+            ViewBag.LoginUser = loginUser;
+            var authUserInfo = SharePointService.Instance.GetUserByEmail("BergerEmployeeInformation", loginUser.Email);
+            var approverInfo = SharePointService.Instance.GetAllItemsFromList("Approver Info");
             var employeeData = SharePointService.Instance.AuthUserInformation(User.Identity.Name);
-            var matchingDeptInfo = ApproverInfo
+            var matchingDeptInfo = approverInfo
                 .Cast<dynamic>()
-                .FirstOrDefault(approver => approver["DeptID"] == AuthUserInfo.DeptId);
+                .FirstOrDefault(approver => approver["DeptID"] == authUserInfo.DeptId);
 
             var location = matchingDeptInfo["Location"];
             var department = matchingDeptInfo["Department"];
@@ -183,7 +187,7 @@ namespace VE.UserInterface.Controllers
                         {"EmployeeID", employeeData.UserId.ToString()},
                         {"RequestedByEmail", employeeData.Email},
                         {"PendingWith", employeeData.UserId},
-                        {"RequestLink", "http://localhost:44300/Home/Details/" + appProspectiveVendorCode}
+                        {"RequestLink", "http://localhost:44317/Home/Details/" + appProspectiveVendorCode}
                     };
 
                     SharePointService.Instance.InsertItem("PendingApproval", pendingApprovalList);
