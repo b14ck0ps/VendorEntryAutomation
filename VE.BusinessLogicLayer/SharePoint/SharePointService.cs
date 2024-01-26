@@ -1,5 +1,5 @@
-﻿using Microsoft.SharePoint.Client;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using Microsoft.SharePoint.Client;
 using VE.DataAccessLayer;
 using VE.DataAccessLayer.Interface;
 using VE.DataTransferObject.SharePoint;
@@ -8,8 +8,9 @@ namespace VE.BusinessLogicLayer.SharePoint
 {
     public class SharePointService
     {
-        public static SharePointService Instance => new SharePointService();
         private readonly ISharePointAuthenticationRepository _sharePointAuthenticationRepository;
+
+        private readonly ISharePointRepository _sharePointRepository;
 
         public SharePointService()
         {
@@ -17,7 +18,7 @@ namespace VE.BusinessLogicLayer.SharePoint
             _sharePointAuthenticationRepository = Factory.GetSharePointAuthenticationRepository();
         }
 
-        private readonly ISharePointRepository _sharePointRepository;
+        public static SharePointService Instance => new SharePointService();
 
         public List<ListItem> GetAllItemsFromList(string listName)
         {
@@ -44,12 +45,11 @@ namespace VE.BusinessLogicLayer.SharePoint
                 Location = items[0]["OfficeLocation"]?.ToString(),
                 Email = ((FieldUserValue)items[0]["Email"]).Email,
                 OptManagerName = items[0]["OptManagerName"]?.ToString(),
-                OptManagerEmail= ((FieldUserValue)items[0]["OptManagerEmail"]).Email,
-                BusAreaName = items[0]["BusAreaName"]?.ToString(),
+                OptManagerEmail = ((FieldUserValue)items[0]["OptManagerEmail"]).Email,
+                BusAreaName = items[0]["BusAreaName"]?.ToString()
             };
 
             return userInfo;
-
         }
 
         public SpAuthUserInformation AuthUserInformation(string windowsUsername)

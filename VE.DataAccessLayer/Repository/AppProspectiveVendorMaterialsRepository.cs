@@ -15,7 +15,8 @@ namespace VE.DataAccessLayer.Repository
 
         public async Task<int> Insert(AppProspectiveVendorMaterials data)
         {
-            const string sqlQuery = @"INSERT INTO [VE].[AppProspectiveVendorMaterials] ([ProspectiveVendorId],[MaterialCode],[ExtraProperties],[ConcurrencyStamp],[CreationTime],[CreatorId],[LastModificationTime],[LastModifierId],[IsDeleted],[DeleterId],[DeletionTime],[VendorCode]) 
+            const string sqlQuery =
+                @"INSERT INTO [VE].[AppProspectiveVendorMaterials] ([ProspectiveVendorId],[MaterialCode],[ExtraProperties],[ConcurrencyStamp],[CreationTime],[CreatorId],[LastModificationTime],[LastModifierId],[IsDeleted],[DeleterId],[DeletionTime],[VendorCode]) 
                                        VALUES (@ProspectiveVendorId, @MaterialCode, @ExtraProperties, @ConcurrencyStamp, @CreationTime, @CreatorId, @LastModificationTime, @LastModifierId, @IsDeleted, @DeleterId, @DeletionTime,@VendorCode)";
 
             return await SaveData(sqlQuery, data);

@@ -1,5 +1,5 @@
-﻿using Microsoft.SharePoint.Client;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using Microsoft.SharePoint.Client;
 
 namespace VE.DataAccessLayer.Interface
 {

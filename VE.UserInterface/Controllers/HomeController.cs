@@ -1,13 +1,11 @@
-﻿using Microsoft.SharePoint.Client;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
-using VE.BusinessLogicLayer.DB;
+using Microsoft.SharePoint.Client;
 using VE.BusinessLogicLayer.Services;
 using VE.BusinessLogicLayer.SharePoint;
-using VE.DataTransferObject.DbTable;
 using VE.DataTransferObject.Entities;
 using VE.UserInterface.Enum;
 
@@ -98,7 +96,8 @@ namespace VE.UserInterface.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> SubmitForm(AppProspectiveVendors formData, string comment, List<string> selectedMaterialCodes)
+        public async Task<ActionResult> SubmitForm(AppProspectiveVendors formData, string comment,
+            List<string> selectedMaterialCodes)
         {
             var AuthUser = SharePointService.Instance.AuthUserInformation(User.Identity.Name);
             var AuthUserInfo = SharePointService.Instance.GetUserByEmail("BergerEmployeeInformation", AuthUser.Email);
@@ -113,7 +112,7 @@ namespace VE.UserInterface.Controllers
             var hod = ((FieldUserValue)matchingDeptInfo["HOD"]).Email;
 
             // Generate a random vendor code
-            string randomVendorCode = "VE-" + CodeGenerator.GenerateRandomCode();
+            var randomVendorCode = "VE-" + CodeGenerator.GenerateRandomCode();
 
 
             var appProspectiveVendorsData = new AppProspectiveVendors
@@ -172,7 +171,7 @@ namespace VE.UserInterface.Controllers
                         CreatorId = employeeData.Email,
                         LastModificationTime = DateTime.Now,
                         LastModifierId = employeeData.Email,
-                        VendorCode = randomVendorCode,
+                        VendorCode = randomVendorCode
                     };
                     var appProspectiveVendorMaterialsService = new AppProspectiveVendorMaterialsService();
                     resultMaterial = await appProspectiveVendorMaterialsService.Insert(appProspectiveVendorMaterial);
@@ -187,9 +186,9 @@ namespace VE.UserInterface.Controllers
             {
                 ViewBag.SubmitResult = "Failed to submit form";
             }
+
             return View("Index");
         }
-
 
 
         public ActionResult About()

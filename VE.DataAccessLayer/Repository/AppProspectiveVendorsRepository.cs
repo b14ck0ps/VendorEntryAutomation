@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using VE.DataAccessLayer.Interface;
 using VE.DataTransferObject.Entities;
@@ -18,7 +15,8 @@ namespace VE.DataAccessLayer.Repository
 
         public async Task<int> Insert(AppProspectiveVendors data)
         {
-            const string sqlQuery = @"INSERT INTO [VE].[AppProspectiveVendors] ([Code],[RequestorID],[ServiceDescription],[RequirementGeneral],[RequirementOther],[TypeOfSupplierId],[ExisitngSupplierCount],[ExisitngSupplierProblem],[NewSupplierAdditionReason],[VendorName],[VendorEmail],[Status],[ExtraProperties],[ConcurrencyStamp],[CreationTime],[CreatorId],[LastModificationTime],[LastModifierId],[IsDeleted],[DeleterId],[DeletionTime],[PendingWithUserId],[IsIncludedIntoSAP],[SAPVendorCode],[ScoreCard]) 
+            const string sqlQuery =
+                @"INSERT INTO [VE].[AppProspectiveVendors] ([Code],[RequestorID],[ServiceDescription],[RequirementGeneral],[RequirementOther],[TypeOfSupplierId],[ExisitngSupplierCount],[ExisitngSupplierProblem],[NewSupplierAdditionReason],[VendorName],[VendorEmail],[Status],[ExtraProperties],[ConcurrencyStamp],[CreationTime],[CreatorId],[LastModificationTime],[LastModifierId],[IsDeleted],[DeleterId],[DeletionTime],[PendingWithUserId],[IsIncludedIntoSAP],[SAPVendorCode],[ScoreCard]) 
                                        VALUES (@Code, @RequestorID, @ServiceDescription, @RequirementGeneral, @RequirementOther, @TypeOfSupplierId, @ExisitngSupplierCount, @ExisitngSupplierProblem, @NewSupplierAdditionReason, @VendorName, @VendorEmail, @Status, @ExtraProperties, @ConcurrencyStamp, @CreationTime, @CreatorId, @LastModificationTime, @LastModifierId, @IsDeleted, @DeleterId, @DeletionTime, @PendingWithUserId, @IsIncludedIntoSAP, @SAPVendorCode, @ScoreCard)";
 
 

@@ -7,12 +7,10 @@ namespace VE.DataAccessLayer.Repository
 {
     public class TestTableRepository : DbConnection, IRepository<TestTable>
     {
-        
-
         public async Task<IEnumerable<TestTable>> GetAll()
         {
             const string sqlQuery = "SELECT * FROM [VE].TestTable";
-            return await LoadData<TestTable, dynamic>(sqlQuery, new {});
+            return await LoadData<TestTable, dynamic>(sqlQuery, new { });
         }
 
         public async Task<int> Insert(TestTable data)
@@ -21,5 +19,4 @@ namespace VE.DataAccessLayer.Repository
             return await SaveData(sqlQuery, data);
         }
     }
-
 }
