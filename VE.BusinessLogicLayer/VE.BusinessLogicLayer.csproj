@@ -49,6 +49,7 @@
     <Compile Include="Services\VendorEnlistmentLogService.cs" />
     <Compile Include="Services\VendorEnlistmentService.cs" />
     <Compile Include="SharePoint\SharePointService.cs" />
+    <Compile Include="Utilities\CodeGenerator.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\VE.DataAccessLayer\VE.DataAccessLayer.csproj">

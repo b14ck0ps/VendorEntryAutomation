@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using Microsoft.SharePoint.Client;
 using VE.BusinessLogicLayer.Services;
 using VE.BusinessLogicLayer.SharePoint;
+using VE.BusinessLogicLayer.Utilities;
 using VE.DataTransferObject.Entities;
 using VE.DataTransferObject.Enums;
 using FormCollection = System.Web.Mvc.FormCollection;
@@ -139,7 +140,7 @@ namespace VE.UserInterface.Controllers
                 ViewBag.SubmitResult = "Failed to submit form";
             }
 
-            return View("Index");
+            return RedirectToAction("Details",new { id = randomVendorCode });
         }
 
         [HttpPost]
