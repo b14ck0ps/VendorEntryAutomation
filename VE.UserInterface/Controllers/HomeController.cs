@@ -1,13 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
-using Microsoft.SharePoint.Client;
 using VE.BusinessLogicLayer.Handler;
 using VE.BusinessLogicLayer.Services;
 using VE.BusinessLogicLayer.SharePoint;
-using VE.BusinessLogicLayer.Utilities;
 using VE.DataTransferObject.Entities;
 using VE.DataTransferObject.Enums;
 using FormCollection = System.Web.Mvc.FormCollection;
@@ -43,6 +40,16 @@ namespace VE.UserInterface.Controllers
             //var actionEnabled = (appProspectiveVendor.PendingWithUserId == loginUser.Email) or (appProspectiveVendor.Status != (int)Status.Completed);//TODO: Remove comment after Testing
             var actionEnabled = appProspectiveVendor.Status != (int)Status.Completed;
 
+            if (appProspectiveVendor.Status == (int)Status.SendtoVendor)
+            {
+                ViewBag.PendingWithVendor = true;
+                actionEnabled = false;
+            }
+            else
+            {
+                ViewBag.PendingWithVendor = false;
+            }
+
             ViewBag.AppVendorEnlistmentLogs = appVendorEnlistmentLogs;
             ViewBag.AppProspectiveVendor = appProspectiveVendor;
             ViewBag.AppProspectiveVendorMaterials = appProspectiveVendorMaterials;
@@ -59,88 +66,8 @@ namespace VE.UserInterface.Controllers
         public async Task<ActionResult> SubmitForm(AppProspectiveVendors formData, string comment,
             List<string> SelectedMaterials)
         {
-            var loginUser = SharePointService.Instance.AuthUserInformation(User.Identity.Name);
-            ViewBag.LoginUser = loginUser;
-
-            var employeeData = SharePointService.Instance.AuthUserInformation(User.Identity.Name);
-            var workflowHelper = new WorkflowHelper();
-            var hod = workflowHelper.GetUserHod(loginUser.Email);
-            var randomVendorCode = "VE-" + CodeGenerator.GenerateRandomCode();
-
-
-            var appProspectiveVendorsData = new AppProspectiveVendors
-            {
-                ServiceDescription = formData.ServiceDescription,
-                RequestorID = employeeData.UserId,
-                Code = randomVendorCode,
-                RequirementGeneral = formData.RequirementGeneral,
-                RequirementOther = formData.RequirementOther,
-                TypeOfSupplierId = formData.TypeOfSupplierId,
-                ExisitngSupplierCount = formData.ExisitngSupplierCount,
-                ExisitngSupplierProblem = formData.ExisitngSupplierProblem,
-                NewSupplierAdditionReason = formData.NewSupplierAdditionReason,
-                VendorName = formData.VendorName,
-                VendorEmail = formData.VendorEmail,
-                Status = (int)Status.Submitted,
-                ExtraProperties = "",
-                ConcurrencyStamp = "",
-                CreatorId = employeeData.Email,
-                CreationTime = DateTime.Now,
-                LastModifierId = employeeData.Email,
-                LastModificationTime = DateTime.Now,
-                IsDeleted = false,
-                PendingWithUserId = hod.UserId.ToString(),
-                IsIncludedIntoSAP = false
-            };
-
-            var appProspectiveVendorsService = new AppProspectiveVendorsService();
-            var result = await appProspectiveVendorsService.Insert(appProspectiveVendorsData);
-
-            if (result > 0)
-            {
-                var appVendorEnlistmentLogsData = new AppVendorEnlistmentLogs
-                {
-                    ProspectiveVendorId = 1,
-                    Code = randomVendorCode,
-                    Status = (int)Status.Submitted,
-                    Comment = comment,
-                    Action = "Submitted",
-                    ActionById = employeeData.Email,
-                    CreatorId = employeeData.Email,
-                    ExtraProperties = "",
-                    ConcurrencyStamp = "",
-                    CreationTime = DateTime.Now,
-                    LastModifierId = employeeData.Email,
-                    LastModificationTime = DateTime.Now
-                };
-                foreach (var material in SelectedMaterials)
-                {
-                    var appProspectiveVendorMaterial = new AppProspectiveVendorMaterials
-                    {
-                        ProspectiveVendorId = 1,
-                        MaterialCode = material.Split('|')[0],
-                        MaterialName = material.Split('|')[1],
-                        CreationTime = DateTime.Now,
-                        CreatorId = employeeData.Email,
-                        LastModificationTime = DateTime.Now,
-                        LastModifierId = employeeData.Email,
-                        VendorCode = randomVendorCode
-                    };
-                    var appProspectiveVendorMaterialsService = new AppProspectiveVendorMaterialsService();
-                    await appProspectiveVendorMaterialsService.Insert(appProspectiveVendorMaterial);
-                }
-
-
-                var appVendorEnlistmentLogsService = new AppVendorEnlistmentLogsService();
-                var resultLog = await appVendorEnlistmentLogsService.Insert(appVendorEnlistmentLogsData);
-                ViewBag.SubmitResult = "Form submitted successfully";
-            }
-            else
-            {
-                ViewBag.SubmitResult = "Failed to submit form";
-            }
-
-            return RedirectToAction("Details", new { id = randomVendorCode });
+            var code = await FormSubmissionHandler.HandleFormSubmission(User.Identity.Name, formData, comment, SelectedMaterials);
+            return string.IsNullOrEmpty(code) ? RedirectToAction("Index") : RedirectToAction("Details", new { id = code });
         }
 
         [HttpPost]

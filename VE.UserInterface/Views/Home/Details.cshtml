@@ -129,6 +129,12 @@
             </div>
         </section>
     }
+    @if (@ViewBag.PendingWithVendor)
+    {
+        <section class="card card-text mb-3 p-2">
+            <p class="text-info fw-bold text-center">Waiting for vendor Approval</p>
+        </section>
+    }
 </form>
 
 <section class="card card-text p-3">
