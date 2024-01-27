@@ -86,6 +86,21 @@ namespace VE.BusinessLogicLayer.Handler
 
             var appVendorEnlistmentLogsService = new AppVendorEnlistmentLogsService();
             await appVendorEnlistmentLogsService.Insert(appVendorEnlistmentLogsData);
+
+            var pendingApprovalList = new Dictionary<string, object>
+            {
+                { "Title", randomVendorCode },
+                { "ProcessName", "Vendor Enlistment" },
+                { "RequestedByName", employeeData.Title },
+                { "Status", Status.Submitted.ToString()},
+                { "EmployeeID", employeeData.UserId.ToString() },
+                { "RequestedByEmail", employeeData.Email },
+                { "PendingWith", hod.UserId.ToString() },
+                { "RequestLink", "http://localhost:44317/Home/Details/" + randomVendorCode }
+            };
+
+            SharePointService.Instance.InsertItem("PendingApproval", pendingApprovalList);
+
             return randomVendorCode;
         }
     }

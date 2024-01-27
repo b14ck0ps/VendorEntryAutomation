@@ -68,5 +68,17 @@ namespace VE.BusinessLogicLayer.SharePoint
         {
             _sharePointRepository.InsertItem(listName, fieldValues);
         }
+        public void UpdatePendingApprovalByTitle(string title, string status, string pendingWith)
+        {
+            const string listName = "PendingApproval";
+            var camlQuery = $"<View><Query><Where><Eq><FieldRef Name='Title'/><Value Type='Text'>{title}</Value></Eq></Where></Query></View>";
+
+            _sharePointRepository.UpdateItemsByQuery(listName, camlQuery, new Dictionary<string, object>
+            {
+                {"Status", status},
+                {"PendingWith", pendingWith}
+            });
+        }
+
     }
 }

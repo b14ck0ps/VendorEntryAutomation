@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using VE.BusinessLogicLayer.Services;
 using VE.BusinessLogicLayer.SharePoint;
@@ -38,19 +37,8 @@ namespace VE.BusinessLogicLayer.Handler
                 };
                 await new AppVendorEnlistmentLogsService().Insert(appVendorEnlistmentLogsData);
 
-                var pendingApprovalList = new Dictionary<string, object>
-                {
-                    { "Title", appProspectiveVendorCode },
-                    { "ProcessName", "Vendor Enlistment" },
-                    { "RequestedByName", employeeData.Title },
-                    { "Status", Enum.GetName(typeof(Status) ,nextApprover.Status)},
-                    { "EmployeeID", employeeData.UserId.ToString() },
-                    { "RequestedByEmail", employeeData.Email },
-                    { "PendingWith", nextApprover.PendingWithUserId },
-                    { "RequestLink", "http://localhost:44317/Home/Details/" + appProspectiveVendorCode }
-                };
+                SharePointService.Instance.UpdatePendingApprovalByTitle(appProspectiveVendorCode, nextApprover.Status.ToString(), nextApprover.PendingWithUserId);
 
-                SharePointService.Instance.InsertItem("PendingApproval", pendingApprovalList);
                 return true;
             }
             catch (Exception e)
