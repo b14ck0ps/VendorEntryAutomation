@@ -37,8 +37,8 @@ namespace VE.UserInterface.Controllers
             var loginUser = SharePointService.Instance.AuthUserInformation(User.Identity.Name);
             var employee = SharePointService.Instance.GetUserByEmail("BergerEmployeeInformation", loginUser.Email);
 
-            //var actionEnabled = (appProspectiveVendor.PendingWithUserId == loginUser.Email) or (appProspectiveVendor.Status != (int)Status.Completed);//TODO: Remove comment after Testing
-            var actionEnabled = appProspectiveVendor.Status != (int)Status.Completed;
+            //var actionEnabled = (appProspectiveVendor.PendingWithUserId == loginUser.Email) //TODO: validate this also after testing
+            var actionEnabled = appProspectiveVendor.Status != (int)Status.Completed || appProspectiveVendor.Status != (int)Status.Rejected || appProspectiveVendor.Status != (int)Status.Completed;
 
             if (appProspectiveVendor.Status == (int)Status.SendtoVendor)
             {
