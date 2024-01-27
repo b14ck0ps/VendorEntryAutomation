@@ -39,6 +39,8 @@ namespace VE.BusinessLogicLayer.Handler
 
                 SharePointService.Instance.UpdatePendingApprovalByTitle(appProspectiveVendorCode, nextApprover.Status.ToString(), nextApprover.PendingWithUserId);
 
+                EmailHandler.SendEmail(nextApprover.PendingWithUserEmail, nextApprover.PendingWithUserDisplayName, appProspectiveVendorCode, nextApprover.Status.ToString(), "https://localhost:44300/Home/Details/" + appProspectiveVendorCode);
+
                 return true;
             }
             catch (Exception e)

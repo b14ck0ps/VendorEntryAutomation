@@ -101,6 +101,8 @@ namespace VE.BusinessLogicLayer.Handler
 
             SharePointService.Instance.InsertItem("PendingApproval", pendingApprovalList);
 
+            EmailHandler.SendEmail(hod.Email, hod.Title, randomVendorCode, Status.Submitted.ToString(), "https://localhost:44300/Home/Details/" + randomVendorCode);
+
             return randomVendorCode;
         }
     }

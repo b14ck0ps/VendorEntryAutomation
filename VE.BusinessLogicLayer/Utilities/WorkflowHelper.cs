@@ -35,7 +35,7 @@ namespace VE.BusinessLogicLayer.Utilities
             {
                 Email = fieldUserValue.Email,
                 UserId = fieldUserValue.LookupId,
-                Title = fieldUserValue.LookupValue
+                Title = fieldUserValue.LookupValue,
             };
         }
 
@@ -100,26 +100,31 @@ namespace VE.BusinessLogicLayer.Utilities
                             pendingApprovalInfo.Status = Status.HodApproved;
                             pendingApprovalInfo.PendingWithUserId = SC01_Approver1().UserId.ToString();
                             pendingApprovalInfo.PendingWithUserEmail = SC01_Approver1().Email;
+                            pendingApprovalInfo.PendingWithUserDisplayName = SC01_Approver1().Title;
                             break;
                         case Status.HodApproved:
                             pendingApprovalInfo.Status = Status.SendtoVendor;
                             pendingApprovalInfo.PendingWithUserId = SC01_Approver1().UserId.ToString();
                             pendingApprovalInfo.PendingWithUserEmail = SC01_Approver1().Email;
+                            pendingApprovalInfo.PendingWithUserDisplayName = SC01_Approver1().Title;
                             break;
                         case Status.VendorSubmitted:
                             pendingApprovalInfo.Status = Status.VDTeamApproved;
                             pendingApprovalInfo.PendingWithUserId = SC01_Approver6().UserId.ToString();
                             pendingApprovalInfo.PendingWithUserEmail = SC01_Approver6().Email;
+                            pendingApprovalInfo.PendingWithUserDisplayName = SC01_Approver6().Title;
                             break;
                         case Status.VDTeamApproved:
                             pendingApprovalInfo.Status = Status.HeadSPPApproved;
                             pendingApprovalInfo.PendingWithUserId = SC01_Hod().UserId.ToString();
                             pendingApprovalInfo.PendingWithUserEmail = SC01_Hod().Email;
+                            pendingApprovalInfo.PendingWithUserDisplayName = SC01_Hod().Title;
                             break;
                         case Status.HeadSPPApproved:
                             pendingApprovalInfo.Status = Status.DeptHeadApproved;
                             pendingApprovalInfo.PendingWithUserId = SC01_Approver1().UserId.ToString();
                             pendingApprovalInfo.PendingWithUserEmail = SC01_Approver1().Email;
+                            pendingApprovalInfo.PendingWithUserDisplayName = SC01_Approver1().Title;
                             break;
                         case Status.DeptHeadApproved:
                             pendingApprovalInfo.Status = Status.Completed;
