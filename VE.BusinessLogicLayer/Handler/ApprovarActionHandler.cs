@@ -46,5 +46,42 @@ namespace VE.BusinessLogicLayer.Handler
                 return false;
             }
         }
+
+        public static async Task<bool> HandleReject(string loggedInUser, string appProspectiveVendorCode, Status currentStatus, string comment)
+        {
+            try
+            {
+                var appProspectiveVendorService = new AppProspectiveVendorsService();
+
+                var workflowHelper = new WorkflowHelper();
+                var nextApprover = workflowHelper.GetNextPendingApprovalInfo(currentStatus, ApproverAction.Rejected);
+
+
+                await appProspectiveVendorService.UpdateStatus(nextApprover.Status, appProspectiveVendorCode);
+                var employeeData = SharePointService.Instance.AuthUserInformation(loggedInUser);
+                var appVendorEnlistmentLogsData = new AppVendorEnlistmentLogs
+                {
+                    ProspectiveVendorId = 1,
+                    Code = appProspectiveVendorCode,
+                    Status = (int)nextApprover.Status,
+                    Comment = comment,
+                    Action = ApproverAction.Rejected.ToString(),
+                    ActionById = employeeData.Email,
+                    CreatorId = employeeData.Email,
+                    CreationTime = DateTime.Now,
+                    LastModifierId = employeeData.Email,
+                    LastModificationTime = DateTime.Now
+                };
+                await new AppVendorEnlistmentLogsService().Insert(appVendorEnlistmentLogsData);
+
+                SharePointService.Instance.UpdatePendingApprovalByTitle(appProspectiveVendorCode, nextApprover.Status.ToString(), nextApprover.PendingWithUserId);
+
+                return true;
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
+        }
     }
 }

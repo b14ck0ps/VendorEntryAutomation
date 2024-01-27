@@ -98,6 +98,7 @@ namespace VE.UserInterface.Controllers
                 case ApproverAction.ChangeRequest:
                     break;
                 case ApproverAction.Rejected:
+                    await ApprovarActionHandler.HandleReject(User.Identity.Name, appProspectiveVendorCode, (Status)Enum.Parse(typeof(Status), currentStatus), comment);
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
