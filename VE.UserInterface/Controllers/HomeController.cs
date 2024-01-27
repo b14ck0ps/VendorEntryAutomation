@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using Microsoft.SharePoint.Client;
+using VE.BusinessLogicLayer.Handler;
 using VE.BusinessLogicLayer.Services;
 using VE.BusinessLogicLayer.SharePoint;
 using VE.BusinessLogicLayer.Utilities;
@@ -38,10 +39,9 @@ namespace VE.UserInterface.Controllers
             var appVendorEnlistmentLogs = await new AppVendorEnlistmentLogsService().GetByCode(id);
             var loginUser = SharePointService.Instance.AuthUserInformation(User.Identity.Name);
             var employee = SharePointService.Instance.GetUserByEmail("BergerEmployeeInformation", loginUser.Email);
-            var workflowHelper = new WorkflowHelper();
-            var hod = workflowHelper.GetUserHod(loginUser.Email);
 
-            var actionEnabled = appProspectiveVendor.PendingWithUserId == loginUser.Email;
+            //var actionEnabled = (appProspectiveVendor.PendingWithUserId == loginUser.Email) or (appProspectiveVendor.Status != (int)Status.Completed);//TODO: Remove comment after Testing
+            var actionEnabled = appProspectiveVendor.Status != (int)Status.Completed;
 
             ViewBag.AppVendorEnlistmentLogs = appVendorEnlistmentLogs;
             ViewBag.AppProspectiveVendor = appProspectiveVendor;
@@ -147,52 +147,21 @@ namespace VE.UserInterface.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> SubmitAction(FormCollection formCollection)
         {
-            var appProspectiveVendorService = new AppProspectiveVendorsService();
-
             var appProspectiveVendorCode = formCollection["AppProspectiveVendorCode"];
             var submitValue = formCollection["submitBtn"];
+            var currentStatus = formCollection["CurrentStatus"];
             var comment = formCollection["Comment"];
 
             if (!Enum.TryParse(submitValue, out ApproverAction action))
                 return RedirectToAction("Index", new { id = appProspectiveVendorCode });
+
 
             switch (action)
             {
                 case ApproverAction.Submitted:
                     break;
                 case ApproverAction.Approved:
-                    const Status status = Status.VDTeamApproved; // TODO: Check the user role and set the status accordingly
-                    await appProspectiveVendorService.UpdateStatus(status, appProspectiveVendorCode);
-                    var employeeData = SharePointService.Instance.AuthUserInformation(User.Identity.Name);
-                    var appVendorEnlistmentLogsData = new AppVendorEnlistmentLogs
-                    {
-                        ProspectiveVendorId = 1,
-                        Code = appProspectiveVendorCode,
-                        Status = (int)status,
-                        Comment = comment,
-                        Action = action.ToString(),
-                        ActionById = employeeData.Email,
-                        CreatorId = employeeData.Email,
-                        CreationTime = DateTime.Now,
-                        LastModifierId = employeeData.Email,
-                        LastModificationTime = DateTime.Now
-                    };
-                    await new AppVendorEnlistmentLogsService().Insert(appVendorEnlistmentLogsData);
-
-                    var pendingApprovalList = new Dictionary<string, object>
-                    {
-                        {"Title", appProspectiveVendorCode},
-                        {"ProcessName", "Vendor Enlistment"},
-                        {"RequestedByName", employeeData.Title},
-                        {"Status", "Pending"},
-                        {"EmployeeID", employeeData.UserId.ToString()},
-                        {"RequestedByEmail", employeeData.Email},
-                        {"PendingWith", employeeData.UserId},
-                        {"RequestLink", "http://localhost:44317/Home/Details/" + appProspectiveVendorCode}
-                    };
-
-                    SharePointService.Instance.InsertItem("PendingApproval", pendingApprovalList);
-
+                    await ApprovarActionHandler.HandleApprove(User.Identity.Name, appProspectiveVendorCode, (Status)Enum.Parse(typeof(Status), currentStatus), comment);
                     break;
                 case ApproverAction.ChangeRequest:
                     break;

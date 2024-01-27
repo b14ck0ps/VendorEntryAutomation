@@ -88,26 +88,26 @@
             <label class="form-label fw-bold">Materials Lists:</label>
             <table class="table table-responsive" style="font-size: 13px">
                 <thead>
-                <tr style="border:1.5px;">
-                    <td>#</td>
-                    <td>Material Code</td>
-                    <td>Material Name</td>
-                </tr>
+                    <tr style="border:1.5px;">
+                        <td>#</td>
+                        <td>Material Code</td>
+                        <td>Material Name</td>
+                    </tr>
                 </thead>
                 <tbody>
-                @{
-                    var appProspectiveVendorMaterials = ViewBag.AppProspectiveVendorMaterials;
+                    @{
+                        var appProspectiveVendorMaterials = ViewBag.AppProspectiveVendorMaterials;
 
-                    for (var i = 0; i < appProspectiveVendorMaterials.Count; i++)
-                    {
-                        var item = appProspectiveVendorMaterials[i];
-                        <tr>
-                            <td>@(i + 1)</td>
-                            <td>@item.MaterialCode</td>
-                            <td>@item.MaterialName</td>
-                        </tr>
+                        for (var i = 0; i < appProspectiveVendorMaterials.Count; i++)
+                        {
+                            var item = appProspectiveVendorMaterials[i];
+                            <tr>
+                                <td>@(i + 1)</td>
+                                <td>@item.MaterialCode</td>
+                                <td>@item.MaterialName</td>
+                            </tr>
+                        }
                     }
-                }
                 </tbody>
             </table>
         </div>
@@ -122,6 +122,7 @@
             <div>
                 <div class="d-flex justify-content-between gap-5">
                     <input type="hidden" name="AppProspectiveVendorCode" value="@ViewBag.AppProspectiveVendor.Code" />
+                    <input type="hidden" name="CurrentStatus" value="@ViewBag.AppProspectiveVendor.Status" />
                     <button type="submit" name="submitBtn" value="@ApproverAction.Approved" class="btn btn-info">Approve</button>
                     <button type="submit" name="submitBtn" value="@ApproverAction.Approved" class="btn btn-danger">Reject</button>
                 </div>

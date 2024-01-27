@@ -42,7 +42,7 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DB\TestTableService.cs" />
+    <Compile Include="Handler\ApprovarActionHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\AppProspectiveVendorMaterialsService.cs" />
     <Compile Include="Services\AppProspectiveVendorsService.cs" />
