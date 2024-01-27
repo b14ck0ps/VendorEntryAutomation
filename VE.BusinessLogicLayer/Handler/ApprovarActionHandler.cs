@@ -10,7 +10,7 @@ namespace VE.BusinessLogicLayer.Handler
 {
     public class ApprovarActionHandler
     {
-        public static async Task<bool> HandleApprove(string loggedInUser, string appProspectiveVendorCode, Status currentStatus, string comment)
+        public static async Task<bool> HandleApprove(string loggedInUser, string appProspectiveVendorCode, Status currentStatus, string comment, string baseUrl)
         {
             try
             {
@@ -39,7 +39,7 @@ namespace VE.BusinessLogicLayer.Handler
 
                 SharePointService.Instance.UpdatePendingApprovalByTitle(appProspectiveVendorCode, nextApprover.Status.ToString(), nextApprover.PendingWithUserId);
 
-                EmailHandler.SendEmail(nextApprover.PendingWithUserEmail, nextApprover.PendingWithUserDisplayName, appProspectiveVendorCode, nextApprover.Status.ToString(), "https://localhost:44300/Home/Details/" + appProspectiveVendorCode);
+                EmailHandler.SendEmail(nextApprover.PendingWithUserEmail, nextApprover.PendingWithUserDisplayName, appProspectiveVendorCode, nextApprover.Status.ToString(), baseUrl + appProspectiveVendorCode);
 
                 return true;
             }

@@ -71,7 +71,10 @@ namespace VE.UserInterface.Controllers
         public async Task<ActionResult> SubmitForm(AppProspectiveVendors formData, string comment,
             List<string> SelectedMaterials)
         {
-            var code = await FormSubmissionHandler.HandleFormSubmission(User.Identity.Name, formData, comment, SelectedMaterials);
+            var urlBuilder = new UriBuilder(Request.Url.AbsoluteUri) { Path = Request.ApplicationPath, Query = null, Fragment = null };
+            var baseUrl = urlBuilder.ToString();
+
+            var code = await FormSubmissionHandler.HandleFormSubmission(User.Identity.Name, formData, comment, SelectedMaterials, baseUrl);
             return string.IsNullOrEmpty(code) ? RedirectToAction("Index") : RedirectToAction("Details", new { id = code });
         }
 
@@ -84,6 +87,9 @@ namespace VE.UserInterface.Controllers
             var currentStatus = formCollection["CurrentStatus"];
             var comment = formCollection["Comment"];
 
+            var urlBuilder = new UriBuilder(Request.Url.AbsoluteUri) { Path = Request.ApplicationPath, Query = null, Fragment = null };
+            var baseUrl = urlBuilder.ToString();
+
             if (!Enum.TryParse(submitValue, out ApproverAction action))
                 return RedirectToAction("Index", new { id = appProspectiveVendorCode });
 
@@ -93,7 +99,7 @@ namespace VE.UserInterface.Controllers
                 case ApproverAction.Submitted:
                     break;
                 case ApproverAction.Approved:
-                    await ApprovarActionHandler.HandleApprove(User.Identity.Name, appProspectiveVendorCode, (Status)Enum.Parse(typeof(Status), currentStatus), comment);
+                    await ApprovarActionHandler.HandleApprove(User.Identity.Name, appProspectiveVendorCode, (Status)Enum.Parse(typeof(Status), currentStatus), comment, baseUrl);
                     break;
                 case ApproverAction.ChangeRequest:
                     break;

@@ -12,7 +12,7 @@ namespace VE.BusinessLogicLayer.Handler
     public class FormSubmissionHandler
     {
         public static async Task<string> HandleFormSubmission(string loggedInUser, AppProspectiveVendors formData, string comment,
-            List<string> selectedMaterials)
+            List<string> selectedMaterials, string baseUrl)
         {
             var loginUser = SharePointService.Instance.AuthUserInformation(loggedInUser);
 
@@ -96,12 +96,12 @@ namespace VE.BusinessLogicLayer.Handler
                 { "EmployeeID", employeeData.UserId.ToString() },
                 { "RequestedByEmail", employeeData.Email },
                 { "PendingWith", hod.UserId.ToString() },
-                { "RequestLink", "http://localhost:44317/Home/Details/" + randomVendorCode }
+                { "RequestLink", baseUrl + randomVendorCode }
             };
 
             SharePointService.Instance.InsertItem("PendingApproval", pendingApprovalList);
 
-            EmailHandler.SendEmail(hod.Email, hod.Title, randomVendorCode, Status.Submitted.ToString(), "https://localhost:44300/Home/Details/" + randomVendorCode);
+            EmailHandler.SendEmail(hod.Email, hod.Title, randomVendorCode, Status.Submitted.ToString(), baseUrl + randomVendorCode);
 
             return randomVendorCode;
         }
