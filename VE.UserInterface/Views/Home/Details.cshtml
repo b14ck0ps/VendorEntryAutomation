@@ -1,0 +1,157 @@
+﻿@using VE.DataTransferObject.Enums;
+
+<form method="post" action="@Url.Action("SubmitAction", "Home")" class="mt-1">
+    @Html.AntiForgeryToken()
+    <section class="card card-header mb-2 mt-3">
+        <section>
+            <div>
+                <div class="row">
+                    <p class="fw-bold">Requestor Information</p>
+                </div>
+
+                <div class="row mb-1">
+                    <div class="col-md-4">Employee Name: @ViewBag.EmployeeData.EmployeeName </div>
+                    <div class="col-md-4">Employee ID: @ViewBag.EmployeeData.EmployeeId</div>
+                    <div class="col-md-4">Position: @ViewBag.EmployeeData.Designation</div>
+                </div>
+
+                <div class="row mb-1">
+                    <div class="col-md-4">Department: @ViewBag.EmployeeData.DeptName</div>
+                    <div class="col-md-4">Location: @ViewBag.EmployeeData.BusAreaName</div>
+                    <div class="col-md-4">Mobile: @ViewBag.EmployeeData.Mobile</div>
+                </div>
+
+                <div class="row mb-1">
+                    <div class="col-md-4">Email: @ViewBag.EmployeeData.Email</div>
+                    <div class="col-md-4">Grade: @ViewBag.EmployeeData.JobGrade</div>
+                </div>
+            </div>
+        </section>
+        <hr />
+        <section>
+            <p class="fw-bold">Vendor Automation Code: @ViewBag.AppProspectiveVendor.Code</p>
+            <div class="row mb-1">
+                <div class="col-md-4">
+                    <label for="VendorName" class="form-label">Vendor Name:</label>
+                    <span id="VendorName" class="form-text">@ViewBag.AppProspectiveVendor.VendorName</span>
+                </div>
+                <div class="col-md-4">
+                    <label for="Status" class="form-label">Status:</label>
+                    <span id="Status" class="form-text">@Enum.GetName(typeof(Status), @ViewBag.AppProspectiveVendor.Status) </span>
+                </div>
+                <div class="col-md-4">
+                    <label for="VendorEmail" class="form-label">Vendor Email:</label>
+                    <span id="VendorEmail" class="form-text">@ViewBag.AppProspectiveVendor.VendorEmail</span>
+                </div>
+            </div>
+
+            <div class="row mb-1">
+                <div class="col-md-4">
+                    <label for="ServiceDescription" class="form-label">Service Description:</label>
+                    <span id="ServiceDescription" class="form-text">@ViewBag.AppProspectiveVendor.ServiceDescription</span>
+                </div>
+                <div class="col-md-4">
+                    <label for="RequirementGeneral" class="form-label">Supplier General Request:</label>
+                    <span id="RequirementGeneral" class="form-text">@ViewBag.AppProspectiveVendor.RequirementGeneral</span>
+                </div>
+                <div class="col-md-4">
+                    <label for="RequirementOther" class="form-label">Supplier Other Request:</label>
+                    <span id="RequirementOther" class="form-text">@ViewBag.AppProspectiveVendor.RequirementOther</span>
+                </div>
+            </div>
+
+            <div class="row mb-1">
+                <div class="col-md-4">
+                    <label for="TypeOfSupplierId" class="form-label">Supplier Type:</label>
+                    <span id="TypeOfSupplierId" class="form-text">@ViewBag.AppProspectiveVendor.TypeOfSupplierId</span>
+                </div>
+                <div class="col-md-4">
+                    <label for="ExisitngSupplierCount" class="form-label">Existing Supplier Count:</label>
+                    <span id="ExisitngSupplierCount" class="form-text">@ViewBag.AppProspectiveVendor.ExisitngSupplierCount</span>
+                </div>
+                <div class="col-md-4">
+                    <label for="ExisitngSupplierProblem" class="form-label">Existing Supplier Problem:</label>
+                    <span id="ExisitngSupplierProblem" class="form-text">@ViewBag.AppProspectiveVendor.ExisitngSupplierProblem</span>
+                </div>
+            </div>
+
+            <div class="row mb-1">
+                <div class="col-md-4">
+                    <label for="NewSupplierAdditionReason" class="form-label">Supplier Add Reason:</label>
+                    <span id="NewSupplierAdditionReason" class="form-text">@ViewBag.AppProspectiveVendor.NewSupplierAdditionReason</span>
+                </div>
+            </div>
+        </section>
+    </section>
+    <section class="card card-body mb-3">
+        <div class="col-12">
+            <label class="form-label fw-bold">Materials Lists:</label>
+            <table class="table table-responsive" style="font-size: 13px">
+                <thead>
+                <tr style="border:1.5px;">
+                    <td>#</td>
+                    <td>Material Code</td>
+                    <td>Material Name</td>
+                </tr>
+                </thead>
+                <tbody>
+                @{
+                    var appProspectiveVendorMaterials = ViewBag.AppProspectiveVendorMaterials;
+
+                    for (var i = 0; i < appProspectiveVendorMaterials.Count; i++)
+                    {
+                        var item = appProspectiveVendorMaterials[i];
+                        <tr>
+                            <td>@(i + 1)</td>
+                            <td>@item.MaterialCode</td>
+                            <td>@item.MaterialName</td>
+                        </tr>
+                    }
+                }
+                </tbody>
+            </table>
+        </div>
+    </section>
+    @if (ViewBag.ActionEnabled)
+    {
+        <section class="card card-group justify-content-between p-3 mb-3 align-items-center">
+            <div class="d-flex align-items-center gap-3">
+                <label for="Comment" class="form-label">Comment:</label>
+                <input type="text" id="Comment" name="Comment" class="form-control no-padding" />
+            </div>
+            <div>
+                <div class="d-flex justify-content-between gap-5">
+                    <input type="hidden" name="AppProspectiveVendorCode" value="@ViewBag.AppProspectiveVendor.Code" />
+                    <button type="submit" name="submitBtn" value="@ApproverAction.Approved" class="btn btn-info">Approve</button>
+                    <button type="submit" name="submitBtn" value="@ApproverAction.Approved" class="btn btn-danger">Reject</button>
+                </div>
+            </div>
+        </section>
+    }
+</form>
+
+<section class="card card-text p-3">
+    <table class="table table-borderless">
+        <thead>
+            <tr>
+                <th>Status</th>
+                <th>Action</th>
+                <th>Action By ID</th>
+                <th>Comment</th>
+                <th>Creation Time</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in ViewBag.AppVendorEnlistmentLogs)
+            {
+                <tr>
+                    <td>@Enum.GetName(typeof(Status), item.Status)</td>
+                    <td>@item.Action</td>
+                    <td>@item.ActionById</td>
+                    <td>@item.Comment</td>
+                    <td>@item.CreationTime</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</section>

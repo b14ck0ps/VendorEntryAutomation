@@ -1,17 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using VE.DataAccessLayer;
 using VE.DataAccessLayer.Interface;
 using VE.DataTransferObject.Entities;
+using VE.DataTransferObject.Enums;
 
 namespace VE.BusinessLogicLayer.Services
 {
     public class AppProspectiveVendorsService
     {
-        private readonly IRepository<AppProspectiveVendors> _appProspectiveVendorsRepository;
+        private readonly IAppProspectiveVendorRepository _appProspectiveVendorsRepository;
 
         public AppProspectiveVendorsService()
         {
@@ -26,6 +24,16 @@ namespace VE.BusinessLogicLayer.Services
         public async Task<int> Insert(AppProspectiveVendors data)
         {
             return await _appProspectiveVendorsRepository.Insert(data);
+        }
+
+        public async Task<AppProspectiveVendors> GetByCode(string code)
+        {
+            return await _appProspectiveVendorsRepository.GetByCode(code);
+        }
+
+        public async Task<int> UpdateStatus(Status status, string code)
+        {
+            return await _appProspectiveVendorsRepository.UpdateStatus(code,status);
         }
     }
 }

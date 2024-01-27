@@ -1,8 +1,7 @@
-﻿using Microsoft.SharePoint.Client;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
+using Microsoft.SharePoint.Client;
 using VE.DataAccessLayer.Interface;
-
 
 namespace VE.DataAccessLayer.Repository
 {
@@ -41,6 +40,27 @@ namespace VE.DataAccessLayer.Repository
 
                 var itemList = listItem.ToList();
                 return itemList;
+            }
+        }
+
+        public void InsertItem(string listName, Dictionary<string, object> fieldValues)
+        {
+            using (var ctx = SpConnection.GetContext())
+            {
+                var web = ctx.Web;
+                var list = web.Lists.GetByTitle(listName);
+
+                var itemCreateInfo = new ListItemCreationInformation();
+                var newItem = list.AddItem(itemCreateInfo);
+
+                foreach (var fieldValue in fieldValues)
+                {
+                    newItem[fieldValue.Key] = fieldValue.Value;
+                }
+
+                newItem.Update();
+
+                ctx.ExecuteQuery();
             }
         }
     }

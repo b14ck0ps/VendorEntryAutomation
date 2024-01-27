@@ -7,7 +7,7 @@ namespace VE.DataAccessLayer
     internal class SpConnection
     {
         private const string Domain = "bergerbd";
-        private const string SpUrl = "https://portaldv2.bergerbd.com/leaveauto/";
+        private const string SpUrl = "https://portaldv.bergerbd.com/leaveauto/";
 
         public static ClientContext GetContext()
         {

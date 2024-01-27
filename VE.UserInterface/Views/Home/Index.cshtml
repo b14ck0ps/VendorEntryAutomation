@@ -1,10 +1,11 @@
-﻿@{
+﻿@using VE.DataTransferObject.SharePoint
+@{
     ViewBag.Title = "Home Page";
 }
 
 <main>
     @{
-        var EmployeeData = ViewBag.EmployeeData;
+        var EmployeeData = ViewBag.EmployeeData as UserInfo;
     }
 
     @if (EmployeeData != null)
@@ -20,10 +21,10 @@
                 <div class="col-md-4">Employee ID: <b>@EmployeeData.EmployeeId</b></div>
                 <div class="col-md-4">Position: <b>@EmployeeData.Designation</b></div>
             </div>
-            ,
+
             <div class="row mb-1" style="font-size: 12px;">
                 <div class="col-md-4">Department: <b>@EmployeeData.DeptName</b></div>
-                <div class="col-md-4">Location: <b>@EmployeeData.Location</b></div>
+                <div class="col-md-4">Location: <b>@EmployeeData.BusAreaName</b></div>
                 <div class="col-md-4">Mobile: <b>@EmployeeData.Mobile</b></div>
             </div>
 
@@ -31,6 +32,7 @@
                 <div class="col-md-4">Email: <b>@EmployeeData.Email</b></div>
                 <div class="col-md-4">Grade: <b>@EmployeeData.JobGrade</b></div>
             </div>
+
 
             <hr class="">
 
@@ -51,21 +53,36 @@
                         <label for="VendorEmail" class="form-label">Vendor Email:</label>
                         <input type="text" id="VendorEmail" name="VendorEmail" class="form-control" style="padding: 0px" required />
                     </div>
-                    
+                    <div class="col-md-4">
+                        <label for="SelectedMaterials" class="form-label">Select Materials:</label>
+                        <select id="SelectedMaterials" name="SelectedMaterials" multiple="multiple" class="form-control" style="width: 100%; padding: 6px;">
+                            @{
+                                var materialMaster = ViewBag.MaterialMaster;
+                                foreach (var item in materialMaster)
+                                {
+                                    var materialCode = item["MaterialCode"];
+                                    var materialName = item["MaterialName"];
+                                    var valueString = $"{materialCode}|{materialName}";
+
+                                    <option value="@valueString">@materialName</option>
+                                }
+                            }
+                        </select>
+                    </div>
                 </div>
 
-                 <div class="row mb-1" style="font-size: 12px;">
+                <div class="row mb-1" style="font-size: 12px;">
                     <div class="col-md-4">
-                        <label for="ServiceDescription" class="form-label" >Service Description:</label>
-                        <input type="text" id="ServiceDescription" name="ServiceDescription" class="form-control"  style="padding: 0px" required />
+                        <label for="ServiceDescription" class="form-label">Service Description:</label>
+                        <input type="text" id="ServiceDescription" name="ServiceDescription" class="form-control" style="padding: 0px" required />
                     </div>
                     <div class="col-md-4">
                         <label for="RequirementGeneral" class="form-label">Supplier General Request:</label>
-                        <input type="text" id="RequirementGeneral" name="RequirementGeneral" class="form-control"  style="padding: 0px" required />
+                        <input type="text" id="RequirementGeneral" name="RequirementGeneral" class="form-control" style="padding: 0px" required />
                     </div>
                     <div class="col-md-4">
-                        <label for="RequirementOther"  class="form-label">Supplier Other Request:</label>
-                        <input type="text" id="RequirementOther" name="RequirementOther" class="form-control"  style="padding: 0px" required />
+                        <label for="RequirementOther" class="form-label">Supplier Other Request:</label>
+                        <input type="text" id="RequirementOther" name="RequirementOther" class="form-control" style="padding: 0px" required />
                     </div>
                 </div>
 
@@ -74,8 +91,8 @@
                         <label for="TypeOfSupplierId" class="form-label">Supplier Type:</label>
                         <select id="TypeOfSupplierId" name="TypeOfSupplierId" class="form-control" style="padding: 0px" required>
                             <option value="0">---Select---</option>
-                            <option value="1">Local</option>
-                            <option value="2">International</option>
+                            <option value="Local">Local</option>
+                            <option value="International">International</option>
                         </select>
                     </div>
 
