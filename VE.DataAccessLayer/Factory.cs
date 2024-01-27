@@ -1,6 +1,5 @@
 ﻿using VE.DataAccessLayer.Interface;
 using VE.DataAccessLayer.Repository;
-using VE.DataTransferObject.DbTable;
 using VE.DataTransferObject.Entities;
 
 namespace VE.DataAccessLayer
@@ -15,11 +14,6 @@ namespace VE.DataAccessLayer
         public static ISharePointAuthenticationRepository GetSharePointAuthenticationRepository()
         {
             return new SharePointAuthenticationRepository();
-        }
-
-        public static IRepository<TestTable> GetTestTableRepository()
-        {
-            return new TestTableRepository();
         }
 
         public static IAppProspectiveVendorRepository GetAppProspectiveVendorsRepository()

@@ -63,5 +63,34 @@ namespace VE.DataAccessLayer.Repository
                 ctx.ExecuteQuery();
             }
         }
+        public void UpdateItemsByQuery(string listName, string camlQuery, Dictionary<string, object> fieldValues)
+        {
+            using (var ctx = SpConnection.GetContext())
+            {
+                var web = ctx.Web;
+                var list = web.Lists.GetByTitle(listName);
+
+                var caml = new CamlQuery();
+                caml.ViewXml = camlQuery;
+
+                var items = list.GetItems(caml);
+
+                ctx.Load(items);
+                ctx.ExecuteQuery();
+
+                foreach (var item in items)
+                {
+                    foreach (var fieldValue in fieldValues)
+                    {
+                        item[fieldValue.Key] = fieldValue.Value;
+                    }
+
+                    item.Update();
+                }
+
+                ctx.ExecuteQuery();
+            }
+        }
+
     }
 }
