@@ -38,6 +38,8 @@ namespace VE.UserInterface.Controllers
             var appVendorEnlistmentLogs = await new AppVendorEnlistmentLogsService().GetByCode(id);
             var loginUser = SharePointService.Instance.AuthUserInformation(User.Identity.Name);
             var employee = SharePointService.Instance.GetUserByEmail("BergerEmployeeInformation", loginUser.Email);
+            var workflowHelper = new WorkflowHelper();
+            var hod = workflowHelper.GetUserHod(loginUser.Email);
 
             var actionEnabled = appProspectiveVendor.PendingWithUserId == loginUser.Email;
 
@@ -59,18 +61,10 @@ namespace VE.UserInterface.Controllers
         {
             var loginUser = SharePointService.Instance.AuthUserInformation(User.Identity.Name);
             ViewBag.LoginUser = loginUser;
-            var authUserInfo = SharePointService.Instance.GetUserByEmail("BergerEmployeeInformation", loginUser.Email);
-            var approverInfo = SharePointService.Instance.GetAllItemsFromList("Approver Info");
+
             var employeeData = SharePointService.Instance.AuthUserInformation(User.Identity.Name);
-            var matchingDeptInfo = approverInfo
-                .Cast<dynamic>()
-                .FirstOrDefault(approver => approver["DeptID"] == authUserInfo.DeptId);
-
-            var location = matchingDeptInfo["Location"];
-            var department = matchingDeptInfo["Department"];
-            var hod = ((FieldUserValue)matchingDeptInfo["HOD"]).Email;
-
-            // Generate a random vendor code
+            var workflowHelper = new WorkflowHelper();
+            var hod = workflowHelper.GetUserHod(loginUser.Email);
             var randomVendorCode = "VE-" + CodeGenerator.GenerateRandomCode();
 
 
@@ -95,7 +89,7 @@ namespace VE.UserInterface.Controllers
                 LastModifierId = employeeData.Email,
                 LastModificationTime = DateTime.Now,
                 IsDeleted = false,
-                PendingWithUserId = hod,
+                PendingWithUserId = hod.UserId.ToString(),
                 IsIncludedIntoSAP = false
             };
 
@@ -119,7 +113,6 @@ namespace VE.UserInterface.Controllers
                     LastModifierId = employeeData.Email,
                     LastModificationTime = DateTime.Now
                 };
-                var resultMaterial = 0;
                 foreach (var material in SelectedMaterials)
                 {
                     var appProspectiveVendorMaterial = new AppProspectiveVendorMaterials
@@ -134,7 +127,7 @@ namespace VE.UserInterface.Controllers
                         VendorCode = randomVendorCode
                     };
                     var appProspectiveVendorMaterialsService = new AppProspectiveVendorMaterialsService();
-                    resultMaterial = await appProspectiveVendorMaterialsService.Insert(appProspectiveVendorMaterial);
+                    await appProspectiveVendorMaterialsService.Insert(appProspectiveVendorMaterial);
                 }
 
 

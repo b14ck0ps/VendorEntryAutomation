@@ -45,6 +45,7 @@
     <Compile Include="Enums\ApproverAction.cs" />
     <Compile Include="Enums\Status.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SharePoint\PendingApprovalInfo.cs" />
     <Compile Include="SharePoint\SpAuthUserInformation.cs" />
     <Compile Include="SharePoint\UserInfo.cs" />
   </ItemGroup>

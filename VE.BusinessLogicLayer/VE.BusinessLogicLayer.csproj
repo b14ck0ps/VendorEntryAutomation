@@ -31,6 +31,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.CSharp" />
     <Reference Include="Microsoft.SharePoint.Client">
       <HintPath>..\SpDependency\Microsoft.SharePoint.Client.dll</HintPath>
     </Reference>
@@ -50,6 +51,7 @@
     <Compile Include="Services\VendorEnlistmentService.cs" />
     <Compile Include="SharePoint\SharePointService.cs" />
     <Compile Include="Utilities\CodeGenerator.cs" />
+    <Compile Include="Utilities\WorkflowHelper.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\VE.DataAccessLayer\VE.DataAccessLayer.csproj">
