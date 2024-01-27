@@ -96,12 +96,12 @@ namespace VE.BusinessLogicLayer.Handler
                 { "EmployeeID", employeeData.UserId.ToString() },
                 { "RequestedByEmail", employeeData.Email },
                 { "PendingWith", hod.UserId.ToString() },
-                { "RequestLink", baseUrl + randomVendorCode }
+                { "RequestLink", $"{baseUrl}/Home/Details/{randomVendorCode}" }
             };
 
             SharePointService.Instance.InsertItem("PendingApproval", pendingApprovalList);
 
-            EmailHandler.SendEmail(hod.Email, hod.Title, randomVendorCode, Status.Submitted.ToString(), baseUrl + randomVendorCode);
+            EmailHandler.SendEmail(hod.Email, hod.Title, randomVendorCode, Status.Submitted.ToString(), $"{baseUrl}/Home/Details/{randomVendorCode}");
 
             return randomVendorCode;
         }
