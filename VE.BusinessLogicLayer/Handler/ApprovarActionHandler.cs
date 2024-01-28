@@ -39,7 +39,7 @@ namespace VE.BusinessLogicLayer.Handler
 
                 SharePointService.Instance.UpdatePendingApprovalByTitle(appProspectiveVendorCode, nextApprover.Status.ToString(), nextApprover.PendingWithUserId);
 
-                EmailHandler.SendEmail(nextApprover.PendingWithUserEmail, nextApprover.PendingWithUserDisplayName, appProspectiveVendorCode, nextApprover.Status.ToString(), $"{baseUrl}/Home/Details/{appProspectiveVendorCode}");
+                EmailHandler.SendEmail(nextApprover.PendingWithUserEmail, nextApprover.PendingWithUserDisplayName, appProspectiveVendorCode, nextApprover.Status.ToString(), $"{baseUrl}Home/Details/{appProspectiveVendorCode}");
 
                 return true;
             }
