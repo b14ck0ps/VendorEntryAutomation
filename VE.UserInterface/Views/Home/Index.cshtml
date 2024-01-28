@@ -13,69 +13,63 @@
     @if (EmployeeData != null)
     {
         <div class="container">
-            <div class="row">
-                <h5 class=" ">Requestor Information</h5>
-                <hr class=" ">
-            </div>
+            <section class="card card-header">
+                <div class="row">
+                    <h5>Requestor Information</h5>
+                </div>
 
-            <div class="row mb-1" style="font-size: 12px;">
-                <div class="col-md-4">Employee Name: <b> @EmployeeData.EmployeeName </b></div>
-                <div class="col-md-4">Employee ID: <b>@EmployeeData.EmployeeId</b></div>
-                <div class="col-md-4">Position: <b>@EmployeeData.Designation</b></div>
-            </div>
+                <div class="row mb-1" style="font-size: 12px;">
+                    <div class="col-md-4">Employee Name: <b> @EmployeeData.EmployeeName </b></div>
+                    <div class="col-md-4">Employee ID: <b>@EmployeeData.EmployeeId</b></div>
+                    <div class="col-md-4">Position: <b>@EmployeeData.Designation</b></div>
+                </div>
 
-            <div class="row mb-1" style="font-size: 12px;">
-                <div class="col-md-4">Department: <b>@EmployeeData.DeptName</b></div>
-                <div class="col-md-4">Location: <b>@EmployeeData.BusAreaName</b></div>
-                <div class="col-md-4">Mobile: <b>@EmployeeData.Mobile</b></div>
-            </div>
+                <div class="row mb-1" style="font-size: 12px;">
+                    <div class="col-md-4">Department: <b>@EmployeeData.DeptName</b></div>
+                    <div class="col-md-4">Location: <b>@EmployeeData.BusAreaName</b></div>
+                    <div class="col-md-4">Mobile: <b>@EmployeeData.Mobile</b></div>
+                </div>
 
-            <div class="row mb-1" style="font-size: 12px;">
-                <div class="col-md-4">Email: <b>@EmployeeData.Email</b></div>
-                <div class="col-md-4">Grade: <b>@EmployeeData.JobGrade</b></div>
-            </div>
+                <div class="row mb-1" style="font-size: 12px;">
+                    <div class="col-md-4">Email: <b>@EmployeeData.Email</b></div>
+                    <div class="col-md-4">Grade: <b>@EmployeeData.JobGrade</b></div>
+                </div>
+            </section>
 
-
-            <hr class="">
-
-            <div class="row">
-                <h5 class="">Requestor Form</h5>
-                <hr class="">
-            </div>
-
-            <form method="post" action="@Url.Action("SubmitForm", "Home")" class="mt-1">
+            <form method="post" action="@Url.Action("SubmitForm", "Home")" class="mt-1 card card-header ">
                 @Html.AntiForgeryToken()
+                <h5>Requestor Form</h5>
 
                 <div class="row mb-1" style="font-size: 12px;">
                     <div class="col-md-4">
                         <label for="VendorName" class="form-label">Vendor Name:</label>
-                        <input type="text" id="VendorName" name="VendorName" class="form-control" style="padding: 0px" />
+                        <input type="text" id="VendorName" name="VendorName" class="form-control" />
                     </div>
                     <div class="col-md-4">
                         <label for="VendorEmail" class="form-label">Vendor Email:</label>
-                        <input type="text" id="VendorEmail" name="VendorEmail" class="form-control" style="padding: 0px" />
+                        <input type="text" id="VendorEmail" name="VendorEmail" class="form-control" />
                     </div>
                     <div class="col-md-4">
                         <label for="ServiceDescription" class="form-label">Service Description:</label>
-                        <input type="text" id="ServiceDescription" name="ServiceDescription" class="form-control" style="padding: 0px" />
+                        <input type="text" id="ServiceDescription" name="ServiceDescription" class="form-control" />
                     </div>
                 </div>
 
                 <div class="row mb-1" style="font-size: 12px;">
                     <div class="col-md-4">
                         <label for="RequirementGeneral" class="form-label">Supplier General Request:</label>
-                        <input type="text" id="RequirementGeneral" name="RequirementGeneral" class="form-control" style="padding: 0px" />
+                        <input type="text" id="RequirementGeneral" name="RequirementGeneral" class="form-control" />
                     </div>
                     <div class="col-md-4">
                         <label for="RequirementOther" class="form-label">Supplier Other Request:</label>
-                        <input type="text" id="RequirementOther" name="RequirementOther" class="form-control" style="padding: 0px" />
+                        <input type="text" id="RequirementOther" name="RequirementOther" class="form-control" />
                     </div>
                     <div class="col-md-4">
                         <label for="TypeOfSupplierId" class="form-label">Supplier Type:</label>
-                        <select id="TypeOfSupplierId" name="TypeOfSupplierId" class="form-control" style="padding: 0px">
+                        <select id="TypeOfSupplierId" name="TypeOfSupplierId" class="form-control">
                             <option value="0">---Select---</option>
-                            <option value="Local">Local</option>
-                            <option value="International">International</option>
+                            <option value="1">Local</option>
+                            <option value="2">International</option>
                         </select>
                     </div>
                 </div>
@@ -83,19 +77,18 @@
                 <div class="row mb-1" style="font-size: 12px;">
                     <div class="col-md-4">
                         <label for="ExisitngSupplierCount" class="form-label">Existing Supplier Count:</label>
-                        <input type="text" id="ExisitngSupplierCount" name="ExisitngSupplierCount" class="form-control" style="padding: 0px" />
+                        <input type="text" id="ExisitngSupplierCount" name="ExisitngSupplierCount" class="form-control" />
                     </div>
                     <div class="col-md-4">
                         <label for="ExisitngSupplierProblem" class="form-label">Existing Supplier Problem:</label>
-                        <input type="text" id="ExisitngSupplierProblem" name="ExisitngSupplierProblem" class="form-control" style="padding: 0px" />
+                        <input type="text" id="ExisitngSupplierProblem" name="ExisitngSupplierProblem" class="form-control" />
                     </div>
                     <div class="col-md-4">
                         <label for="NewSupplierAdditionReason" class="form-label">Supplier Add Reason:</label>
-                        <input type="text" id="NewSupplierAdditionReason" name="NewSupplierAdditionReason" class="form-control" style="padding: 0px" />
+                        <input type="text" id="NewSupplierAdditionReason" name="NewSupplierAdditionReason" class="form-control" />
                     </div>
                 </div>
 
-                <hr />
 
                 <!-- Modal -->
                 <div class="modal fade" id="myModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -125,7 +118,7 @@
                                                 <tr>
                                                     <td>@materialCode</td>
                                                     <td>@materialName</td>
-                                                    <td><button type="button" class="btn btn-success add-material-btn" data-value="@valueString">Add</button></td>
+                                                    <td><button type="button" class="btn btn-outline-info btn-sm add-material-btn" data-value="@valueString">Add</button></td>
                                                 </tr>
                                             }
                                         }
@@ -136,12 +129,11 @@
                     </div>
                 </div>
 
-                <section class="card card-body mb-3">
+                <section class="card card-body m-auto w-75 mb-3 mt-3">
                     <div class="d-flex justify-content-end align-content-center">
-                        <button class="btn btn-primary" type="button" id="addItemBtn" data-bs-toggle="modal" data-bs-target="#myModal">Add Item</button>
+                        <button class="btn btn-outline-primary btn-sm" type="button" id="addItemBtn" data-bs-toggle="modal" data-bs-target="#myModal">Add Material</button>
                     </div>
                     <div class="col-12">
-                        <label class="form-label fw-bold">Materials Lists:</label>
                         <table id="materials" class="table table-responsive" style="font-size: 13px">
                             <thead>
                                 <tr style="border:1.5px;">
@@ -158,15 +150,12 @@
                 </section>
                 <hr />
 
-                <div class="row mb-1" style="font-size: 12px;">
-                    <div class="col-md-4">
+                <div class="d-flex mb-1 align-items-end justify-content-between" style="font-size: 12px;">
+                    <div>
                         <label for="Comment" class="form-label">Comment:</label>
-                        <input type="text" id="Comment" name="Comment" class="form-control no-padding" />
+                        <textarea type="text" id="Comment" name="Comment" class="form-control no-padding">  </textarea>
                     </div>
-                </div>
-
-                <div class="row mt-4">
-                    <div class="col-md-4">
+                    <div>
                         <button type="submit" class="btn btn-primary">Submit</button>
                     </div>
                 </div>

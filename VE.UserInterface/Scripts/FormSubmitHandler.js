@@ -9,7 +9,7 @@
         var row = $('<tr>').attr('id', materialCode)
             .append($('<td>').text(materialCode))
             .append($('<td>').text(materialName))
-            .append($('<td>').append(
+            .append(
                 $('<input>').attr({
                     type: 'hidden',
                     id: materialCode,
@@ -17,7 +17,7 @@
                     class: 'form-control material-input',
                     value: materialCode + '|' + materialName
                 })
-            ))
+            )
             .append($('<td>').append(
                 $('<button>').addClass('btn btn-danger remove-material-btn').attr('data-code', materialCode).text('Remove')
             ));
