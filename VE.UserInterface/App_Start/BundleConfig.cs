@@ -19,12 +19,11 @@ namespace VE.UserInterface
                 "~/Scripts/modernizr-*"));
 
             bundles.Add(new Bundle("~/bundles/bootstrap").Include(
-                "~/Scripts/bootstrap.js"));
+                "~/Scripts/bootstrap.js", "~/Scripts/jquery.dataTables.min.js"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                 "~/Content/bootstrap.css",
-                "~/Content/site.css","~/Content/Loader.css"
-                ));
+                "~/Content/site.css", "~/Content/Loader.css", "~/Content/jquery.dataTables.min.css"));
         }
     }
 }
