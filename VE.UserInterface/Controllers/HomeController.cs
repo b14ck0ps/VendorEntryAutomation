@@ -18,7 +18,7 @@ namespace VE.UserInterface.Controllers
             var loginUser = SharePointService.Instance.AuthUserInformation(User.Identity.Name);
             ViewBag.LoginUser = loginUser;
             var employee = SharePointService.Instance.GetUserByEmail("BergerEmployeeInformation", loginUser.Email);
-            var materialMaster = SharePointService.Instance.GetAllItemsFromList("MaterialMasterTest"); //TODO: Change to MaterialMaster
+            var materialMaster = SharePointService.Instance.GetAllItemsFromList("MaterialMaster");
 
             ViewBag.MaterialMaster = materialMaster;
             ViewBag.EmployeeData = employee;
