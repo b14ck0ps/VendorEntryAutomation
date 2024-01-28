@@ -2,7 +2,9 @@
 @{
     ViewBag.Title = "Home Page";
 }
-
+<div class="loader-container">
+    <div class="loader"></div>
+</div>
 <main>
     @{
         var EmployeeData = ViewBag.EmployeeData as UserInfo;
@@ -224,7 +226,7 @@
 
             $('form').submit(function (event) {
                 event.preventDefault();
-
+                $(".loader-container").show();
                 var selectedMaterials = getAllMaterialInputs();
                 var formData = new FormData(this);
                 formData.append('VendorName', $('#VendorName').val());
@@ -251,7 +253,9 @@
                         }
                     },
                     error: function (error) {
-                        console.error(error);
+                        $(".loader-container").show();
+                        alert('Error occured while submitting the form. Please try again later.');
+                        console.log(error);
                     }
                 });
             });
