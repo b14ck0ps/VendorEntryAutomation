@@ -7,7 +7,7 @@ namespace VE.DataAccessLayer.Repository
     {
         public User AuthUserInformation(string windowsUsername)
         {
-            //windowsUsername = "BERGERBD\\azran"; //TODO: use windowsUsername, not hard-coded value
+            windowsUsername = "BERGERBD\\azran"; //TODO: use windowsUsername, not hard-coded value
             using (var ctx = SpConnection.GetContext())
             {
                 var spUser = ctx.Web.EnsureUser(windowsUsername);

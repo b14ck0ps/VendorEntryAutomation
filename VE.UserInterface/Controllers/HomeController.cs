@@ -1,5 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Newtonsoft.Json;
+using System;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using VE.BusinessLogicLayer.Handler;
@@ -18,7 +18,7 @@ namespace VE.UserInterface.Controllers
             var loginUser = SharePointService.Instance.AuthUserInformation(User.Identity.Name);
             ViewBag.LoginUser = loginUser;
             var employee = SharePointService.Instance.GetUserByEmail("BergerEmployeeInformation", loginUser.Email);
-            var materialMaster = SharePointService.Instance.GetAllItemsFromList("MaterialMaster");
+            var materialMaster = SharePointService.Instance.GetAllItemsFromList("MaterialMasterTest"); //TODO: Change to MaterialMaster
 
             ViewBag.MaterialMaster = materialMaster;
             ViewBag.EmployeeData = employee;
@@ -67,15 +67,15 @@ namespace VE.UserInterface.Controllers
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public async Task<ActionResult> SubmitForm(AppProspectiveVendors formData, string comment,
-            List<string> SelectedMaterials)
+            string SelectedMaterials)
         {
             var urlBuilder = new UriBuilder(Request.Url.AbsoluteUri) { Path = Request.ApplicationPath, Query = null, Fragment = null };
             var baseUrl = urlBuilder.ToString();
+            var selectedMaterialsArray = JsonConvert.DeserializeObject<string[]>(SelectedMaterials);
 
-            var code = await FormSubmissionHandler.HandleFormSubmission(User.Identity.Name, formData, comment, SelectedMaterials, baseUrl);
-            return string.IsNullOrEmpty(code) ? RedirectToAction("Index") : RedirectToAction("Details", new { id = code });
+            var code = await FormSubmissionHandler.HandleFormSubmission(User.Identity.Name, formData, comment, selectedMaterialsArray, baseUrl);
+            return Json(new { code = code });
         }
 
         [HttpPost]

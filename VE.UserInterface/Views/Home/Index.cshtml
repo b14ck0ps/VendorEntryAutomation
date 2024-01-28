@@ -47,75 +47,119 @@
                 <div class="row mb-1" style="font-size: 12px;">
                     <div class="col-md-4">
                         <label for="VendorName" class="form-label">Vendor Name:</label>
-                        <input type="text" id="VendorName" name="VendorName" class="form-control" style="padding: 0px" required />
+                        <input type="text" id="VendorName" name="VendorName" class="form-control" style="padding: 0px" />
                     </div>
                     <div class="col-md-4">
                         <label for="VendorEmail" class="form-label">Vendor Email:</label>
-                        <input type="text" id="VendorEmail" name="VendorEmail" class="form-control" style="padding: 0px" required />
+                        <input type="text" id="VendorEmail" name="VendorEmail" class="form-control" style="padding: 0px" />
                     </div>
                     <div class="col-md-4">
-                        <label for="SelectedMaterials" class="form-label">Select Materials:</label>
-                        <select id="SelectedMaterials" name="SelectedMaterials" multiple="multiple" class="form-control" style="width: 100%; padding: 6px;">
-                            @{
-                                var materialMaster = ViewBag.MaterialMaster;
-                                foreach (var item in materialMaster)
-                                {
-                                    var materialCode = item["MaterialCode"];
-                                    var materialName = item["MaterialName"];
-                                    var valueString = $"{materialCode}|{materialName}";
-
-                                    <option value="@valueString">@materialName</option>
-                                }
-                            }
-                        </select>
+                        <label for="ServiceDescription" class="form-label">Service Description:</label>
+                        <input type="text" id="ServiceDescription" name="ServiceDescription" class="form-control" style="padding: 0px" />
                     </div>
                 </div>
 
                 <div class="row mb-1" style="font-size: 12px;">
                     <div class="col-md-4">
-                        <label for="ServiceDescription" class="form-label">Service Description:</label>
-                        <input type="text" id="ServiceDescription" name="ServiceDescription" class="form-control" style="padding: 0px" required />
-                    </div>
-                    <div class="col-md-4">
                         <label for="RequirementGeneral" class="form-label">Supplier General Request:</label>
-                        <input type="text" id="RequirementGeneral" name="RequirementGeneral" class="form-control" style="padding: 0px" required />
+                        <input type="text" id="RequirementGeneral" name="RequirementGeneral" class="form-control" style="padding: 0px" />
                     </div>
                     <div class="col-md-4">
                         <label for="RequirementOther" class="form-label">Supplier Other Request:</label>
-                        <input type="text" id="RequirementOther" name="RequirementOther" class="form-control" style="padding: 0px" required />
+                        <input type="text" id="RequirementOther" name="RequirementOther" class="form-control" style="padding: 0px" />
                     </div>
-                </div>
-
-                <div class="row mb-1" style="font-size: 12px;">
                     <div class="col-md-4">
                         <label for="TypeOfSupplierId" class="form-label">Supplier Type:</label>
-                        <select id="TypeOfSupplierId" name="TypeOfSupplierId" class="form-control" style="padding: 0px" required>
+                        <select id="TypeOfSupplierId" name="TypeOfSupplierId" class="form-control" style="padding: 0px">
                             <option value="0">---Select---</option>
                             <option value="Local">Local</option>
                             <option value="International">International</option>
                         </select>
                     </div>
+                </div>
 
+                <div class="row mb-1" style="font-size: 12px;">
                     <div class="col-md-4">
                         <label for="ExisitngSupplierCount" class="form-label">Existing Supplier Count:</label>
-                        <input type="text" id="ExisitngSupplierCount" name="ExisitngSupplierCount" class="form-control" style="padding: 0px" required />
+                        <input type="text" id="ExisitngSupplierCount" name="ExisitngSupplierCount" class="form-control" style="padding: 0px" />
                     </div>
                     <div class="col-md-4">
                         <label for="ExisitngSupplierProblem" class="form-label">Existing Supplier Problem:</label>
-                        <input type="text" id="ExisitngSupplierProblem" name="ExisitngSupplierProblem" class="form-control" style="padding: 0px" required />
+                        <input type="text" id="ExisitngSupplierProblem" name="ExisitngSupplierProblem" class="form-control" style="padding: 0px" />
                     </div>
-                </div>
-                <div class="row mb-1" style="font-size: 12px;">
                     <div class="col-md-4">
                         <label for="NewSupplierAdditionReason" class="form-label">Supplier Add Reason:</label>
-                        <input type="text" id="NewSupplierAdditionReason" name="NewSupplierAdditionReason" class="form-control" style="padding: 0px" required />
+                        <input type="text" id="NewSupplierAdditionReason" name="NewSupplierAdditionReason" class="form-control" style="padding: 0px" />
                     </div>
                 </div>
+
+                <hr />
+
+                <!-- Modal -->
+                <div class="modal fade" id="myModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Select Material</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <table class="table" id="materialTable">
+                                    <thead>
+                                        <tr>
+                                            <th>Material Code</th>
+                                            <th>Material Name</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @{
+                                            foreach (var item in ViewBag.MaterialMaster)
+                                            {
+                                                var materialCode = item["MaterialCode"];
+                                                var materialName = item["MaterialName"];
+                                                var valueString = $"{materialCode}|{materialName}";
+
+                                                <tr>
+                                                    <td>@materialCode</td>
+                                                    <td>@materialName</td>
+                                                    <td><button type="button" class="btn btn-success add-material-btn" data-value="@valueString">Add</button></td>
+                                                </tr>
+                                            }
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <section class="card card-body mb-3">
+                    <div class="d-flex justify-content-end align-content-center">
+                        <button class="btn btn-primary" type="button" id="addItemBtn" data-bs-toggle="modal" data-bs-target="#myModal">Add Item</button>
+                    </div>
+                    <div class="col-12">
+                        <label class="form-label fw-bold">Materials Lists:</label>
+                        <table id="materials" class="table table-responsive" style="font-size: 13px">
+                            <thead>
+                                <tr style="border:1.5px;">
+                                    <td>Material Code</td>
+                                    <td>Material Name</td>
+                                    <td>Action</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Rows will be added here dynamically -->
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+                <hr />
 
                 <div class="row mb-1" style="font-size: 12px;">
                     <div class="col-md-4">
                         <label for="Comment" class="form-label">Comment:</label>
-                        <input type="text" id="Comment" name="Comment" class="form-control no-padding" required />
+                        <input type="text" id="Comment" name="Comment" class="form-control no-padding" />
                     </div>
                 </div>
 
@@ -135,3 +179,82 @@
         </div>
     }
 </main>
+
+@section scripts
+{
+    <script>
+        $(document).ready(function () {
+            $('.add-material-btn').on('click', function () {
+                var valueString = $(this).data('value');
+                var materialCode = valueString.split('|')[0];
+                var materialName = valueString.split('|')[1];
+
+                $('#myModal').modal('hide');
+
+                var row = $('<tr>').attr('id', materialCode)
+                    .append($('<td>').text(materialCode))
+                    .append($('<td>').text(materialName))
+                    .append($('<td>').append(
+                        $('<input>').attr({
+                            type: 'hidden',
+                            id: materialCode,
+                            name: materialCode,
+                            class: 'form-control material-input',
+                            value: materialCode + '|' + materialName
+                        })
+                    ))
+                    .append($('<td>').append(
+                        $('<button>').addClass('btn btn-danger remove-material-btn').attr('data-code', materialCode).text('Remove')
+                    ));
+                $('#materials tbody').append(row);
+
+                $('.remove-material-btn').on('click', function () {
+                    var codeToRemove = $(this).data('code');
+                    $('#' + codeToRemove).remove();
+                });
+            });
+
+            function getAllMaterialInputs() {
+                var materialInputs = [];
+                $('.material-input').each(function () {
+                    materialInputs.push($(this).val());
+                });
+                return materialInputs;
+            }
+
+            $('form').submit(function (event) {
+                event.preventDefault();
+
+                var selectedMaterials = getAllMaterialInputs();
+                var formData = new FormData(this);
+                formData.append('VendorName', $('#VendorName').val());
+                formData.append('VendorEmail', $('#VendorEmail').val());
+                formData.append('ServiceDescription', $('#ServiceDescription').val());
+                formData.append('RequirementGeneral', $('#RequirementGeneral').val());
+                formData.append('RequirementOther', $('#RequirementOther').val());
+                formData.append('TypeOfSupplierId', $('#TypeOfSupplierId').val());
+                formData.append('ExisitngSupplierCount', $('#ExisitngSupplierCount').val());
+                formData.append('ExisitngSupplierProblem', $('#ExisitngSupplierProblem').val());
+                formData.append('NewSupplierAdditionReason', $('#NewSupplierAdditionReason').val());
+                formData.append('Comment', $('#Comment').val());
+                formData.append('SelectedMaterials', JSON.stringify(selectedMaterials));
+                $.ajax({
+                    url: '/Home/SubmitForm',
+                    type: 'POST',
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    success: function (response) {
+                        if (response && response.code) {
+                            var redirectUrl = response.code ? '/Home/Details/' + response.code : 'Home/Index';
+                            window.location.href = redirectUrl;
+                        }
+                    },
+                    error: function (error) {
+                        console.error(error);
+                    }
+                });
+            });
+        });
+    </script>
+}

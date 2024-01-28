@@ -12,7 +12,7 @@ namespace VE.BusinessLogicLayer.Handler
     public class FormSubmissionHandler
     {
         public static async Task<string> HandleFormSubmission(string loggedInUser, AppProspectiveVendors formData, string comment,
-            List<string> selectedMaterials, string baseUrl)
+            string[] selectedMaterials, string baseUrl)
         {
             var loginUser = SharePointService.Instance.AuthUserInformation(loggedInUser);
 
