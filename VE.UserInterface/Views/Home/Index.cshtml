@@ -2,7 +2,9 @@
 @{
     ViewBag.Title = "Home Page";
 }
-
+<div class="loader-container">
+    <div class="loader"></div>
+</div>
 <main>
     @{
         var EmployeeData = ViewBag.EmployeeData as UserInfo;
@@ -11,116 +13,149 @@
     @if (EmployeeData != null)
     {
         <div class="container">
-            <div class="row">
-                <h5 class=" ">Requestor Information</h5>
-                <hr class=" ">
-            </div>
+            <section class="card card-header">
+                <div class="row">
+                    <h5>Requestor Information</h5>
+                </div>
 
-            <div class="row mb-1" style="font-size: 12px;">
-                <div class="col-md-4">Employee Name: <b> @EmployeeData.EmployeeName </b></div>
-                <div class="col-md-4">Employee ID: <b>@EmployeeData.EmployeeId</b></div>
-                <div class="col-md-4">Position: <b>@EmployeeData.Designation</b></div>
-            </div>
+                <div class="row mb-1" style="font-size: 12px;">
+                    <div class="col-md-4">Employee Name: <b> @EmployeeData.EmployeeName </b></div>
+                    <div class="col-md-4">Employee ID: <b>@EmployeeData.EmployeeId</b></div>
+                    <div class="col-md-4">Position: <b>@EmployeeData.Designation</b></div>
+                </div>
 
-            <div class="row mb-1" style="font-size: 12px;">
-                <div class="col-md-4">Department: <b>@EmployeeData.DeptName</b></div>
-                <div class="col-md-4">Location: <b>@EmployeeData.BusAreaName</b></div>
-                <div class="col-md-4">Mobile: <b>@EmployeeData.Mobile</b></div>
-            </div>
+                <div class="row mb-1" style="font-size: 12px;">
+                    <div class="col-md-4">Department: <b>@EmployeeData.DeptName</b></div>
+                    <div class="col-md-4">Location: <b>@EmployeeData.BusAreaName</b></div>
+                    <div class="col-md-4">Mobile: <b>@EmployeeData.Mobile</b></div>
+                </div>
 
-            <div class="row mb-1" style="font-size: 12px;">
-                <div class="col-md-4">Email: <b>@EmployeeData.Email</b></div>
-                <div class="col-md-4">Grade: <b>@EmployeeData.JobGrade</b></div>
-            </div>
+                <div class="row mb-1" style="font-size: 12px;">
+                    <div class="col-md-4">Email: <b>@EmployeeData.Email</b></div>
+                    <div class="col-md-4">Grade: <b>@EmployeeData.JobGrade</b></div>
+                </div>
+            </section>
 
-
-            <hr class="">
-
-            <div class="row">
-                <h5 class="">Requestor Form</h5>
-                <hr class="">
-            </div>
-
-            <form method="post" action="@Url.Action("SubmitForm", "Home")" class="mt-1">
+            <form method="post" action="@Url.Action("SubmitForm", "Home")" class="mt-1 card card-header ">
                 @Html.AntiForgeryToken()
+                <h5>Requestor Form</h5>
 
                 <div class="row mb-1" style="font-size: 12px;">
                     <div class="col-md-4">
                         <label for="VendorName" class="form-label">Vendor Name:</label>
-                        <input type="text" id="VendorName" name="VendorName" class="form-control" style="padding: 0px" required />
+                        <input type="text" id="VendorName" name="VendorName" class="form-control" />
                     </div>
                     <div class="col-md-4">
                         <label for="VendorEmail" class="form-label">Vendor Email:</label>
-                        <input type="text" id="VendorEmail" name="VendorEmail" class="form-control" style="padding: 0px" required />
+                        <input type="text" id="VendorEmail" name="VendorEmail" class="form-control" />
                     </div>
                     <div class="col-md-4">
-                        <label for="SelectedMaterials" class="form-label">Select Materials:</label>
-                        <select id="SelectedMaterials" name="SelectedMaterials" multiple="multiple" class="form-control" style="width: 100%; padding: 6px;">
-                            @{
-                                var materialMaster = ViewBag.MaterialMaster;
-                                foreach (var item in materialMaster)
-                                {
-                                    var materialCode = item["MaterialCode"];
-                                    var materialName = item["MaterialName"];
-                                    var valueString = $"{materialCode}|{materialName}";
-
-                                    <option value="@valueString">@materialName</option>
-                                }
-                            }
-                        </select>
+                        <label for="ServiceDescription" class="form-label">Service Description:</label>
+                        <input type="text" id="ServiceDescription" name="ServiceDescription" class="form-control" />
                     </div>
                 </div>
 
                 <div class="row mb-1" style="font-size: 12px;">
                     <div class="col-md-4">
-                        <label for="ServiceDescription" class="form-label">Service Description:</label>
-                        <input type="text" id="ServiceDescription" name="ServiceDescription" class="form-control" style="padding: 0px" required />
-                    </div>
-                    <div class="col-md-4">
                         <label for="RequirementGeneral" class="form-label">Supplier General Request:</label>
-                        <input type="text" id="RequirementGeneral" name="RequirementGeneral" class="form-control" style="padding: 0px" required />
+                        <input type="text" id="RequirementGeneral" name="RequirementGeneral" class="form-control" />
                     </div>
                     <div class="col-md-4">
                         <label for="RequirementOther" class="form-label">Supplier Other Request:</label>
-                        <input type="text" id="RequirementOther" name="RequirementOther" class="form-control" style="padding: 0px" required />
+                        <input type="text" id="RequirementOther" name="RequirementOther" class="form-control" />
+                    </div>
+                    <div class="col-md-4">
+                        <label for="TypeOfSupplierId" class="form-label">Supplier Type:</label>
+                        <select id="TypeOfSupplierId" name="TypeOfSupplierId" class="form-control">
+                            <option value="0">---Select---</option>
+                            <option value="1">Local</option>
+                            <option value="2">International</option>
+                        </select>
                     </div>
                 </div>
 
                 <div class="row mb-1" style="font-size: 12px;">
                     <div class="col-md-4">
-                        <label for="TypeOfSupplierId" class="form-label">Supplier Type:</label>
-                        <select id="TypeOfSupplierId" name="TypeOfSupplierId" class="form-control" style="padding: 0px" required>
-                            <option value="0">---Select---</option>
-                            <option value="Local">Local</option>
-                            <option value="International">International</option>
-                        </select>
-                    </div>
-
-                    <div class="col-md-4">
                         <label for="ExisitngSupplierCount" class="form-label">Existing Supplier Count:</label>
-                        <input type="text" id="ExisitngSupplierCount" name="ExisitngSupplierCount" class="form-control" style="padding: 0px" required />
+                        <input type="text" id="ExisitngSupplierCount" name="ExisitngSupplierCount" class="form-control" />
                     </div>
                     <div class="col-md-4">
                         <label for="ExisitngSupplierProblem" class="form-label">Existing Supplier Problem:</label>
-                        <input type="text" id="ExisitngSupplierProblem" name="ExisitngSupplierProblem" class="form-control" style="padding: 0px" required />
+                        <input type="text" id="ExisitngSupplierProblem" name="ExisitngSupplierProblem" class="form-control" />
                     </div>
-                </div>
-                <div class="row mb-1" style="font-size: 12px;">
                     <div class="col-md-4">
                         <label for="NewSupplierAdditionReason" class="form-label">Supplier Add Reason:</label>
-                        <input type="text" id="NewSupplierAdditionReason" name="NewSupplierAdditionReason" class="form-control" style="padding: 0px" required />
+                        <input type="text" id="NewSupplierAdditionReason" name="NewSupplierAdditionReason" class="form-control" />
                     </div>
                 </div>
 
-                <div class="row mb-1" style="font-size: 12px;">
-                    <div class="col-md-4">
+
+                <!-- Modal -->
+                <div class="modal fade" id="myModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Select Material</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <table class="table" id="materialTable">
+                                    <thead>
+                                        <tr>
+                                            <th>Material Code</th>
+                                            <th>Material Name</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @{
+                                            foreach (var item in ViewBag.MaterialMaster)
+                                            {
+                                                var materialCode = item["MaterialCode"];
+                                                var materialName = item["MaterialName"];
+                                                var valueString = $"{materialCode}|{materialName}";
+
+                                                <tr>
+                                                    <td>@materialCode</td>
+                                                    <td>@materialName</td>
+                                                    <td><button type="button" class="btn btn-outline-info btn-sm add-material-btn" data-value="@valueString">Add</button></td>
+                                                </tr>
+                                            }
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <section class="card card-body m-auto w-75 mb-3 mt-3">
+                    <div class="d-flex justify-content-end align-content-center">
+                        <button class="btn btn-outline-primary btn-sm" type="button" id="addItemBtn" data-bs-toggle="modal" data-bs-target="#myModal">Add Material</button>
+                    </div>
+                    <div class="col-12">
+                        <table id="materials" class="table table-responsive" style="font-size: 13px">
+                            <thead>
+                                <tr style="border:1.5px;">
+                                    <td>Material Code</td>
+                                    <td>Material Name</td>
+                                    <td>Action</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Rows will be added here dynamically -->
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+                <hr />
+
+                <div class="d-flex mb-1 align-items-end justify-content-between" style="font-size: 12px;">
+                    <div>
                         <label for="Comment" class="form-label">Comment:</label>
-                        <input type="text" id="Comment" name="Comment" class="form-control no-padding" required />
+                        <textarea type="text" id="Comment" name="Comment" class="form-control no-padding">  </textarea>
                     </div>
-                </div>
-
-                <div class="row mt-4">
-                    <div class="col-md-4">
+                    <div>
                         <button type="submit" class="btn btn-primary">Submit</button>
                     </div>
                 </div>
@@ -135,3 +170,7 @@
         </div>
     }
 </main>
+
+@section scripts {
+    <script src="@Url.Content("~/Scripts/FormSubmitHandler.js")"></script>
+}
