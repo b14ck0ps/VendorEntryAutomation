@@ -43,49 +43,50 @@
                 <div class="row mb-1" style="font-size: 12px;">
                     <div class="col-md-4">
                         <label for="VendorName" class="form-label">Vendor Name:</label>
-                        <input type="text" id="VendorName" name="VendorName" class="form-control" />
+                        <input type="text" id="VendorName" name="VendorName" class="form-control" required />
                     </div>
                     <div class="col-md-4">
                         <label for="VendorEmail" class="form-label">Vendor Email:</label>
-                        <input type="text" id="VendorEmail" name="VendorEmail" class="form-control" />
+                        <input type="text" id="VendorEmail" name="VendorEmail" class="form-control" required/>
                     </div>
                     <div class="col-md-4">
                         <label for="ServiceDescription" class="form-label">Service Description:</label>
-                        <input type="text" id="ServiceDescription" name="ServiceDescription" class="form-control" />
+                        <input type="text" id="ServiceDescription" name="ServiceDescription" class="form-control"  required/>
                     </div>
                 </div>
 
                 <div class="row mb-1" style="font-size: 12px;">
                     <div class="col-md-4">
                         <label for="RequirementGeneral" class="form-label">Supplier General Request:</label>
-                        <input type="text" id="RequirementGeneral" name="RequirementGeneral" class="form-control" />
+                        <input type="text" id="RequirementGeneral" name="RequirementGeneral" class="form-control" required />
                     </div>
                     <div class="col-md-4">
                         <label for="RequirementOther" class="form-label">Supplier Other Request:</label>
-                        <input type="text" id="RequirementOther" name="RequirementOther" class="form-control" />
+                        <input type="text" id="RequirementOther" name="RequirementOther" class="form-control" required />
                     </div>
                     <div class="col-md-4">
                         <label for="TypeOfSupplierId" class="form-label">Supplier Type:</label>
-                        <select id="TypeOfSupplierId" name="TypeOfSupplierId" class="form-control">
-                            <option value="0">---Select---</option>
+                        <select id="TypeOfSupplierId" name="TypeOfSupplierId" class="form-control" required>
+                            <option value="" disabled selected>---Select---</option>
                             <option value="1">Local</option>
                             <option value="2">International</option>
                         </select>
                     </div>
+
                 </div>
 
                 <div class="row mb-1" style="font-size: 12px;">
                     <div class="col-md-4">
                         <label for="ExisitngSupplierCount" class="form-label">Existing Supplier Count:</label>
-                        <input type="text" id="ExisitngSupplierCount" name="ExisitngSupplierCount" class="form-control" />
+                        <input type="text" id="ExisitngSupplierCount" name="ExisitngSupplierCount" class="form-control" required/>
                     </div>
                     <div class="col-md-4">
                         <label for="ExisitngSupplierProblem" class="form-label">Existing Supplier Problem:</label>
-                        <input type="text" id="ExisitngSupplierProblem" name="ExisitngSupplierProblem" class="form-control" />
+                        <input type="text" id="ExisitngSupplierProblem" name="ExisitngSupplierProblem" class="form-control" required/>
                     </div>
                     <div class="col-md-4">
                         <label for="NewSupplierAdditionReason" class="form-label">Supplier Add Reason:</label>
-                        <input type="text" id="NewSupplierAdditionReason" name="NewSupplierAdditionReason" class="form-control" />
+                        <input type="text" id="NewSupplierAdditionReason" name="NewSupplierAdditionReason" class="form-control" required/>
                     </div>
                 </div>
 
@@ -129,7 +130,7 @@
                     </div>
                 </div>
 
-                <section class="card card-body m-auto w-75 mb-3 mt-3">
+                <section class="card card-body m-auto w-90 mb-3 mt-3">
                     <div class="d-flex justify-content-end align-content-center">
                         <button class="btn btn-outline-primary btn-sm" type="button" id="addItemBtn" data-bs-toggle="modal" data-bs-target="#myModal">Add Material</button>
                     </div>
@@ -153,8 +154,9 @@
                 <div class="d-flex mb-1 align-items-end justify-content-between" style="font-size: 12px;">
                     <div>
                         <label for="Comment" class="form-label">Comment:</label>
-                        <textarea type="text" id="Comment" name="Comment" class="form-control no-padding">  </textarea>
+                        <textarea id="Comment" name="Comment" class="form-control no-padding" style="height: 100px; width: 500px;" required></textarea>
                     </div>
+
                     <div>
                         <button type="submit" class="btn btn-primary">Submit</button>
                     </div>
