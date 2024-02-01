@@ -15,12 +15,11 @@ namespace VE.BusinessLogicLayer.Handler
             string[] selectedMaterials, string baseUrl)
         {
             var loginUser = SharePointService.Instance.AuthUserInformation(loggedInUser);
-
             var employeeData = SharePointService.Instance.AuthUserInformation(loggedInUser);
+
             var workflowHelper = new WorkflowHelper();
             var hod = workflowHelper.GetUserHod(loginUser.Email);
             var randomVendorCode = "VE-" + CodeGenerator.GenerateRandomCode();
-
 
             var appProspectiveVendorsData = new AppProspectiveVendors
             {
@@ -35,7 +34,7 @@ namespace VE.BusinessLogicLayer.Handler
                 NewSupplierAdditionReason = formData.NewSupplierAdditionReason,
                 VendorName = formData.VendorName,
                 VendorEmail = formData.VendorEmail,
-                Status = (int)Status.Submitted,
+                Status = (int)Status.Created,
                 ExtraProperties = "",
                 ConcurrencyStamp = "",
                 CreatorId = employeeData.Email,
@@ -55,7 +54,7 @@ namespace VE.BusinessLogicLayer.Handler
             {
                 ProspectiveVendorId = 1,
                 Code = randomVendorCode,
-                Status = (int)Status.Submitted,
+                Status = (int)Status.Created,
                 Comment = comment,
                 Action = "Submitted",
                 ActionById = employeeData.Email,
@@ -92,7 +91,7 @@ namespace VE.BusinessLogicLayer.Handler
                 { "Title", randomVendorCode },
                 { "ProcessName", "Vendor Enlistment" },
                 { "RequestedByName", employeeData.Title },
-                { "Status", Status.Submitted.ToString()},
+                { "Status", Status.Created.ToString()},
                 { "EmployeeID", employeeData.UserId.ToString() },
                 { "RequestedByEmail", employeeData.Email },
                 { "PendingWith", hod.UserId.ToString() },
@@ -101,9 +100,10 @@ namespace VE.BusinessLogicLayer.Handler
 
             SharePointService.Instance.InsertItem("PendingApproval", pendingApprovalList);
 
-            EmailHandler.SendEmail(hod.Email, hod.Title, randomVendorCode, Status.Submitted.ToString(), $"{baseUrl}Home/Details/{randomVendorCode}");
+            EmailHandler.SendEmail(hod.Email, hod.Title, randomVendorCode, Status.Created.ToString(), $"{baseUrl}Home/Details/{randomVendorCode}");
 
             return randomVendorCode;
+
         }
     }
 }

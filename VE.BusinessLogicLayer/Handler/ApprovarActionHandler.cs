@@ -20,7 +20,7 @@ namespace VE.BusinessLogicLayer.Handler
                 var nextApprover = workflowHelper.GetNextPendingApprovalInfo(currentStatus, ApproverAction.Approved);
 
 
-                await appProspectiveVendorService.UpdateStatus(nextApprover.Status, appProspectiveVendorCode);
+                await appProspectiveVendorService.UpdateStatus(nextApprover.Status, appProspectiveVendorCode, Int32.Parse(nextApprover.PendingWithUserId));
                 var employeeData = SharePointService.Instance.AuthUserInformation(loggedInUser);
                 var appVendorEnlistmentLogsData = new AppVendorEnlistmentLogs
                 {
@@ -59,7 +59,7 @@ namespace VE.BusinessLogicLayer.Handler
                 var nextApprover = workflowHelper.GetNextPendingApprovalInfo(currentStatus, ApproverAction.Rejected);
 
 
-                await appProspectiveVendorService.UpdateStatus(nextApprover.Status, appProspectiveVendorCode);
+                await appProspectiveVendorService.UpdateStatus(nextApprover.Status, appProspectiveVendorCode, 0);
                 var employeeData = SharePointService.Instance.AuthUserInformation(loggedInUser);
                 var appVendorEnlistmentLogsData = new AppVendorEnlistmentLogs
                 {

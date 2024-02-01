@@ -1,7 +1,5 @@
 ﻿@using VE.DataTransferObject.Enums;
-<div class="loader-container">
-    <div class="loader"></div>
-</div>
+
 <form method="post" action="@Url.Action("SubmitAction", "Home")" class="mt-1">
     @Html.AntiForgeryToken()
     <section class="card card-header mb-2 mt-3">
@@ -11,81 +9,81 @@
                     <p class="fw-bold">Requestor Information</p>
                 </div>
 
-                <div class="row mb-1">
-                    <div class="col-md-4">Employee Name: @ViewBag.EmployeeData.EmployeeName </div>
-                    <div class="col-md-4">Employee ID: @ViewBag.EmployeeData.EmployeeId</div>
-                    <div class="col-md-4">Position: @ViewBag.EmployeeData.Designation</div>
+                <div class="row mb-1" style="font-size: 12px;">
+                    <div class="col-md-4">Employee Name: <b>@ViewBag.EmployeeData.EmployeeName </b></div>
+                    <div class="col-md-4">Employee ID:<b> @ViewBag.EmployeeData.EmployeeId</b></div>
+                    <div class="col-md-4">Position:<b> @ViewBag.EmployeeData.Designation</b></div>
                 </div>
 
-                <div class="row mb-1">
-                    <div class="col-md-4">Department: @ViewBag.EmployeeData.DeptName</div>
-                    <div class="col-md-4">Location: @ViewBag.EmployeeData.BusAreaName</div>
-                    <div class="col-md-4">Mobile: @ViewBag.EmployeeData.Mobile</div>
+                <div class="row mb-1" style="font-size: 12px;">
+                    <div class="col-md-4">Department:<b> @ViewBag.EmployeeData.DeptName</b></div>
+                    <div class="col-md-4">Location: <b>@ViewBag.EmployeeData.BusAreaName</b></div>
+                    <div class="col-md-4">Mobile: <b>@ViewBag.EmployeeData.Mobile</b></div>
                 </div>
 
-                <div class="row mb-1">
-                    <div class="col-md-4">Email: @ViewBag.EmployeeData.Email</div>
-                    <div class="col-md-4">Grade: @ViewBag.EmployeeData.JobGrade</div>
+                <div class="row mb-1" style="font-size: 12px;">
+                    <div class="col-md-4">Email: <b>@ViewBag.EmployeeData.Email</b></div>
+                    <div class="col-md-4">Grade: <b>@ViewBag.EmployeeData.JobGrade</b></div>
                 </div>
             </div>
         </section>
         <hr />
         <section>
-            <p class="fw-bold">Vendor Automation Code: @ViewBag.AppProspectiveVendor.Code</p>
-            <div class="row mb-1">
+            <p class="fw-bold">Vendor Automation Code: <b>@ViewBag.AppProspectiveVendor.Code</b></p>
+            <div class="row mb-1" style="font-size: 12px;">
                 <div class="col-md-4">
                     <label for="VendorName" class="form-label">Vendor Name:</label>
-                    <span id="VendorName" class="form-text">@ViewBag.AppProspectiveVendor.VendorName</span>
+                    <span id="VendorName" class="form-text"><b>@ViewBag.AppProspectiveVendor.VendorName</b></span>
                 </div>
                 <div class="col-md-4">
                     <label for="Status" class="form-label">Status:</label>
-                    <span id="Status" class="form-text">@Enum.GetName(typeof(Status), @ViewBag.AppProspectiveVendor.Status) </span>
+                    <span id="Status" class="form-text"><b>@Enum.GetName(typeof(Status), @ViewBag.AppProspectiveVendor.Status)</b> </span>
                 </div>
                 <div class="col-md-4">
                     <label for="VendorEmail" class="form-label">Vendor Email:</label>
-                    <span id="VendorEmail" class="form-text">@ViewBag.AppProspectiveVendor.VendorEmail</span>
+                    <span id="VendorEmail" class="form-text"><b>@ViewBag.AppProspectiveVendor.VendorEmail</b></span>
                 </div>
             </div>
 
-            <div class="row mb-1">
+            <div class="row mb-1" style="font-size: 12px;">
                 <div class="col-md-4">
                     <label for="ServiceDescription" class="form-label">Service Description:</label>
-                    <span id="ServiceDescription" class="form-text">@ViewBag.AppProspectiveVendor.ServiceDescription</span>
+                    <span id="ServiceDescription" class="form-text"><b>@ViewBag.AppProspectiveVendor.ServiceDescription</b></span>
                 </div>
                 <div class="col-md-4">
                     <label for="RequirementGeneral" class="form-label">Supplier General Request:</label>
-                    <span id="RequirementGeneral" class="form-text">@ViewBag.AppProspectiveVendor.RequirementGeneral</span>
+                    <span id="RequirementGeneral" class="form-text"><b>@ViewBag.AppProspectiveVendor.RequirementGeneral</b></span>
                 </div>
                 <div class="col-md-4">
                     <label for="RequirementOther" class="form-label">Supplier Other Request:</label>
-                    <span id="RequirementOther" class="form-text">@ViewBag.AppProspectiveVendor.RequirementOther</span>
+                    <span id="RequirementOther" class="form-text"><b>@ViewBag.AppProspectiveVendor.RequirementOther</b></span>
                 </div>
             </div>
 
-            <div class="row mb-1">
+            <div class="row mb-1" style="font-size: 12px;">
                 <div class="col-md-4">
                     <label for="TypeOfSupplierId" class="form-label">Supplier Type:</label>
-                    <span id="TypeOfSupplierId" class="form-text">@ViewBag.AppProspectiveVendor.TypeOfSupplierId</span>
+                    <span id="TypeOfSupplierId" class="form-text"><b>@ViewBag.AppProspectiveVendor.TypeOfSupplierId</b></span>
                 </div>
                 <div class="col-md-4">
                     <label for="ExisitngSupplierCount" class="form-label">Existing Supplier Count:</label>
-                    <span id="ExisitngSupplierCount" class="form-text">@ViewBag.AppProspectiveVendor.ExisitngSupplierCount</span>
+                    <span id="ExisitngSupplierCount" class="form-text"><b>@ViewBag.AppProspectiveVendor.ExisitngSupplierCount</b></span>
                 </div>
                 <div class="col-md-4">
                     <label for="ExisitngSupplierProblem" class="form-label">Existing Supplier Problem:</label>
-                    <span id="ExisitngSupplierProblem" class="form-text">@ViewBag.AppProspectiveVendor.ExisitngSupplierProblem</span>
+                    <span id="ExisitngSupplierProblem" class="form-text"><b>@ViewBag.AppProspectiveVendor.ExisitngSupplierProblem</b></span>
                 </div>
             </div>
 
-            <div class="row mb-1">
+            <div class="row mb-1" style="font-size: 12px;">
                 <div class="col-md-4">
                     <label for="NewSupplierAdditionReason" class="form-label">Supplier Add Reason:</label>
-                    <span id="NewSupplierAdditionReason" class="form-text">@ViewBag.AppProspectiveVendor.NewSupplierAdditionReason</span>
+                    <span id="NewSupplierAdditionReason" class="form-text"><b>@ViewBag.AppProspectiveVendor.NewSupplierAdditionReason</b></span>
                 </div>
             </div>
         </section>
     </section>
-    <section class="card card-body mb-3">
+    <section class="card card-body mb-3" style="font-size: 12px;">
         <div class="col-12">
             <label class="form-label fw-bold">Materials Lists:</label>
             <table class="table table-responsive" style="font-size: 13px">
@@ -114,12 +112,20 @@
             </table>
         </div>
     </section>
+
+    <section class="card card-group justify-content-between p-3 mb-3 align-items-center" style="font-size: 12px;">
+        <div class="d-flex align-items-center gap-3">
+            <label for="NewSupplierAdditionReason" class="form-label">Pending With:</label>
+            <span id="NewSupplierAdditionReason" class="form-text">@ViewBag.AppProspectiveVendor.PendingWithUserId</span>
+        </div>
+    </section>
+
     @if (ViewBag.ActionEnabled)
     {
         <section class="card card-group justify-content-between p-3 mb-3 align-items-center">
-            <div class="d-flex align-items-center gap-3">
+            <div>
                 <label for="Comment" class="form-label">Comment:</label>
-                <input type="text" id="Comment" name="Comment" class="form-control no-padding" />
+                <textarea id="Comment" name="Comment" class="form-control no-padding" style="height: 100px; width: 500px;" required></textarea>
             </div>
             <div>
                 <div class="d-flex justify-content-between gap-5">
@@ -139,13 +145,16 @@
     }
 </form>
 
-<section class="card card-text p-3">
-    <table class="table table-borderless">
+<section class="card card-text p-3" style="font-size: 12px;">
+    <div class="row">
+        <p class="fw-bold">History Log</p>
+    </div>
+    <table class="table table-border">
         <thead>
             <tr>
                 <th>Status</th>
                 <th>Action</th>
-                <th>Action By ID</th>
+                <th>Action By</th>
                 <th>Comment</th>
                 <th>Creation Time</th>
             </tr>
@@ -164,14 +173,3 @@
         </tbody>
     </table>
 </section>
-
-@section scripts
-{
-    <script>
-        $(document).ready(function () {
-            $('form').submit(function (event) {
-                $('.loader-container').show();
-            });
-        });
-    </script>
-}

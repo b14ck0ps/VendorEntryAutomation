@@ -30,10 +30,10 @@ namespace VE.DataAccessLayer.Repository
             return (await LoadData<AppProspectiveVendors, dynamic>(sqlQuery, new { Code = code })).FirstOrDefault();
         }
 
-        public async Task<int> UpdateStatus(string code, Status status)
+        public async Task<int> UpdateStatus(string code, Status status, int PendingWithUserId)
         {
-            const string sqlQuery = "UPDATE [VE].[AppProspectiveVendors] SET Status = @Status WHERE Code = @Code";
-            return await SaveData(sqlQuery, new { Code = code, Status = status });
+            const string sqlQuery = "UPDATE [VE].[AppProspectiveVendors] SET Status = @Status, PendingWithUserId = @PendingWithUserId WHERE Code = @Code";
+            return await SaveData(sqlQuery, new { Code = code, Status = status, PendingWithUserId = PendingWithUserId });
         }
     }
 }

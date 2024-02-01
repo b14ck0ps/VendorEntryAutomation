@@ -7,6 +7,6 @@ namespace VE.DataAccessLayer.Interface
     public interface IAppProspectiveVendorRepository : IRepository<AppProspectiveVendors>
     {
         Task<AppProspectiveVendors> GetByCode(string code);
-        Task<int> UpdateStatus(string code, Status status);
+        Task<int> UpdateStatus(string code, Status status, int PendingWithUserId);
     }
 }

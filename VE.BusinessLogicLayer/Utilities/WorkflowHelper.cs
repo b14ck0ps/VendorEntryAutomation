@@ -27,7 +27,7 @@ namespace VE.BusinessLogicLayer.Utilities
             var authUserInfo = SharePointService.Instance.GetUserByEmail("BergerEmployeeInformation", email);
             var matchingDeptInfo = ApproverInfo
                 .Cast<dynamic>()
-                .FirstOrDefault(row => row["DeptID"] == authUserInfo.DeptId);
+                .FirstOrDefault(row => row["DeptID"] == authUserInfo.DeptId && row["Location"] == authUserInfo.Location);
 
             if (matchingDeptInfo == null) return null;
             var fieldUserValue = (FieldUserValue)matchingDeptInfo["HOD"];
@@ -96,38 +96,38 @@ namespace VE.BusinessLogicLayer.Utilities
                 case ApproverAction.Approved:
                     switch (currentStatus)
                     {
-                        case Status.Submitted:
-                            pendingApprovalInfo.Status = Status.HodApproved;
+                        case Status.Created:
+                            pendingApprovalInfo.Status = Status.HODApproved;
                             pendingApprovalInfo.PendingWithUserId = SC01_Approver1().UserId.ToString();
                             pendingApprovalInfo.PendingWithUserEmail = SC01_Approver1().Email;
                             pendingApprovalInfo.PendingWithUserDisplayName = SC01_Approver1().Title;
                             break;
-                        case Status.HodApproved:
-                            pendingApprovalInfo.Status = Status.SendtoVendor;
+                        case Status.HODApproved:
+                            pendingApprovalInfo.Status = Status.VDTeamRFIFloat;
                             pendingApprovalInfo.PendingWithUserId = SC01_Approver1().UserId.ToString();
                             pendingApprovalInfo.PendingWithUserEmail = SC01_Approver1().Email;
                             pendingApprovalInfo.PendingWithUserDisplayName = SC01_Approver1().Title;
                             break;
-                        case Status.VendorSubmitted:
-                            pendingApprovalInfo.Status = Status.VDTeamApproved;
+                        case Status.VDTeamRFIFloat:
+                            pendingApprovalInfo.Status = Status.RFISubmittedByProspectiveVendor;
                             pendingApprovalInfo.PendingWithUserId = SC01_Approver6().UserId.ToString();
                             pendingApprovalInfo.PendingWithUserEmail = SC01_Approver6().Email;
                             pendingApprovalInfo.PendingWithUserDisplayName = SC01_Approver6().Title;
                             break;
-                        case Status.VDTeamApproved:
-                            pendingApprovalInfo.Status = Status.HeadSPPApproved;
+                        case Status.RFISubmittedByProspectiveVendor:
+                            pendingApprovalInfo.Status = Status.RFIProcessedByVD;
                             pendingApprovalInfo.PendingWithUserId = SC01_Hod().UserId.ToString();
                             pendingApprovalInfo.PendingWithUserEmail = SC01_Hod().Email;
                             pendingApprovalInfo.PendingWithUserDisplayName = SC01_Hod().Title;
                             break;
-                        case Status.HeadSPPApproved:
-                            pendingApprovalInfo.Status = Status.DeptHeadApproved;
+                        case Status.RFIProcessedByVD:
+                            pendingApprovalInfo.Status = Status.HPAndPApproved;
                             pendingApprovalInfo.PendingWithUserId = SC01_Approver1().UserId.ToString();
                             pendingApprovalInfo.PendingWithUserEmail = SC01_Approver1().Email;
                             pendingApprovalInfo.PendingWithUserDisplayName = SC01_Approver1().Title;
                             break;
-                        case Status.DeptHeadApproved:
-                            pendingApprovalInfo.Status = Status.Completed;
+                        case Status.HPAndPApproved:
+                            pendingApprovalInfo.Status = Status.VendorCreationInSAPAndRequestClosed;
                             pendingApprovalInfo.PendingWithUserId = null;
                             pendingApprovalInfo.PendingWithUserEmail = null;
                             break;

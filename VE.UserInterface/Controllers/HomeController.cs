@@ -18,7 +18,7 @@ namespace VE.UserInterface.Controllers
             var loginUser = SharePointService.Instance.AuthUserInformation(User.Identity.Name);
             ViewBag.LoginUser = loginUser;
             var employee = SharePointService.Instance.GetUserByEmail("BergerEmployeeInformation", loginUser.Email);
-            var materialMaster = SharePointService.Instance.GetAllItemsFromList("MaterialMaster");
+            var materialMaster = SharePointService.Instance.GetAllItemsFromList("MaterialMasterTest");
 
             ViewBag.MaterialMaster = materialMaster;
             ViewBag.EmployeeData = employee;
@@ -36,6 +36,7 @@ namespace VE.UserInterface.Controllers
             var appVendorEnlistmentLogs = await new AppVendorEnlistmentLogsService().GetByCode(id);
             var loginUser = SharePointService.Instance.AuthUserInformation(User.Identity.Name);
             var employee = SharePointService.Instance.GetUserByEmail("BergerEmployeeInformation", loginUser.Email);
+            //var employeeName = SharePointService.Instance.GetByEmployeeId("BergerEmployeeInformation", appProspectiveVendor.PendingWithUserId);
 
             var actionEnabled = false;
 
@@ -43,9 +44,9 @@ namespace VE.UserInterface.Controllers
             {
                 case (int)Status.Rejected:
                     break;
-                case (int)Status.Completed:
+                case (int)Status.VendorCreationInSAPAndRequestClosed:
                     break;
-                case (int)Status.SendtoVendor:
+                case (int)Status.VDTeamRFIFloat:
                     ViewBag.PendingWithVendor = true;
                     break;
                 default:
@@ -77,6 +78,8 @@ namespace VE.UserInterface.Controllers
             var code = await FormSubmissionHandler.HandleFormSubmission(User.Identity.Name, formData, comment, selectedMaterialsArray, baseUrl);
             return Json(new { code = code });
         }
+
+
 
         [HttpPost]
         [ValidateAntiForgeryToken]

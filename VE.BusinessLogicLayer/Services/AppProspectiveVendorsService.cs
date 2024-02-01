@@ -31,9 +31,9 @@ namespace VE.BusinessLogicLayer.Services
             return await _appProspectiveVendorsRepository.GetByCode(code);
         }
 
-        public async Task<int> UpdateStatus(Status status, string code)
+        public async Task<int> UpdateStatus(Status status, string code, int PendingWithUserId)
         {
-            return await _appProspectiveVendorsRepository.UpdateStatus(code,status);
+            return await _appProspectiveVendorsRepository.UpdateStatus(code,status,PendingWithUserId);
         }
     }
 }

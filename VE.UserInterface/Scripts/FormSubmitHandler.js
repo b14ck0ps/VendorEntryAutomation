@@ -50,6 +50,16 @@
         event.preventDefault();
         $(".loader-container").show();
         var selectedMaterials = getAllMaterialInputs();
+
+        if (selectedMaterials.length === 0) {
+            // Show an error message for missing materials
+            alert('Please select at least one material.');
+            $(".loader-container").hide(); // Hide loader
+            console.log($('#ExisitngSupplierCount').val());
+            return;
+        }
+
+
         var formData = new FormData(this);
         formData.append('VendorName', $('#VendorName').val());
         formData.append('VendorEmail', $('#VendorEmail').val());
