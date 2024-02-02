@@ -10,7 +10,7 @@ namespace VE.DataAccessLayer
 {
     public class DbConnection : ISqlDataAccess
     {
-        public string ConnectionString { get; } = ConfigurationManager.ConnectionStrings["Default"].ConnectionString;
+        public string ConnectionString { get; } = ConfigurationManager.ConnectionStrings["Azran-Home"].ConnectionString;
 
         public async Task<IEnumerable<T>> LoadData<T, U>(string sqlQuery, U parameters)
         {
