@@ -184,5 +184,6 @@
 </main>
 
 @section scripts {
+    <script>var materials = @Html.Raw(Json.Encode(ViewBag.AppProspectiveVendorMaterials))</script>
     <script src="@Url.Content("~/Scripts/FormSubmitHandler.js")"></script>
 }

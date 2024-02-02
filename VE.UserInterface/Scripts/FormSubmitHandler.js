@@ -91,6 +91,36 @@
             }
         });
     });
+    if (materials !== undefined && materials !== null) {
+        if (materials.length > 0) {
+            materials.forEach(function (material) {
+                var materialCode = material.MaterialCode;
+                var materialName = material.MaterialName;
+
+                var row = $('<tr>').attr('id', materialCode)
+                    .append($('<td>').text(materialCode))
+                    .append($('<td>').text(materialName))
+                    .append(
+                        $('<input>').attr({
+                            type: 'hidden',
+                            id: materialCode,
+                            name: materialCode,
+                            class: 'form-control material-input',
+                            value: materialCode + '|' + materialName
+                        })
+                    )
+                    .append($('<td>').append(
+                        $('<button>').addClass('btn btn-danger remove-material-btn').attr('data-code', materialCode).text('Remove')
+                    ));
+                $('#materials tbody').append(row);
+
+                $('.remove-material-btn').on('click', function () {
+                    var codeToRemove = $(this).data('code');
+                    $('#' + codeToRemove).remove();
+                });
+            });
+        }
+    }
 });
 
 //@Author: Azran
