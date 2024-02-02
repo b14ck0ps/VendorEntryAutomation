@@ -27,7 +27,7 @@ namespace VE.BusinessLogicLayer.Utilities
             var authUserInfo = SharePointService.Instance.GetUserByEmail("BergerEmployeeInformation", email);
             var matchingDeptInfo = ApproverInfo
                 .Cast<dynamic>()
-                .FirstOrDefault(row => row["DeptID"] == authUserInfo.DeptId && row["Location"] == authUserInfo.Location);
+                .FirstOrDefault(row => row["DeptID"] == authUserInfo.DeptId && row["Location"] == authUserInfo.BusAreaName);
 
             if (matchingDeptInfo == null) return null;
             var fieldUserValue = (FieldUserValue)matchingDeptInfo["HOD"];
@@ -84,6 +84,7 @@ namespace VE.BusinessLogicLayer.Utilities
              * 4. If current status is VDTeamApproved, then next status is HeadSPPApproved, and next approver is SC01_Hod
              * 5. If current status is HeadSPPApproved, then next status is DeptHeadApproved, and next approver is SC01_Approver1
              * 6. If current status is DeptHeadApproved, then next status is Completed, and next approver is null
+             * 7. If current status is ReSubmitted, then next status is ChangeRequestSentToProspectiveVendor and next approver is null
              * @ TODO:Need to add more workflow chain for other status & ChangeRequest
              */
             var pendingApprovalInfo = new PendingApprovalInfo();
@@ -139,6 +140,11 @@ namespace VE.BusinessLogicLayer.Utilities
                     break;
                 case ApproverAction.Rejected:
                     pendingApprovalInfo.Status = Status.Rejected;
+                    pendingApprovalInfo.PendingWithUserId = null;
+                    pendingApprovalInfo.PendingWithUserEmail = null;
+                    break;
+                case ApproverAction.ReSubmit:
+                    pendingApprovalInfo.Status = Status.ChangeRequestSentToProspectiveVendor;
                     pendingApprovalInfo.PendingWithUserId = null;
                     pendingApprovalInfo.PendingWithUserEmail = null;
                     break;

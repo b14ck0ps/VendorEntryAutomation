@@ -4,6 +4,7 @@
     {
         Submitted,
         Approved,
+        ReSubmit,
         ChangeRequest,
         Rejected,
     }

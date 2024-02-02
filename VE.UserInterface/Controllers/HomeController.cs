@@ -5,6 +5,7 @@ using System.Web.Mvc;
 using VE.BusinessLogicLayer.Handler;
 using VE.BusinessLogicLayer.Services;
 using VE.BusinessLogicLayer.SharePoint;
+using VE.BusinessLogicLayer.Utilities;
 using VE.DataTransferObject.Entities;
 using VE.DataTransferObject.Enums;
 using FormCollection = System.Web.Mvc.FormCollection;
@@ -47,6 +48,9 @@ namespace VE.UserInterface.Controllers
                 case (int)Status.VendorCreationInSAPAndRequestClosed:
                     break;
                 case (int)Status.VDTeamRFIFloat:
+                    ViewBag.PendingWithVendor = true;
+                    break;
+                case (int)Status.ChangeRequestSentToProspectiveVendor:
                     ViewBag.PendingWithVendor = true;
                     break;
                 default:
@@ -96,18 +100,21 @@ namespace VE.UserInterface.Controllers
             if (!Enum.TryParse(submitValue, out ApproverAction action))
                 return RedirectToAction("Index", new { id = appProspectiveVendorCode });
 
-
+            var ApprovarActionHandler = new ApprovarActionHandler(new AppProspectiveVendorsService(), new WorkflowHelper(), new AppVendorEnlistmentLogsService(), baseUrl, User.Identity.Name, appProspectiveVendorCode, (Status)Enum.Parse(typeof(Status), currentStatus), comment);
             switch (action)
             {
                 case ApproverAction.Submitted:
                     break;
                 case ApproverAction.Approved:
-                    await ApprovarActionHandler.HandleApprove(User.Identity.Name, appProspectiveVendorCode, (Status)Enum.Parse(typeof(Status), currentStatus), comment, baseUrl);
+                    await ApprovarActionHandler.HandleApprove();
                     break;
                 case ApproverAction.ChangeRequest:
                     break;
                 case ApproverAction.Rejected:
-                    await ApprovarActionHandler.HandleReject(User.Identity.Name, appProspectiveVendorCode, (Status)Enum.Parse(typeof(Status), currentStatus), comment);
+                    await ApprovarActionHandler.HandleReject();
+                    break;
+                case ApproverAction.ReSubmit:
+                    await ApprovarActionHandler.HandleResubmitToVendor();
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
