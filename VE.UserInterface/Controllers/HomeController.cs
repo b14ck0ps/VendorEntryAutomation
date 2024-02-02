@@ -20,16 +20,14 @@ namespace VE.UserInterface.Controllers
             ViewBag.LoginUser = loginUser;
             var employee = SharePointService.Instance.GetUserByEmail("BergerEmployeeInformation", loginUser.Email);
             var materialMaster = SharePointService.Instance.GetAllItemsFromList("MaterialMasterTest");
-
-            if (!string.IsNullOrEmpty(code)) //TODO: validate for Change Request Status & PendingWith Id
-            {
-                var appProspectiveVendors = await new AppProspectiveVendorsService().GetByCode(code);
-                ViewBag.AppProspectiveVendors = appProspectiveVendors;
-            }
-
             ViewBag.MaterialMaster = materialMaster;
             ViewBag.EmployeeData = employee;
 
+            if (string.IsNullOrEmpty(code)) return View();
+            var appProspectiveVendors = await new AppProspectiveVendorsService().GetByCode(code);
+            if (appProspectiveVendors == null) return View();
+            if (appProspectiveVendors.Status == (int)Status.ChangeRequestSentToRequestor && appProspectiveVendors.PendingWithUserId == loginUser.UserId.ToString())
+                ViewBag.AppProspectiveVendors = appProspectiveVendors;
             return View();
         }
 
