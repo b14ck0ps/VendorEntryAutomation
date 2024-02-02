@@ -14,12 +14,18 @@ namespace VE.UserInterface.Controllers
 {
     public class HomeController : Controller
     {
-        public ActionResult Index()
+        public async Task<ActionResult> Index(string code)
         {
             var loginUser = SharePointService.Instance.AuthUserInformation(User.Identity.Name);
             ViewBag.LoginUser = loginUser;
             var employee = SharePointService.Instance.GetUserByEmail("BergerEmployeeInformation", loginUser.Email);
             var materialMaster = SharePointService.Instance.GetAllItemsFromList("MaterialMasterTest");
+
+            if (!string.IsNullOrEmpty(code)) //TODO: validate for Change Request Status & PendingWith Id
+            {
+                var appProspectiveVendors = await new AppProspectiveVendorsService().GetByCode(code);
+                ViewBag.AppProspectiveVendors = appProspectiveVendors;
+            }
 
             ViewBag.MaterialMaster = materialMaster;
             ViewBag.EmployeeData = employee;
@@ -33,6 +39,10 @@ namespace VE.UserInterface.Controllers
                 return RedirectToAction("Index");
 
             var appProspectiveVendor = await new AppProspectiveVendorsService().GetByCode(id);
+
+            if (appProspectiveVendor.Status == (int)Status.ChangeRequestSentToRequestor)
+                return RedirectToAction("Index", new { appProspectiveVendor.Code });
+
             var appProspectiveVendorMaterials = await new AppProspectiveVendorMaterialsService().GetByCode(id);
             var appVendorEnlistmentLogs = await new AppVendorEnlistmentLogsService().GetByCode(id);
             var loginUser = SharePointService.Instance.AuthUserInformation(User.Identity.Name);
