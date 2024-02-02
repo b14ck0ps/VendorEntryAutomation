@@ -35,8 +35,8 @@ namespace VE.BusinessLogicLayer.Handler
         {
             try
             {
+                _workflowHelper.AppProspectiveVendors = await _appProspectiveVendorService.GetByCode(_appProspectiveVendorCode);
                 var nextApprover = _workflowHelper.GetNextPendingApprovalInfo(_currentStatus, action);
-
                 await _appProspectiveVendorService.UpdateStatus(
                     nextApprover.Status,
                     _appProspectiveVendorCode,
@@ -74,9 +74,8 @@ namespace VE.BusinessLogicLayer.Handler
         }
 
         public async Task<bool> HandleApprove() => await HandleAction(ApproverAction.Approved);
-
+        public async Task<bool> HandleChangeRequest() => await HandleAction(ApproverAction.ChangeRequest);
         public async Task<bool> HandleReject() => await HandleAction(ApproverAction.Rejected);
-
         public async Task<bool> HandleResubmitToVendor() => await HandleAction(ApproverAction.ReSubmit);
     }
 }

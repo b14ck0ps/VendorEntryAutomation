@@ -100,21 +100,22 @@ namespace VE.UserInterface.Controllers
             if (!Enum.TryParse(submitValue, out ApproverAction action))
                 return RedirectToAction("Index", new { id = appProspectiveVendorCode });
 
-            var ApprovarActionHandler = new ApprovarActionHandler(new AppProspectiveVendorsService(), new WorkflowHelper(), new AppVendorEnlistmentLogsService(), baseUrl, User.Identity.Name, appProspectiveVendorCode, (Status)Enum.Parse(typeof(Status), currentStatus), comment);
+            var approvarActionHandler = new ApprovarActionHandler(new AppProspectiveVendorsService(), new WorkflowHelper(), new AppVendorEnlistmentLogsService(), baseUrl, User.Identity.Name, appProspectiveVendorCode, (Status)Enum.Parse(typeof(Status), currentStatus), comment);
             switch (action)
             {
                 case ApproverAction.Submitted:
                     break;
                 case ApproverAction.Approved:
-                    await ApprovarActionHandler.HandleApprove();
+                    await approvarActionHandler.HandleApprove();
                     break;
                 case ApproverAction.ChangeRequest:
+                    await approvarActionHandler.HandleChangeRequest();
                     break;
                 case ApproverAction.Rejected:
-                    await ApprovarActionHandler.HandleReject();
+                    await approvarActionHandler.HandleReject();
                     break;
                 case ApproverAction.ReSubmit:
-                    await ApprovarActionHandler.HandleResubmitToVendor();
+                    await approvarActionHandler.HandleResubmitToVendor();
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Microsoft.SharePoint.Client;
 using VE.BusinessLogicLayer.SharePoint;
+using VE.DataTransferObject.Entities;
 using VE.DataTransferObject.Enums;
 using VE.DataTransferObject.SharePoint;
 
@@ -12,6 +13,7 @@ namespace VE.BusinessLogicLayer.Utilities
     {
         private static List<ListItem> ApproverInfo { get; set; }
         private static dynamic SC01Info { get; set; }
+        public AppProspectiveVendors AppProspectiveVendors { get; set; }
 
         public WorkflowHelper()
         {
@@ -137,6 +139,8 @@ namespace VE.BusinessLogicLayer.Utilities
                     }
                     break;
                 case ApproverAction.ChangeRequest:
+                    pendingApprovalInfo.Status = Status.ChangeRequestSentToRequestor;
+                    pendingApprovalInfo.PendingWithUserId = AppProspectiveVendors.RequestorID.ToString();
                     break;
                 case ApproverAction.Rejected:
                     pendingApprovalInfo.Status = Status.Rejected;
