@@ -10,36 +10,60 @@ namespace VE.BusinessLogicLayer.Handler
 {
     public class ApprovarActionHandler
     {
-        public static async Task<bool> HandleApprove(string loggedInUser, string appProspectiveVendorCode, Status currentStatus, string comment, string baseUrl)
+        private readonly AppProspectiveVendorsService _appProspectiveVendorService;
+        private readonly WorkflowHelper _workflowHelper;
+        private readonly AppVendorEnlistmentLogsService _appVendorEnlistmentLogsService;
+        private readonly string _baseUrl;
+        private readonly string _loggedInUser;
+        private readonly string _appProspectiveVendorCode;
+        private readonly Status _currentStatus;
+        private readonly string _comment;
+
+        public ApprovarActionHandler(AppProspectiveVendorsService appProspectiveVendorService, WorkflowHelper workflowHelper, AppVendorEnlistmentLogsService appVendorEnlistmentLogsService, string baseUrl, string loggedInUser, string appProspectiveVendorCode, Status currentStatus, string comment)
+        {
+            _appProspectiveVendorService = appProspectiveVendorService;
+            _workflowHelper = workflowHelper;
+            _appVendorEnlistmentLogsService = appVendorEnlistmentLogsService;
+            _baseUrl = baseUrl;
+            _loggedInUser = loggedInUser;
+            _appProspectiveVendorCode = appProspectiveVendorCode;
+            _currentStatus = currentStatus;
+            _comment = comment;
+        }
+
+        private async Task<bool> HandleAction(ApproverAction action)
         {
             try
             {
-                var appProspectiveVendorService = new AppProspectiveVendorsService();
+                var nextApprover = _workflowHelper.GetNextPendingApprovalInfo(_currentStatus, action);
 
-                var workflowHelper = new WorkflowHelper();
-                var nextApprover = workflowHelper.GetNextPendingApprovalInfo(currentStatus, ApproverAction.Approved);
+                await _appProspectiveVendorService.UpdateStatus(
+                    nextApprover.Status,
+                    _appProspectiveVendorCode,
+                    int.Parse(nextApprover.PendingWithUserId ?? "0"));
 
 
-                await appProspectiveVendorService.UpdateStatus(nextApprover.Status, appProspectiveVendorCode, Int32.Parse(nextApprover.PendingWithUserId));
-                var employeeData = SharePointService.Instance.AuthUserInformation(loggedInUser);
+                var employeeData = SharePointService.Instance.AuthUserInformation(_loggedInUser);
+
                 var appVendorEnlistmentLogsData = new AppVendorEnlistmentLogs
                 {
                     ProspectiveVendorId = 1,
-                    Code = appProspectiveVendorCode,
+                    Code = _appProspectiveVendorCode,
                     Status = (int)nextApprover.Status,
-                    Comment = comment,
-                    Action = ApproverAction.Approved.ToString(),
+                    Comment = _comment,
+                    Action = action.ToString(),
                     ActionById = employeeData.Email,
                     CreatorId = employeeData.Email,
                     CreationTime = DateTime.Now,
                     LastModifierId = employeeData.Email,
                     LastModificationTime = DateTime.Now
                 };
-                await new AppVendorEnlistmentLogsService().Insert(appVendorEnlistmentLogsData);
 
-                SharePointService.Instance.UpdatePendingApprovalByTitle(appProspectiveVendorCode, nextApprover.Status.ToString(), nextApprover.PendingWithUserId);
+                await _appVendorEnlistmentLogsService.Insert(appVendorEnlistmentLogsData);
 
-                EmailHandler.SendEmail(nextApprover.PendingWithUserEmail, nextApprover.PendingWithUserDisplayName, appProspectiveVendorCode, nextApprover.Status.ToString(), $"{baseUrl}Home/Details/{appProspectiveVendorCode}");
+                SharePointService.Instance.UpdatePendingApprovalByTitle(_appProspectiveVendorCode, nextApprover.Status.ToString(), nextApprover.PendingWithUserId);
+
+                EmailHandler.SendEmail(nextApprover.PendingWithUserEmail, nextApprover.PendingWithUserDisplayName, _appProspectiveVendorCode, nextApprover.Status.ToString(), $"{_baseUrl}Home/Details/{_appProspectiveVendorCode}");
 
                 return true;
             }
@@ -49,41 +73,10 @@ namespace VE.BusinessLogicLayer.Handler
             }
         }
 
-        public static async Task<bool> HandleReject(string loggedInUser, string appProspectiveVendorCode, Status currentStatus, string comment)
-        {
-            try
-            {
-                var appProspectiveVendorService = new AppProspectiveVendorsService();
+        public async Task<bool> HandleApprove() => await HandleAction(ApproverAction.Approved);
 
-                var workflowHelper = new WorkflowHelper();
-                var nextApprover = workflowHelper.GetNextPendingApprovalInfo(currentStatus, ApproverAction.Rejected);
+        public async Task<bool> HandleReject() => await HandleAction(ApproverAction.Rejected);
 
-
-                await appProspectiveVendorService.UpdateStatus(nextApprover.Status, appProspectiveVendorCode, 0);
-                var employeeData = SharePointService.Instance.AuthUserInformation(loggedInUser);
-                var appVendorEnlistmentLogsData = new AppVendorEnlistmentLogs
-                {
-                    ProspectiveVendorId = 1,
-                    Code = appProspectiveVendorCode,
-                    Status = (int)nextApprover.Status,
-                    Comment = comment,
-                    Action = ApproverAction.Rejected.ToString(),
-                    ActionById = employeeData.Email,
-                    CreatorId = employeeData.Email,
-                    CreationTime = DateTime.Now,
-                    LastModifierId = employeeData.Email,
-                    LastModificationTime = DateTime.Now
-                };
-                await new AppVendorEnlistmentLogsService().Insert(appVendorEnlistmentLogsData);
-
-                SharePointService.Instance.UpdatePendingApprovalByTitle(appProspectiveVendorCode, nextApprover.Status.ToString(), nextApprover.PendingWithUserId);
-
-                return true;
-            }
-            catch (Exception e)
-            {
-                return false;
-            }
-        }
+        public async Task<bool> HandleResubmitToVendor() => await HandleAction(ApproverAction.ReSubmit);
     }
 }
