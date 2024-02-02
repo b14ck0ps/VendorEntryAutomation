@@ -76,6 +76,6 @@ namespace VE.BusinessLogicLayer.Handler
         public async Task<bool> HandleApprove() => await HandleAction(ApproverAction.Approved);
         public async Task<bool> HandleChangeRequest() => await HandleAction(ApproverAction.ChangeRequest);
         public async Task<bool> HandleReject() => await HandleAction(ApproverAction.Rejected);
-        public async Task<bool> HandleResubmitToVendor() => await HandleAction(ApproverAction.ReSubmit);
+        public async Task<bool> HandleResubmitToVendor() => await HandleAction(ApproverAction.VendorReSubmit);
     }
 }

@@ -35,6 +35,7 @@ namespace VE.BusinessLogicLayer.SharePoint
             if (items.Count <= 0) return null;
             var userInfo = new UserInfo
             {
+                UserId = ((FieldUserValue)items[0]["Email"]).LookupId.ToString(),
                 EmployeeId = items[0]["EmployeeId"]?.ToString(),
                 EmployeeName = items[0]["EmployeeName"]?.ToString(),
                 Mobile = items[0]["Mobile"]?.ToString(),

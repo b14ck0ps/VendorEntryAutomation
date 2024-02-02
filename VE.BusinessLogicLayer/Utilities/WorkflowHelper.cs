@@ -14,6 +14,7 @@ namespace VE.BusinessLogicLayer.Utilities
         private static List<ListItem> ApproverInfo { get; set; }
         private static dynamic SC01Info { get; set; }
         public AppProspectiveVendors AppProspectiveVendors { get; set; }
+        public AppVendorEnlistmentLogs LatestAppVendorEnlistmentLog { get; set; }
 
         public WorkflowHelper()
         {
@@ -147,10 +148,16 @@ namespace VE.BusinessLogicLayer.Utilities
                     pendingApprovalInfo.PendingWithUserId = null;
                     pendingApprovalInfo.PendingWithUserEmail = null;
                     break;
-                case ApproverAction.ReSubmit:
+                case ApproverAction.VendorReSubmit:
                     pendingApprovalInfo.Status = Status.ChangeRequestSentToProspectiveVendor;
                     pendingApprovalInfo.PendingWithUserId = null;
                     pendingApprovalInfo.PendingWithUserEmail = null;
+                    break;
+                case ApproverAction.RequesterReSubmit:
+                    var requester = SharePointService.Instance.GetUserByEmail("BergerEmployeeInformation", LatestAppVendorEnlistmentLog.CreatorId);
+                    pendingApprovalInfo.Status = Status.ReSubmittedFromRequestor;
+                    pendingApprovalInfo.PendingWithUserId = requester.UserId;
+                    pendingApprovalInfo.PendingWithUserEmail = requester.Email;
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(action), action, null);

@@ -27,5 +27,10 @@ namespace VE.DataAccessLayer.Repository
             const string sqlQuery = "SELECT * FROM [VE].AppProspectiveVendorMaterials WHERE VendorCode = @Code";
             return await LoadData<AppProspectiveVendorMaterials, dynamic>(sqlQuery, new { Code = code });
         }
+        public async Task<int> Delete(string code)
+        {
+            const string sqlQuery = "DELETE FROM [VE].AppProspectiveVendorMaterials WHERE VendorCode = @Code";
+            return await SaveData(sqlQuery, new { Code = code });
+        }
     }
 }

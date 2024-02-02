@@ -24,6 +24,11 @@ namespace VE.DataAccessLayer.Repository
 
             return await SaveData(sqlQuery, data);
         }
+        public async Task<int> Update(AppProspectiveVendors data)
+        {
+            const string sqlQuery = @"UPDATE [VE].[AppProspectiveVendors] SET [RequestorID] = @RequestorID, [ServiceDescription] = @ServiceDescription, [RequirementGeneral] = @RequirementGeneral, [RequirementOther] = @RequirementOther, [TypeOfSupplierId] = @TypeOfSupplierId, [ExisitngSupplierCount] = @ExisitngSupplierCount, [ExisitngSupplierProblem] = @ExisitngSupplierProblem, [NewSupplierAdditionReason] = @NewSupplierAdditionReason, [VendorName] = @VendorName, [VendorEmail] = @VendorEmail, [Status] = @Status, [ExtraProperties] = @ExtraProperties, [ConcurrencyStamp] = @ConcurrencyStamp, [CreationTime] = @CreationTime, [CreatorId] = @CreatorId, [LastModificationTime] = @LastModificationTime, [LastModifierId] = @LastModifierId, [IsDeleted] = @IsDeleted, [DeleterId] = @DeleterId, [DeletionTime] = @DeletionTime, [PendingWithUserId] = @PendingWithUserId, [IsIncludedIntoSAP] = @IsIncludedIntoSAP, [SAPVendorCode] = @SAPVendorCode, [ScoreCard] = @ScoreCard WHERE [Code] = @Code";
+            return await SaveData(sqlQuery, data);
+        }
         public async Task<AppProspectiveVendors> GetByCode(string code)
         {
             const string sqlQuery = "SELECT * FROM [VE].AppProspectiveVendors WHERE Code = @Code";

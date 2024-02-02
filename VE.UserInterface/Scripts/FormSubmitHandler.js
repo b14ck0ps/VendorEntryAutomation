@@ -72,8 +72,18 @@
         formData.append('NewSupplierAdditionReason', $('#NewSupplierAdditionReason').val());
         formData.append('Comment', $('#Comment').val());
         formData.append('SelectedMaterials', JSON.stringify(selectedMaterials));
+
+        var clickedButtonId = $(document.activeElement).attr('id');
+        let endpoint;
+        if (clickedButtonId === 'change') {
+            endpoint = '/Home/SubmitFormForChangeRequest';
+            formData.append('Code', $('#AppProspectiveVendorId').val());
+        } else if (clickedButtonId === 'submit') {
+            endpoint = '/Home/SubmitForm';
+        }
+
         $.ajax({
-            url: '/Home/SubmitForm',
+            url: endpoint,
             type: 'POST',
             data: formData,
             processData: false,

@@ -8,5 +8,6 @@ namespace VE.DataAccessLayer.Interface
     {
         Task<AppProspectiveVendors> GetByCode(string code);
         Task<int> UpdateStatus(string code, Status status, int PendingWithUserId);
+        Task<int> Update(AppProspectiveVendors data);
     }
 }

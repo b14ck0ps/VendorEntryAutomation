@@ -4,8 +4,9 @@
     {
         Submitted,
         Approved,
-        ReSubmit,
         ChangeRequest,
+        VendorReSubmit,
+        RequesterReSubmit,
         Rejected,
     }
 }

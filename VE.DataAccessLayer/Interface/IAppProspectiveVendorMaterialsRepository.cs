@@ -8,5 +8,6 @@ namespace VE.DataAccessLayer.Interface
     public interface IAppProspectiveVendorMaterialsRepository : IRepository<AppProspectiveVendorMaterials>
     {
         Task<IEnumerable<AppProspectiveVendorMaterials>> GetByCode(string code);
+        Task<int> Delete(string code);
     }
 }

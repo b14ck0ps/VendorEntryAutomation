@@ -26,6 +26,11 @@ namespace VE.BusinessLogicLayer.Services
             return await _appProspectiveVendorsRepository.Insert(data);
         }
 
+        public async Task<int> Update(AppProspectiveVendors data)
+        {
+            return await _appProspectiveVendorsRepository.Update(data);
+        }
+
         public async Task<AppProspectiveVendors> GetByCode(string code)
         {
             return await _appProspectiveVendorsRepository.GetByCode(code);
@@ -33,7 +38,7 @@ namespace VE.BusinessLogicLayer.Services
 
         public async Task<int> UpdateStatus(Status status, string code, int PendingWithUserId)
         {
-            return await _appProspectiveVendorsRepository.UpdateStatus(code,status,PendingWithUserId);
+            return await _appProspectiveVendorsRepository.UpdateStatus(code, status, PendingWithUserId);
         }
     }
 }

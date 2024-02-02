@@ -96,6 +96,18 @@ namespace VE.UserInterface.Controllers
             return Json(new { code = code });
         }
 
+        [HttpPost]
+        public async Task<ActionResult> SubmitFormForChangeRequest(AppProspectiveVendors formData, string comment,
+            string SelectedMaterials)
+        {
+            var urlBuilder = new UriBuilder(Request.Url.AbsoluteUri) { Path = Request.ApplicationPath, Query = null, Fragment = null };
+            var baseUrl = urlBuilder.ToString();
+            var selectedMaterialsArray = JsonConvert.DeserializeObject<string[]>(SelectedMaterials);
+
+            var code = await FormSubmissionHandler.HandleFormSubmissionForChangeRequest(User.Identity.Name, formData, comment, selectedMaterialsArray, baseUrl);
+            return Json(new { code = code });
+        }
+
 
 
         [HttpPost]
@@ -127,7 +139,7 @@ namespace VE.UserInterface.Controllers
                 case ApproverAction.Rejected:
                     await approvarActionHandler.HandleReject();
                     break;
-                case ApproverAction.ReSubmit:
+                case ApproverAction.VendorReSubmit:
                     await approvarActionHandler.HandleResubmitToVendor();
                     break;
                 default:

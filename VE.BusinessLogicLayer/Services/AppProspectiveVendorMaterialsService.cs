@@ -29,5 +29,10 @@ namespace VE.BusinessLogicLayer.Services
         {
             return await _appProspectiveVendorMaterialsRepository.GetByCode(code);
         }
+
+        public async Task<int> Delete(string code)
+        {
+            return await _appProspectiveVendorMaterialsRepository.Delete(code);
+        }
     }
 }

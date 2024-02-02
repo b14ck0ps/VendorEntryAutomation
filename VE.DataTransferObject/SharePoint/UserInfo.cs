@@ -2,6 +2,7 @@
 {
     public class UserInfo
     {
+        public string UserId { get; set; }
         public string EmployeeId { get; set; }
         public string EmployeeName { get; set; }
         public string Mobile { get; set; }
