@@ -5,7 +5,6 @@ using System.Web.Mvc;
 using VE.BusinessLogicLayer.Handler;
 using VE.BusinessLogicLayer.Services;
 using VE.BusinessLogicLayer.SharePoint;
-using VE.BusinessLogicLayer.Utilities;
 using VE.DataTransferObject.Entities;
 using VE.DataTransferObject.Enums;
 using FormCollection = System.Web.Mvc.FormCollection;
@@ -72,7 +71,8 @@ namespace VE.UserInterface.Controllers
                     break;
             }
 
-
+            var pendingWithUser = SharePointService.Instance.GetByUserId("BergerEmployeeInformation", appProspectiveVendor.PendingWithUserId);
+            ViewBag.PendingWith = pendingWithUser?.EmployeeName ?? "N/A";
             ViewBag.AppVendorEnlistmentLogs = appVendorEnlistmentLogs;
             ViewBag.AppProspectiveVendor = appProspectiveVendor;
             ViewBag.AppProspectiveVendorMaterials = appProspectiveVendorMaterials;
@@ -125,7 +125,7 @@ namespace VE.UserInterface.Controllers
             if (!Enum.TryParse(submitValue, out ApproverAction action))
                 return RedirectToAction("Index", new { id = appProspectiveVendorCode });
 
-            var approvarActionHandler = new ApprovarActionHandler(new AppProspectiveVendorsService(), new WorkflowHelper(), new AppVendorEnlistmentLogsService(), baseUrl, User.Identity.Name, appProspectiveVendorCode, (Status)Enum.Parse(typeof(Status), currentStatus), comment);
+            var approvarActionHandler = new ApprovarActionHandler(baseUrl, User.Identity.Name, appProspectiveVendorCode, (Status)Enum.Parse(typeof(Status), currentStatus), comment);
             switch (action)
             {
                 case ApproverAction.Submitted:

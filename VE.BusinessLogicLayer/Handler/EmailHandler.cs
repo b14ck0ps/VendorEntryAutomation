@@ -10,7 +10,8 @@ namespace VE.BusinessLogicLayer.Handler
             var fromAddress = ConfigurationManager.AppSettings["EmailfromAddress"];
             var subject = ConfigurationManager.AppSettings["Emailsubject"];
             var htmlBody = EmailBody(code, title, status, link);
-            return Utilities.Email.Send(fromAddress, toAddress, subject, htmlBody);
+            //return Utilities.Email.Send(fromAddress, toAddress, subject, htmlBody);
+            return true; //TODO: Implement email sending later
         }
 
         private static string EmailBody(string code, string title, string status, string link)

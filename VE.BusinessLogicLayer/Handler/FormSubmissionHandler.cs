@@ -113,9 +113,7 @@ namespace VE.BusinessLogicLayer.Handler
         {
             var employeeData = SharePointService.Instance.AuthUserInformation(loggedInUser);
             var workflowHelper = new WorkflowHelper();
-
-            var logs = await new AppVendorEnlistmentLogsService().GetByCode(formData.Code);
-            workflowHelper.LatestAppVendorEnlistmentLog = logs.OrderByDescending(l => l.CreationTime).FirstOrDefault();
+            workflowHelper.AppVendorEnlistmentLog = await new AppVendorEnlistmentLogsService().GetByCode(formData.Code);
 
             var netApprovalInfo = workflowHelper.GetNextPendingApprovalInfo((Status)formData.Status, ApproverAction.RequesterReSubmit);
             var appProspectiveVendorsData = new AppProspectiveVendors

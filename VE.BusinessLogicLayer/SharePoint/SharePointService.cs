@@ -53,6 +53,33 @@ namespace VE.BusinessLogicLayer.SharePoint
             return userInfo;
         }
 
+        public UserInfo GetByUserId(string listName, string userId)
+        {
+            var camlQuery = $"<View><Query><Where><Eq><FieldRef Name='Email' LookupId='TRUE'/><Value Type='Integer'>{userId}</Value></Eq></Where></Query></View>";
+
+            var items = _sharePointRepository.GetItemsByQuery(listName, camlQuery);
+
+            if (items.Count <= 0) return null;
+            var userInfo = new UserInfo
+            {
+                UserId = ((FieldUserValue)items[0]["Email"]).LookupId.ToString(),
+                EmployeeId = items[0]["EmployeeId"]?.ToString(),
+                EmployeeName = items[0]["EmployeeName"]?.ToString(),
+                Mobile = items[0]["Mobile"]?.ToString(),
+                JobGrade = items[0]["EmployeeGrade"]?.ToString(),
+                Designation = items[0]["Designation"]?.ToString(),
+                DeptId = items[0]["DeptID"]?.ToString(),
+                DeptName = items[0]["Department"]?.ToString(),
+                Location = items[0]["OfficeLocation"]?.ToString(),
+                Email = ((FieldUserValue)items[0]["Email"]).Email,
+                OptManagerName = items[0]["OptManagerName"]?.ToString(),
+                OptManagerEmail = ((FieldUserValue)items[0]["OptManagerEmail"]).Email,
+                BusAreaName = items[0]["BusAreaName"]?.ToString()
+            };
+
+            return userInfo;
+        }
+
         public SpAuthUserInformation AuthUserInformation(string windowsUsername)
         {
             var user = _sharePointAuthenticationRepository.AuthUserInformation(windowsUsername);

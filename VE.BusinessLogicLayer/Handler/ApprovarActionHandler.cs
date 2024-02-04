@@ -11,19 +11,19 @@ namespace VE.BusinessLogicLayer.Handler
     public class ApprovarActionHandler
     {
         private readonly AppProspectiveVendorsService _appProspectiveVendorService;
-        private readonly WorkflowHelper _workflowHelper;
         private readonly AppVendorEnlistmentLogsService _appVendorEnlistmentLogsService;
+        private readonly WorkflowHelper _workflowHelper;
         private readonly string _baseUrl;
         private readonly string _loggedInUser;
         private readonly string _appProspectiveVendorCode;
         private readonly Status _currentStatus;
         private readonly string _comment;
 
-        public ApprovarActionHandler(AppProspectiveVendorsService appProspectiveVendorService, WorkflowHelper workflowHelper, AppVendorEnlistmentLogsService appVendorEnlistmentLogsService, string baseUrl, string loggedInUser, string appProspectiveVendorCode, Status currentStatus, string comment)
+        public ApprovarActionHandler(string baseUrl, string loggedInUser, string appProspectiveVendorCode, Status currentStatus, string comment)
         {
-            _appProspectiveVendorService = appProspectiveVendorService;
-            _workflowHelper = workflowHelper;
-            _appVendorEnlistmentLogsService = appVendorEnlistmentLogsService;
+            _appProspectiveVendorService = new AppProspectiveVendorsService();
+            _workflowHelper = new WorkflowHelper();
+            _appVendorEnlistmentLogsService = new AppVendorEnlistmentLogsService();
             _baseUrl = baseUrl;
             _loggedInUser = loggedInUser;
             _appProspectiveVendorCode = appProspectiveVendorCode;
@@ -36,6 +36,7 @@ namespace VE.BusinessLogicLayer.Handler
             try
             {
                 _workflowHelper.AppProspectiveVendors = await _appProspectiveVendorService.GetByCode(_appProspectiveVendorCode);
+                _workflowHelper.AppVendorEnlistmentLog = await _appVendorEnlistmentLogsService.GetByCode(_appProspectiveVendorCode);
                 var nextApprover = _workflowHelper.GetNextPendingApprovalInfo(_currentStatus, action);
                 await _appProspectiveVendorService.UpdateStatus(
                     nextApprover.Status,

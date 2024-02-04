@@ -113,13 +113,6 @@
         </div>
     </section>
 
-    <section class="card card-group justify-content-between p-3 mb-3 align-items-center" style="font-size: 12px;">
-        <div class="d-flex align-items-center gap-3">
-            <label for="NewSupplierAdditionReason" class="form-label">Pending With:</label>
-            <span id="NewSupplierAdditionReason" class="form-text">@ViewBag.AppProspectiveVendor.PendingWithUserId</span>
-        </div>
-    </section>
-
     @if (ViewBag.ActionEnabled)
     {
         <section class="card card-group justify-content-between p-3 mb-3 align-items-center">
@@ -151,8 +144,9 @@
 </form>
 
 <section class="card card-text p-3" style="font-size: 12px;">
-    <div class="row">
+    <div class="d-flex justify-content-between">
         <p class="fw-bold">History Log</p>
+        <p> <span class="fw-bold"> Pending With</span>: @ViewBag.PendingWith </p>
     </div>
     <table class="table table-border">
         <thead>

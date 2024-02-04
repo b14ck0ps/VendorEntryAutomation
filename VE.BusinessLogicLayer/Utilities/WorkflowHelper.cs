@@ -14,7 +14,7 @@ namespace VE.BusinessLogicLayer.Utilities
         private static List<ListItem> ApproverInfo { get; set; }
         private static dynamic SC01Info { get; set; }
         public AppProspectiveVendors AppProspectiveVendors { get; set; }
-        public AppVendorEnlistmentLogs LatestAppVendorEnlistmentLog { get; set; }
+        public IEnumerable<AppVendorEnlistmentLogs> AppVendorEnlistmentLog { get; set; }
 
         public WorkflowHelper()
         {
@@ -95,7 +95,6 @@ namespace VE.BusinessLogicLayer.Utilities
             switch (action)
             {
                 case ApproverAction.Submitted:
-                    // TODO: use this for Resubmit after change request
                     break;
                 case ApproverAction.Approved:
                     switch (currentStatus)
@@ -135,6 +134,18 @@ namespace VE.BusinessLogicLayer.Utilities
                             pendingApprovalInfo.PendingWithUserId = null;
                             pendingApprovalInfo.PendingWithUserEmail = null;
                             break;
+                        case Status.ReSubmittedFromRequestor:
+                            var lastChangeRequestLog = AppVendorEnlistmentLog
+                                .Where(log => log.Action == "ChangeRequest")
+                                .OrderByDescending(log => log.CreationTime)
+                                .FirstOrDefault();
+                            if (lastChangeRequestLog == null) return null;
+
+                            var previousLog = AppVendorEnlistmentLog
+                                .Where(log => (log.Action == "Approved" || log.Action == "Submitted") && log.CreationTime < lastChangeRequestLog.CreationTime)
+                                .OrderByDescending(log => log.CreationTime)
+                                .FirstOrDefault();
+                            return previousLog == null ? null : GetNextPendingApprovalInfo((Status)previousLog.Status, ApproverAction.Approved);
                         default:
                             throw new ArgumentOutOfRangeException(nameof(currentStatus), currentStatus, null);
                     }
@@ -154,10 +165,11 @@ namespace VE.BusinessLogicLayer.Utilities
                     pendingApprovalInfo.PendingWithUserEmail = null;
                     break;
                 case ApproverAction.RequesterReSubmit:
-                    var requester = SharePointService.Instance.GetUserByEmail("BergerEmployeeInformation", LatestAppVendorEnlistmentLog.CreatorId);
+                    var lastLog = AppVendorEnlistmentLog.OrderByDescending(l => l.CreationTime).FirstOrDefault();
+                    var lastApprover = SharePointService.Instance.GetUserByEmail("BergerEmployeeInformation", lastLog.CreatorId);
                     pendingApprovalInfo.Status = Status.ReSubmittedFromRequestor;
-                    pendingApprovalInfo.PendingWithUserId = requester.UserId;
-                    pendingApprovalInfo.PendingWithUserEmail = requester.Email;
+                    pendingApprovalInfo.PendingWithUserId = lastApprover.UserId;
+                    pendingApprovalInfo.PendingWithUserEmail = lastApprover.Email;
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(action), action, null);
