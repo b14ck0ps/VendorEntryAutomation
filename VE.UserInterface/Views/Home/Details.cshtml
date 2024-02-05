@@ -126,7 +126,7 @@
                     <input type="hidden" name="CurrentStatus" value="@ViewBag.AppProspectiveVendor.Status" />
                     <button type="submit" name="submitBtn" value="@ApproverAction.Approved" class="btn btn-info">Approve</button>
                     <button type="submit" name="submitBtn" value="@ApproverAction.ChangeRequest" class="btn btn-warning">Change Request</button>
-                    @if (ViewBag.AppProspectiveVendor.Status != null && (Status)ViewBag.AppProspectiveVendor.Status == Status.RFISubmittedByProspectiveVendor)
+                    @if (ViewBag.AppProspectiveVendor.Status != null && (Status)ViewBag.AppProspectiveVendor.Status == Status.RFISubmittedByProspectiveVendor || (Status)ViewBag.AppProspectiveVendor.Status == Status.ReSubmittedFromVendor)
                     {
                         <button type="submit" name="submitBtn" value="@ApproverAction.VendorReSubmit" class="btn btn-warning">Re-Submit</button>
                     }

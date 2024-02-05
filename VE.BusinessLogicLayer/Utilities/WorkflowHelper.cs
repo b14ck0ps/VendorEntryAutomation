@@ -107,29 +107,29 @@ namespace VE.BusinessLogicLayer.Utilities
                             break;
                         case Status.HODApproved:
                             pendingApprovalInfo.Status = Status.VDTeamRFIFloat;
-                            pendingApprovalInfo.PendingWithUserId = SC01_Approver1().UserId.ToString();
-                            pendingApprovalInfo.PendingWithUserEmail = SC01_Approver1().Email;
-                            pendingApprovalInfo.PendingWithUserDisplayName = SC01_Approver1().Title;
+                            pendingApprovalInfo.PendingWithUserId = "0";
+                            pendingApprovalInfo.PendingWithUserEmail = "";
+                            pendingApprovalInfo.PendingWithUserDisplayName = "Respective Vendor";
                             break;
-                        case Status.VDTeamRFIFloat:
-                            pendingApprovalInfo.Status = Status.RFISubmittedByProspectiveVendor;
+                        case Status.RFISubmittedByProspectiveVendor:
+                            pendingApprovalInfo.Status = Status.RFIProcessedByVD;
                             pendingApprovalInfo.PendingWithUserId = SC01_Approver6().UserId.ToString();
                             pendingApprovalInfo.PendingWithUserEmail = SC01_Approver6().Email;
                             pendingApprovalInfo.PendingWithUserDisplayName = SC01_Approver6().Title;
                             break;
-                        case Status.RFISubmittedByProspectiveVendor:
-                            pendingApprovalInfo.Status = Status.RFIProcessedByVD;
+                        case Status.RFIProcessedByVD:
+                            pendingApprovalInfo.Status = Status.HPAndPApproved;
                             pendingApprovalInfo.PendingWithUserId = SC01_Hod().UserId.ToString();
                             pendingApprovalInfo.PendingWithUserEmail = SC01_Hod().Email;
                             pendingApprovalInfo.PendingWithUserDisplayName = SC01_Hod().Title;
                             break;
-                        case Status.RFIProcessedByVD:
-                            pendingApprovalInfo.Status = Status.HPAndPApproved;
+                        case Status.HPAndPApproved:
+                            pendingApprovalInfo.Status = Status.CSCOApproved;
                             pendingApprovalInfo.PendingWithUserId = SC01_Approver1().UserId.ToString();
                             pendingApprovalInfo.PendingWithUserEmail = SC01_Approver1().Email;
                             pendingApprovalInfo.PendingWithUserDisplayName = SC01_Approver1().Title;
                             break;
-                        case Status.HPAndPApproved:
+                        case Status.CSCOApproved:
                             pendingApprovalInfo.Status = Status.VendorCreationInSAPAndRequestClosed;
                             pendingApprovalInfo.PendingWithUserId = null;
                             pendingApprovalInfo.PendingWithUserEmail = null;
