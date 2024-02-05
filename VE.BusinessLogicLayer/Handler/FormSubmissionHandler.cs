@@ -7,6 +7,7 @@ using VE.BusinessLogicLayer.SharePoint;
 using VE.BusinessLogicLayer.Utilities;
 using VE.DataTransferObject.Entities;
 using VE.DataTransferObject.Enums;
+using VE.DataTransferObject.SharePoint;
 
 namespace VE.BusinessLogicLayer.Handler
 {
@@ -20,6 +21,19 @@ namespace VE.BusinessLogicLayer.Handler
 
             var workflowHelper = new WorkflowHelper();
             var hod = workflowHelper.GetUserHod(loginUser.Email);
+            var delegateToUser = workflowHelper.GetDelegateToUserId(hod.UserId.ToString());
+
+            if (delegateToUser != null)
+            {
+                var delegatetedUser = new SpAuthUserInformation
+                {
+                    UserId = int.Parse(delegateToUser.PendingWithUserId),
+                    Email = delegateToUser.PendingWithUserEmail,
+                    Title = delegateToUser.PendingWithUserDisplayName,
+                };
+                hod = delegatetedUser;
+            }
+
             var randomVendorCode = "VE-" + CodeGenerator.GenerateRandomCode();
 
             var appProspectiveVendorsData = new AppProspectiveVendors

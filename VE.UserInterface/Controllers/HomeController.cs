@@ -5,6 +5,7 @@ using System.Web.Mvc;
 using VE.BusinessLogicLayer.Handler;
 using VE.BusinessLogicLayer.Services;
 using VE.BusinessLogicLayer.SharePoint;
+using VE.BusinessLogicLayer.Utilities;
 using VE.DataTransferObject.Entities;
 using VE.DataTransferObject.Enums;
 using FormCollection = System.Web.Mvc.FormCollection;
@@ -49,7 +50,6 @@ namespace VE.UserInterface.Controllers
             var appVendorEnlistmentLogs = await new AppVendorEnlistmentLogsService().GetByCode(id);
             var loginUser = SharePointService.Instance.AuthUserInformation(User.Identity.Name);
             var employee = SharePointService.Instance.GetUserByEmail("BergerEmployeeInformation", loginUser.Email);
-            //var employeeName = SharePointService.Instance.GetByEmployeeId("BergerEmployeeInformation", appProspectiveVendor.PendingWithUserId);
 
             var actionEnabled = false;
 
