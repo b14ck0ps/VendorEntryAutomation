@@ -26,7 +26,8 @@ namespace VE.UserInterface.Controllers
             if (string.IsNullOrEmpty(code)) return View();
             var appProspectiveVendors = await new AppProspectiveVendorsService().GetByCode(code);
             var appProspectiveVendorMaterials = await new AppProspectiveVendorMaterialsService().GetByCode(code);
-
+            var appVendorEnlistmentLogs = await new AppVendorEnlistmentLogsService().GetByCode(code);
+            if (appProspectiveVendors != null) ViewBag.appVendorEnlistmentLogs = appVendorEnlistmentLogs;
             if (appProspectiveVendors == null) return View();
             if (appProspectiveVendors.Status != (int)Status.ChangeRequestSentToRequestor &&
                 appProspectiveVendors.PendingWithUserId != loginUser.UserId.ToString()) return View();
