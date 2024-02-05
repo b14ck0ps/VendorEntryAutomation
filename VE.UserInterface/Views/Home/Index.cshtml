@@ -1,4 +1,5 @@
 ﻿@using VE.DataTransferObject.Entities
+@using VE.DataTransferObject.Enums
 @using VE.DataTransferObject.SharePoint
 @{
     ViewBag.Title = "Home Page";
@@ -14,167 +15,196 @@
 
     @if (EmployeeData != null)
     {
-        <div class="container">
-            <section class="card card-header">
-                <div class="row">
-                    <h5>Requestor Information</h5>
+        <section class="card card-header">
+            <div class="row">
+                <h5>Requestor Information</h5>
+            </div>
+
+            <div class="row mb-1" style="font-size: 12px;">
+                <div class="col-md-4">Employee Name: <b> @EmployeeData.EmployeeName </b></div>
+                <div class="col-md-4">Employee ID: <b>@EmployeeData.EmployeeId</b></div>
+                <div class="col-md-4">Position: <b>@EmployeeData.Designation</b></div>
+            </div>
+
+            <div class="row mb-1" style="font-size: 12px;">
+                <div class="col-md-4">Department: <b>@EmployeeData.DeptName</b></div>
+                <div class="col-md-4">Location: <b>@EmployeeData.BusAreaName</b></div>
+                <div class="col-md-4">Mobile: <b>@EmployeeData.Mobile</b></div>
+            </div>
+
+            <div class="row mb-1" style="font-size: 12px;">
+                <div class="col-md-4">Email: <b>@EmployeeData.Email</b></div>
+                <div class="col-md-4">Grade: <b>@EmployeeData.JobGrade</b></div>
+            </div>
+        </section>
+
+        <form method="post" action="@Url.Action("SubmitForm", "Home")" class="mt-1 card card-header ">
+            @Html.AntiForgeryToken()
+            <h5>Requestor Form</h5>
+
+            <div class="row mb-1" style="font-size: 12px;">
+                <div class="col-md-4">
+                    <label for="VendorName" class="form-label">Vendor Name:</label>
+                    <input type="text" id="VendorName" name="VendorName" class="form-control" required value="@((appProspectiveVendor != null) ? appProspectiveVendor.VendorName : "")" />
+                </div>
+                <div class="col-md-4">
+                    <label for="VendorEmail" class="form-label">Vendor Email:</label>
+                    <input type="text" id="VendorEmail" name="VendorEmail" class="form-control" required value="@((appProspectiveVendor != null) ? appProspectiveVendor.VendorEmail : "")" />
+                </div>
+                <div class="col-md-4">
+                    <label for="ServiceDescription" class="form-label">Service Description:</label>
+                    <input type="text" id="ServiceDescription" name="ServiceDescription" class="form-control" required value="@((appProspectiveVendor != null) ? appProspectiveVendor.ServiceDescription : "")" />
+                </div>
+            </div>
+
+            <div class="row mb-1" style="font-size: 12px;">
+                <div class="col-md-4">
+                    <label for="RequirementGeneral" class="form-label">Supplier General Request:</label>
+                    <input type="text" id="RequirementGeneral" name="RequirementGeneral" class="form-control" required value="@((appProspectiveVendor != null) ? appProspectiveVendor.RequirementGeneral : "")" />
+                </div>
+                <div class="col-md-4">
+                    <label for="RequirementOther" class="form-label">Supplier Other Request:</label>
+                    <input type="text" id="RequirementOther" name="RequirementOther" class="form-control" required value="@((appProspectiveVendor != null) ? appProspectiveVendor.RequirementOther : "")" />
+                </div>
+                <div class="col-md-4">
+                    <label for="TypeOfSupplierId" class="form-label">Supplier Type:</label>
+                    <select id="TypeOfSupplierId" name="TypeOfSupplierId" class="form-control" required>
+                        <option value="" disabled selected>---Select---</option>
+                        <option value="1" @(appProspectiveVendor?.TypeOfSupplierId == 1 ? "selected" : "")>Local</option>
+                        <option value="2" @(appProspectiveVendor?.TypeOfSupplierId == 2 ? "selected" : "")>International</option>
+                    </select>
                 </div>
 
-                <div class="row mb-1" style="font-size: 12px;">
-                    <div class="col-md-4">Employee Name: <b> @EmployeeData.EmployeeName </b></div>
-                    <div class="col-md-4">Employee ID: <b>@EmployeeData.EmployeeId</b></div>
-                    <div class="col-md-4">Position: <b>@EmployeeData.Designation</b></div>
+            </div>
+
+            <div class="row mb-1" style="font-size: 12px;">
+                <div class="col-md-4">
+                    <label for="ExisitngSupplierCount" class="form-label">Existing Supplier Count:</label>
+                    <input type="text" id="ExisitngSupplierCount" name="ExisitngSupplierCount" class="form-control" required value="@(appProspectiveVendor?.ExisitngSupplierCount ?? 0)" />
                 </div>
-
-                <div class="row mb-1" style="font-size: 12px;">
-                    <div class="col-md-4">Department: <b>@EmployeeData.DeptName</b></div>
-                    <div class="col-md-4">Location: <b>@EmployeeData.BusAreaName</b></div>
-                    <div class="col-md-4">Mobile: <b>@EmployeeData.Mobile</b></div>
+                <div class="col-md-4">
+                    <label for="ExisitngSupplierProblem" class="form-label">Existing Supplier Problem:</label>
+                    <input type="text" id="ExisitngSupplierProblem" name="ExisitngSupplierProblem" class="form-control" required value="@((appProspectiveVendor != null) ? appProspectiveVendor.ExisitngSupplierProblem : "")" />
                 </div>
-
-                <div class="row mb-1" style="font-size: 12px;">
-                    <div class="col-md-4">Email: <b>@EmployeeData.Email</b></div>
-                    <div class="col-md-4">Grade: <b>@EmployeeData.JobGrade</b></div>
+                <div class="col-md-4">
+                    <label for="NewSupplierAdditionReason" class="form-label">Supplier Add Reason:</label>
+                    <input type="text" id="NewSupplierAdditionReason" name="NewSupplierAdditionReason" class="form-control" required value="@((appProspectiveVendor != null) ? appProspectiveVendor.NewSupplierAdditionReason : "")" />
                 </div>
-            </section>
-
-            <form method="post" action="@Url.Action("SubmitForm", "Home")" class="mt-1 card card-header ">
-                @Html.AntiForgeryToken()
-                <h5>Requestor Form</h5>
-
-                <div class="row mb-1" style="font-size: 12px;">
-                    <div class="col-md-4">
-                        <label for="VendorName" class="form-label">Vendor Name:</label>
-                        <input type="text" id="VendorName" name="VendorName" class="form-control" required value="@((appProspectiveVendor != null) ? appProspectiveVendor.VendorName : "")" />
-                    </div>
-                    <div class="col-md-4">
-                        <label for="VendorEmail" class="form-label">Vendor Email:</label>
-                        <input type="text" id="VendorEmail" name="VendorEmail" class="form-control" required value="@((appProspectiveVendor != null) ? appProspectiveVendor.VendorEmail : "")" />
-                    </div>
-                    <div class="col-md-4">
-                        <label for="ServiceDescription" class="form-label">Service Description:</label>
-                        <input type="text" id="ServiceDescription" name="ServiceDescription" class="form-control" required value="@((appProspectiveVendor != null) ? appProspectiveVendor.ServiceDescription : "")" />
-                    </div>
-                </div>
-
-                <div class="row mb-1" style="font-size: 12px;">
-                    <div class="col-md-4">
-                        <label for="RequirementGeneral" class="form-label">Supplier General Request:</label>
-                        <input type="text" id="RequirementGeneral" name="RequirementGeneral" class="form-control" required value="@((appProspectiveVendor != null) ? appProspectiveVendor.RequirementGeneral : "")" />
-                    </div>
-                    <div class="col-md-4">
-                        <label for="RequirementOther" class="form-label">Supplier Other Request:</label>
-                        <input type="text" id="RequirementOther" name="RequirementOther" class="form-control" required value="@((appProspectiveVendor != null) ? appProspectiveVendor.RequirementOther : "")" />
-                    </div>
-                    <div class="col-md-4">
-                        <label for="TypeOfSupplierId" class="form-label">Supplier Type:</label>
-                        <select id="TypeOfSupplierId" name="TypeOfSupplierId" class="form-control" required>
-                            <option value="" disabled selected>---Select---</option>
-                            <option value="1" @(appProspectiveVendor?.TypeOfSupplierId == 1 ? "selected" : "")>Local</option>
-                            <option value="2" @(appProspectiveVendor?.TypeOfSupplierId == 2 ? "selected" : "")>International</option>
-                        </select>
-                    </div>
-
-                </div>
-
-                <div class="row mb-1" style="font-size: 12px;">
-                    <div class="col-md-4">
-                        <label for="ExisitngSupplierCount" class="form-label">Existing Supplier Count:</label>
-                        <input type="text" id="ExisitngSupplierCount" name="ExisitngSupplierCount" class="form-control" required value="@(appProspectiveVendor?.ExisitngSupplierCount ?? 0)" />
-                    </div>
-                    <div class="col-md-4">
-                        <label for="ExisitngSupplierProblem" class="form-label">Existing Supplier Problem:</label>
-                        <input type="text" id="ExisitngSupplierProblem" name="ExisitngSupplierProblem" class="form-control" required value="@((appProspectiveVendor != null) ? appProspectiveVendor.ExisitngSupplierProblem : "")" />
-                    </div>
-                    <div class="col-md-4">
-                        <label for="NewSupplierAdditionReason" class="form-label">Supplier Add Reason:</label>
-                        <input type="text" id="NewSupplierAdditionReason" name="NewSupplierAdditionReason" class="form-control" required value="@((appProspectiveVendor != null) ? appProspectiveVendor.NewSupplierAdditionReason : "")" />
-                    </div>
-                </div>
+            </div>
 
 
-                <!-- Modal -->
-                <div class="modal fade" id="myModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                    <div class="modal-dialog modal-lg">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="exampleModalLabel">Select Material</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                            </div>
-                            <div class="modal-body">
-                                <table class="table" id="materialTable">
-                                    <thead>
-                                        <tr>
-                                            <th>Material Code</th>
-                                            <th>Material Name</th>
-                                            <th>Action</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @{
-                                            foreach (var item in ViewBag.MaterialMaster)
-                                            {
-                                                var materialCode = item["MaterialCode"];
-                                                var materialName = item["MaterialName"];
-                                                var valueString = $"{materialCode}|{materialName}";
+            <!-- Modal -->
+            <div class="modal fade" id="myModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Select Material</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <table class="table" id="materialTable">
+                                <thead>
+                                    <tr>
+                                        <th>Material Code</th>
+                                        <th>Material Name</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @{
+                                        foreach (var item in ViewBag.MaterialMaster)
+                                        {
+                                            var materialCode = item["MaterialCode"];
+                                            var materialName = item["MaterialName"];
+                                            var valueString = $"{materialCode}|{materialName}";
 
-                                                <tr>
-                                                    <td>@materialCode</td>
-                                                    <td>@materialName</td>
-                                                    <td><button type="button" class="btn btn-outline-info btn-sm add-material-btn" data-value="@valueString">Add</button></td>
-                                                </tr>
-                                            }
+                                            <tr>
+                                                <td>@materialCode</td>
+                                                <td>@materialName</td>
+                                                <td><button type="button" class="btn btn-outline-info btn-sm add-material-btn" data-value="@valueString">Add</button></td>
+                                            </tr>
                                         }
-                                    </tbody>
-                                </table>
-                            </div>
+                                    }
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                 </div>
+            </div>
 
-                <section class="card card-body m-auto w-100 mb-3 mt-3">
-                    <div class="d-flex justify-content-end align-content-center">
-                        <button class="btn btn-outline-primary btn-sm" type="button" id="addItemBtn" data-bs-toggle="modal" data-bs-target="#myModal">Add Material</button>
-                    </div>
-                    <div class="col-12">
-                        <table id="materials" class="table table-responsive" style="font-size: 13px">
-                            <thead>
-                                <tr style="border:1.5px;">
-                                    <td>Material Code</td>
-                                    <td>Material Name</td>
-                                    <td>Action</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <!-- Rows will be added here dynamically -->
-                            </tbody>
-                        </table>
-                    </div>
-                </section>
-                <hr />
-
-                <div class="d-flex mb-1 align-items-end justify-content-between" style="font-size: 12px;">
-                    <div>
-                        <label for="Comment" class="form-label">Comment:</label>
-                        <textarea id="Comment" name="Comment" class="form-control no-padding" style="height: 100px; width: 500px;" required></textarea>
-                    </div>
-
-                    <div>
-                        @if (appProspectiveVendor != null)
-                        {
-                            <input type="hidden" id="AppProspectiveVendorId" name="AppProspectiveVendorId" value="@appProspectiveVendor.Code" />
-                            <button type="submit" id="change" class="btn btn-primary">Change</button>
-                        }
-                        else
-                        {
-                            <button type="submit" id="submit" class="btn btn-primary">Submit</button>
-                        }
-                    </div>
+            <section class="card card-body m-auto w-100 mb-3 mt-3">
+                <div class="d-flex justify-content-end align-content-center">
+                    <button class="btn btn-outline-primary btn-sm" type="button" id="addItemBtn" data-bs-toggle="modal" data-bs-target="#myModal">Add Material</button>
                 </div>
-            </form>
-        </div>
+                <div class="col-12">
+                    <table id="materials" class="table table-responsive" style="font-size: 13px">
+                        <thead>
+                            <tr style="border:1.5px;">
+                                <td>Material Code</td>
+                                <td>Material Name</td>
+                                <td>Action</td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Rows will be added here dynamically -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+            <hr />
+
+            <div class="d-flex mb-1 align-items-end justify-content-between" style="font-size: 12px;">
+                <div>
+                    <label for="Comment" class="form-label">Comment:</label>
+                    <textarea id="Comment" name="Comment" class="form-control no-padding" style="height: 100px; width: 500px;" required></textarea>
+                </div>
+
+                <div>
+                    @if (appProspectiveVendor != null)
+                    {
+                        <input type="hidden" id="AppProspectiveVendorId" name="AppProspectiveVendorId" value="@appProspectiveVendor.Code" />
+                        <button type="submit" id="change" class="btn btn-primary">Change</button>
+                    }
+                    else
+                    {
+                        <button type="submit" id="submit" class="btn btn-primary">Submit</button>
+                    }
+                </div>
+            </div>
+        </form>
     }
 
+    @if (ViewBag.appVendorEnlistmentLogs != null)
+    {
+        <section class="card card-text p-3 mt-2" style="font-size: 12px;">
+            <div class="d-flex justify-content-between">
+                <p class="fw-bold">History Log</p>
+            </div>
+            <table class="table table-border">
+                <thead>
+                    <tr>
+                        <th>Status</th>
+                        <th>Action</th>
+                        <th>Action By</th>
+                        <th>Comment</th>
+                        <th>Creation Time</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in ViewBag.AppVendorEnlistmentLogs)
+                    {
+                        <tr>
+                            <td>@Enum.GetName(typeof(Status), item.Status)</td>
+                            <td>@item.Action</td>
+                            <td>@item.ActionById</td>
+                            <td>@item.Comment</td>
+                            <td>@item.CreationTime</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </section>
+    }
     @if (ViewBag.SubmitResult != null)
     {
         <div class="container mt-4">
@@ -182,7 +212,6 @@
         </div>
     }
 </main>
-
 @section scripts {
     <script>var materials = @Html.Raw(Json.Encode(ViewBag.AppProspectiveVendorMaterials))</script>
     <script src="@Url.Content("~/Scripts/FormSubmitHandler.js")"></script>

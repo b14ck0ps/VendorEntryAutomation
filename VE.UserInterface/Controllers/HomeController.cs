@@ -25,10 +25,10 @@ namespace VE.UserInterface.Controllers
             if (string.IsNullOrEmpty(code)) return View();
             var appProspectiveVendors = await new AppProspectiveVendorsService().GetByCode(code);
             var appProspectiveVendorMaterials = await new AppProspectiveVendorMaterialsService().GetByCode(code);
-
+            var appVendorEnlistmentLogs = await new AppVendorEnlistmentLogsService().GetByCode(code);
             if (appProspectiveVendors == null) return View();
-            if (appProspectiveVendors.Status != (int)Status.ChangeRequestSentToRequestor &&
-                appProspectiveVendors.PendingWithUserId != loginUser.UserId.ToString()) return View();
+            if (appVendorEnlistmentLogs != null) ViewBag.appVendorEnlistmentLogs = appVendorEnlistmentLogs;
+            if (appProspectiveVendors.Status != (int)Status.ChangeRequestSentToRequestor/* || appProspectiveVendors.PendingWithUserId != loginUser.UserId.ToString()*/) return View();//TODO: use this authorization
             ViewBag.AppProspectiveVendors = appProspectiveVendors;
             ViewBag.AppProspectiveVendorMaterials = appProspectiveVendorMaterials;
 
@@ -40,16 +40,16 @@ namespace VE.UserInterface.Controllers
             if (string.IsNullOrEmpty(id))
                 return RedirectToAction("Index");
 
-            var appProspectiveVendor = await new AppProspectiveVendorsService().GetByCode(id);
-
-            if (appProspectiveVendor.Status == (int)Status.ChangeRequestSentToRequestor)
-                return RedirectToAction("Index", new { appProspectiveVendor.Code });
-
             var appProspectiveVendorMaterials = await new AppProspectiveVendorMaterialsService().GetByCode(id);
             var appVendorEnlistmentLogs = await new AppVendorEnlistmentLogsService().GetByCode(id);
             var loginUser = SharePointService.Instance.AuthUserInformation(User.Identity.Name);
             var employee = SharePointService.Instance.GetUserByEmail("BergerEmployeeInformation", loginUser.Email);
-            //var employeeName = SharePointService.Instance.GetByEmployeeId("BergerEmployeeInformation", appProspectiveVendor.PendingWithUserId);
+            var appProspectiveVendor = await new AppProspectiveVendorsService().GetByCode(id);
+
+            if (appProspectiveVendor.Status == (int)Status.ChangeRequestSentToRequestor /*&& appProspectiveVendor.PendingWithUserId == loginUser.UserId.ToString()*/)//TODO: use this authorization
+                return RedirectToAction("Index", new { appProspectiveVendor.Code });
+
+
 
             var actionEnabled = false;
 
@@ -66,8 +66,8 @@ namespace VE.UserInterface.Controllers
                     ViewBag.PendingWithVendor = true;
                     break;
                 default:
-                    //actionEnabled = appProspectiveVendor.PendingWithUserId == loginUser.Email; //TODO: Use this after testing
                     actionEnabled = true;
+                    //actionEnabled = (appProspectiveVendor.PendingWithUserId == loginUser.UserId.ToString()&&appProspectiveVendor.Status != (int)Status.ChangeRequestSentToRequestor); //TODO: use this authorization
                     break;
             }
 

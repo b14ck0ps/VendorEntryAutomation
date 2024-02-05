@@ -88,7 +88,6 @@ namespace VE.BusinessLogicLayer.Utilities
              * 5. If current status is HeadSPPApproved, then next status is DeptHeadApproved, and next approver is SC01_Approver1
              * 6. If current status is DeptHeadApproved, then next status is Completed, and next approver is null
              * 7. If current status is ReSubmitted, then next status is ChangeRequestSentToProspectiveVendor and next approver is null
-             * @ TODO:Need to add more workflow chain for other status & ChangeRequest
              */
             var pendingApprovalInfo = new PendingApprovalInfo();
 
@@ -174,7 +173,37 @@ namespace VE.BusinessLogicLayer.Utilities
                 default:
                     throw new ArgumentOutOfRangeException(nameof(action), action, null);
             }
+
+            var delegateToUserId = GetDelegateToUserId(pendingApprovalInfo.PendingWithUserId);
+            if (delegateToUserId == null) return pendingApprovalInfo;
+            pendingApprovalInfo.PendingWithUserId = delegateToUserId.PendingWithUserId;
+            pendingApprovalInfo.PendingWithUserEmail = delegateToUserId.PendingWithUserEmail;
+            pendingApprovalInfo.PendingWithUserDisplayName = delegateToUserId.PendingWithUserDisplayName;
             return pendingApprovalInfo;
+        }
+
+        public PendingApprovalInfo GetDelegateToUserId(string userId)
+        {
+            var taskDelegationList = SharePointService.Instance.GetAllItemsFromList("Task Delegation");
+            var today = DateTime.Now.Date;
+
+            var delegationInfo = taskDelegationList
+                .Select(row => new
+                {
+                    UserField = (FieldUserValue)row["User"],
+                    DelegateTo = (FieldUserValue)row["Delegate_x0020_To"],
+                    FromDate = Convert.ToDateTime(row["FormDate"]),
+                    ToDate = Convert.ToDateTime(row["ToDate"])
+                })
+                .FirstOrDefault(info => Convert.ToString(info.UserField.LookupId) == userId && today >= info.FromDate && today <= info.ToDate);
+            if (delegationInfo == null) return null;
+
+            return new PendingApprovalInfo
+            {
+                PendingWithUserId = delegationInfo.DelegateTo.LookupId.ToString(),
+                PendingWithUserEmail = delegationInfo.DelegateTo.Email,
+                PendingWithUserDisplayName = delegationInfo.DelegateTo.LookupValue
+            };
         }
     }
 }
