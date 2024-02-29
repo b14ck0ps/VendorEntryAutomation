@@ -143,11 +143,210 @@
     }
 </form>
 
+@if (ViewBag.AppRFIGeneralInformation != null)
+{
+    <section class="card card-text p-3" style="font-size: 12px;margin-bottom: 10px">
+        <div class="d-flex justify-content-between">
+            <p class="fw-bold">General Informations</p>
+        </div>
+        <div style="height: auto; overflow-y: auto;">
+            <table class="table table-border">
+                <thead>
+                    <tr>
+                        <th>CompanyName</th>
+                        <th>ParentCompany</th>
+                        <th>Street</th>
+                        <th>City</th>
+                        <th>Country</th>
+                        <th>PostCode</th>
+                        <th>MobileNumber</th>
+                        <th>EmailAddress</th>
+                        <th>Website</th>
+                        <th>ContactPersonTitle</th>
+                        <th>Agent</th>
+                        <th>AgentStateName</th>
+                        <th>AgentAddressPrincipal</th>
+                        <th>AgentFileName</th>
+                        <th>FullTimeEmployeeNumber</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in ViewBag.AppRFIGeneralInformation)
+                    {
+                        <tr>
+                            <td>@item.CompanyName</td>
+                            <td>@item.ParentCompany</td>
+                            <td>@item.Street</td>
+                            <td>@item.City</td>
+                            <td>@item.Country</td>
+                            <td>@item.PostCode</td>
+                            <td>@item.MobileNumber</td>
+                            <td>@item.EmailAddress</td>
+                            <td>@item.Website</td>
+                            <td>@item.ContactPersonTitle</td>
+                            <td>@item.IsAgent</td>
+                            <td>@item.AgentStateName</td>
+                            <td>@item.AgentAddressPrincipal</td>
+                            <td>@item.AgentFileName</td>
+                            <td>@item.FullTimeEmployeeNumber</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </section>
+}
+@if (ViewBag.AppRFILegalEstablishments != null)
+{
+    <section class="card card-text p-3" style="font-size: 12px;margin-bottom: 10px">
+        <div class="d-flex justify-content-between">
+            <p class="fw-bold">RFI Legal Establishments</p>
+        </div>
+        <div style="height: auto; overflow-y: auto;">
+            <table class="table table-border">
+                <thead>
+                    <tr>
+                        <th>TradeLicenseNumber</th>
+                        <th>IssueDate</th>
+                        <th>ValidityPeriod</th>
+                        <th>TradeLicenseFileName</th>
+                        <th>IncorporationCertificate</th>
+                        <th>IncomeTaxCertificate</th>
+                        <th>IRCFileName</th>
+                        <th>ERCFileName</th>
+                        <th>BankSolvencyCertificate</th>
+                        <th>BankName</th>
+                        <th>BankAccountNumber</th>
+                        <th>BankRoutingNumber</th>
+                        <th>BankAddress</th>
+                        <th>AnnualTurnover</th>
+                        <th>IsAuditedFinancialStatement</th>
+                        <th>AuditedFinancialStatementFileName</th>
+                        <th>PendingLawsuitFileName</th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in ViewBag.AppRFILegalEstablishments)
+                    {
+                        <tr>
+                            <td>@item.TradeLicenseNumber</td>
+
+                            <td>@item.IssueDate</td>
+                            <td>@item.ValidityPeriod</td>
+                            <td>@item.TradeLicenseFileName</td>
+                            <td>@item.IncorporationCertificate</td>
+                            <td>@item.IncomeTaxCertificate</td>
+                            <td>@item.IRCFileName</td>
+                            <td>@item.ERCFileName</td>
+                            <td>@item.BankSolvencyCertificate</td>
+                            <td>@item.BankName</td>
+                            <td>@item.BankAccountNumber</td>
+                            <td>@item.BankRoutingNumber</td>
+                            <td>@item.BankAddress</td>
+                            <td>@item.AnnualTurnover</td>
+                            <td>@item.IsAuditedFinancialStatement</td>
+                            <td>@item.AuditedFinancialStatementFileName</td>
+                            <td>@item.PendingLawsuitFileName</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </section>
+}
+@if (ViewBag.AppRFIExperienceProductAvailabilities != null)
+{
+    <section class="card card-text p-3" style="font-size: 12px; margin-bottom: 10px">
+        <div class="d-flex justify-content-between">
+            <p class="fw-bold">RFI Experience Products</p>
+        </div>
+        <div style="height: auto; overflow-y: auto;">
+            <table class="table table-border">
+                <thead>
+                    <tr>
+                        <th>ProductionVolume</th>
+                        <th>BusinessYear</th>
+                        <th>StorageCapacity</th>
+                        <th>PreviousCompanyReference</th>
+                        <th>CompanyBrochureFileName</th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in ViewBag.AppRFIExperienceProductAvailabilities)
+                    {
+                        <tr>
+                            <td>@item.ProductionVolume</td>
+                            <td>@item.BusinessYear</td>
+                            <td>@item.StorageCapacity</td>
+                            <td>@item.PreviousCompanyReference</td>
+                            <td>@item.CompanyBrochureFileName</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </section>
+}
+@if (ViewBag.AppRFICertificates != null)
+{
+    <section class="card card-text p-3" style="font-size: 12px; margin-bottom: 10px">
+        <div class="d-flex justify-content-between">
+            <p class="fw-bold">RFI Certificates</p>
+        </div>
+        <div style="height: auto; overflow-y: auto;">
+            <table class="table table-border">
+                <thead>
+                    <tr>
+                        <th>StandardApproveFileName</th>
+                        <th>IsCompanyDocumentedQAPolicy</th>
+                        <th>IsCompanyMembershipWithNationalOrInternational</th>
+                        <th>IsCompanyCoveredInsurance</th>
+                        <th>CompanyCoveredInsuranceFileName</th>
+                        <th>IsCompanyDocumentedEnvironmentalPolicy</th>
+                        <th>CompanyDocumentedEnvironmentalPolicyFileName</th>
+                        <th>IsCompanyRelatedMember</th>
+                        <th>CompanyRelatedMemberDetails</th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in ViewBag.AppRFICertificates)
+                    {
+                        <tr>
+                            <td>@item.StandardApproveFileName</td>
+                            <td>@item.IsCompanyDocumentedQAPolicy</td>
+                            <td>@item.IsCompanyMembershipWithNationalOrInternational</td>
+                            <td>@item.IsCompanyCoveredInsurance</td>
+                            <td>@item.CompanyCoveredInsuranceFileName</td>
+                            <td>@item.IsCompanyDocumentedEnvironmentalPolicy</td>
+                            <td>@item.CompanyDocumentedEnvironmentalPolicyFileName</td>
+                            <td>@item.IsCompanyRelatedMember</td>
+                            <td>@item.CompanyRelatedMemberDetails</td>
+
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </section>
+}
+
+
+
+
+
+
+
+
+
 <section class="card card-text p-3" style="font-size: 12px;">
     <div class="d-flex justify-content-between">
         <p class="fw-bold">History Log</p>
         <p> <span class="fw-bold"> Pending With</span>: @ViewBag.PendingWith </p>
     </div>
+
     <table class="table table-border">
         <thead>
             <tr>

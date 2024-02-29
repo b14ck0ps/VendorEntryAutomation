@@ -21,6 +21,24 @@ namespace VE.DataAccessLayer
             return new AppProspectiveVendorsRepository();
         }
 
+        public static IAppRFIGeneralInformationRepository GetAppRFIGeneralInformationRepository()
+        {
+            return new AppRFIGeneralInformationRepository();
+        }
+
+        public static IAppRFICertificatesRepository GetAppRFICertificatesRepository()
+        {
+            return new AppRFICertificatesRepository();
+        }
+
+        public static IAppRFIExperienceProductAvailabilitiesRepository GetAppRFIExperienceProductAvailabilitiesRepository()
+        {
+            return new AppRFIExperienceProductAvailabilitiesRepository();
+        }
+        public static IAppRFILegalEstablishmentRepository GetAppRFILegalEstablishmentRepository()
+        {
+            return new AppRFILegalEstablishmentRepository();
+        }
         public static IAppVendorEnlistmentLogsRepository GetAppVendorEnlistmentLogsRepository()
         {
             return new AppVendorEnlistmentLogsRepository();

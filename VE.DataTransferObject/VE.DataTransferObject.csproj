@@ -37,6 +37,10 @@
   <ItemGroup>
     <Compile Include="Entities\AppProspectiveVendorMaterials.cs" />
     <Compile Include="Entities\AppProspectiveVendors.cs" />
+    <Compile Include="Entities\AppRFICertificates.cs" />
+    <Compile Include="Entities\AppRFIExperienceProductAvailabilities.cs" />
+    <Compile Include="Entities\AppRFIGeneralInformations.cs" />
+    <Compile Include="Entities\AppRFILegalEstablishments.cs" />
     <Compile Include="Entities\AppVendorEnlistmentLogs.cs" />
     <Compile Include="Entities\BaseEntity.cs" />
     <Compile Include="Entities\VendorEnlistment.cs" />

@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using VE.BusinessLogicLayer.Handler;
@@ -46,6 +47,21 @@ namespace VE.UserInterface.Controllers
             var employee = SharePointService.Instance.GetUserByEmail("BergerEmployeeInformation", loginUser.Email);
             var appProspectiveVendor = await new AppProspectiveVendorsService().GetByCode(id);
 
+            var appProspectiveVendorId = appProspectiveVendor.ProspectiveVendorId;
+
+            var appRFIGeneralInformationList = new List<AppRFIGeneralInformations>();
+            appRFIGeneralInformationList.Add(await new AppRFIGeneralInformationService().GetById(appProspectiveVendorId));
+
+            var appRFILegalEstablishmentsList = new List<AppRFILegalEstablishments>();
+            appRFILegalEstablishmentsList.Add(await new AppRFILegalEstablishmentService().GetById(appProspectiveVendorId));
+
+            var appRFIExperienceProductAvailabilitiesList = new List<AppRFIExperienceProductAvailabilities>();
+            appRFIExperienceProductAvailabilitiesList.Add(await new AppRFIExperienceProductAvailabilitiesService().GetById(appProspectiveVendorId));
+
+            var appRFICertificatesList = new List<AppRFICertificates>();
+            appRFICertificatesList.Add(await new AppRFICertificatesService().GetById(appProspectiveVendorId));
+
+
             if (appProspectiveVendor.Status == (int)Status.ChangeRequestSentToRequestor /*&& appProspectiveVendor.PendingWithUserId == loginUser.UserId.ToString()*/)//TODO: use this authorization
                 return RedirectToAction("Index", new { appProspectiveVendor.Code });
 
@@ -74,6 +90,12 @@ namespace VE.UserInterface.Controllers
             var pendingWithUser = SharePointService.Instance.GetByUserId("BergerEmployeeInformation", appProspectiveVendor.PendingWithUserId);
             ViewBag.PendingWith = pendingWithUser?.EmployeeName ?? "N/A";
             ViewBag.AppVendorEnlistmentLogs = appVendorEnlistmentLogs;
+
+            if (appRFIGeneralInformationList[0] != null) ViewBag.AppRFIGeneralInformation = appRFIGeneralInformationList;
+            if (appRFILegalEstablishmentsList[0] != null) ViewBag.AppRFILegalEstablishments = appRFILegalEstablishmentsList;
+            if (appRFIExperienceProductAvailabilitiesList[0] != null) ViewBag.AppRFIExperienceProductAvailabilities = appRFIExperienceProductAvailabilitiesList;
+            if (appRFICertificatesList[0] != null) ViewBag.AppRFICertificates = appRFICertificatesList;
+
             ViewBag.AppProspectiveVendor = appProspectiveVendor;
             ViewBag.AppProspectiveVendorMaterials = appProspectiveVendorMaterials;
             ViewBag.LoginUser = loginUser;
